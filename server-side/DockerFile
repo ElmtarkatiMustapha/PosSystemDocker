@@ -1,6 +1,5 @@
 FROM php:8.2-fpm
 
-# Install system dependencies, including intl
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -11,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libicu-dev \                      
+    libicu-dev \
     && docker-php-ext-install \
         pdo_mysql \
         mbstring \
@@ -19,21 +18,20 @@ RUN apt-get update && apt-get install -y \
         pcntl \
         bcmath \
         gd \
-        intl                          
+        intl
 
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
+# ✅ Copy full app first
 COPY . .
 
-# Install PHP dependencies
-RUN composer install
+# ✅ Now run Composer (artisan is present)
+RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage
+    && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
 
-EXPOSE 8000
-CMD ["php-fpm"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]

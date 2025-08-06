@@ -1,16 +1,17 @@
 services:
   backend:
-    image: elmtarkati/posapp
     build:
       context: ./server-side
-    volumes:
-      - ./server-side:/var/www
+    image: elmtarkati/posapp:latest
     working_dir: /var/www
     command: php artisan serve --host=0.0.0.0 --port=8000
     depends_on:
       - db
     networks:
       - app-network
+    volumes:
+      - vendor_data:/var/www/vendor # Use prebuilt vendor folder only
+      - storage_data:/var/www/storage # Optional: persist storage uploads/logs
 
   frontend:
     build:
@@ -34,8 +35,12 @@ services:
       - "3306:3306"
     networks:
       - app-network
+
 volumes:
   db_data:
+  vendor_data:
+  storage_data:
+
 networks:
   app-network:
     driver: bridge
