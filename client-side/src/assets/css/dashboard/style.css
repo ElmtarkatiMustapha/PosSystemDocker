@@ -1,0 +1,308 @@
+:root {
+    --backgroundColor: #EDECF2;
+    --blue: #027CC5;
+    --gray: #5C5C68;
+    --subTitle: rgba(0, 0, 0, 0.5);
+    --success: #008b0e;
+    --danger: #8b0000;
+    --successShadow: rgba(0, 128, 0, 0.21);
+    --dangerShadow: rgba(128, 0, 0, 0.21);
+}
+
+.categoriesPage .items .item {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.categoriesPage .items .item .line {
+    height: 2rem;
+    border-left: solid 1px rgba(0, 0, 0, 0.409);
+    vertical-align: middle;
+}
+
+.categoriesPage .items .item .infos .title {
+    font-size: 1rem;
+    font-weight: bold;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    display: -webkit-box
+}
+
+.categoriesPage .items .item .infos .subTitle {
+    font-size: 0.8rem;
+    color: var(--subTitle);
+}
+
+.categoriesPage .items .item .part {
+    vertical-align: middle;
+}
+
+.categoriesPage .items .item .part .title {
+    font-size: 0.8rem;
+    font-weight: 500;
+
+}
+
+.categoriesPage .items .item .part .subTitle {
+    font-size: 0.6rem;
+    color: var(--subTitle);
+}
+
+.select-action {
+    font-weight: bold;
+    border-radius: 50px;
+}
+
+.categoriesPage .categoriesLoading {}
+
+.categoriesPage .categoriesLoading .item {}
+
+.categoriesPage .categoriesLoading .item .image {}
+
+.categoriesPage .categoriesLoading .item .image .bg-image {
+    background-color: var(--backgroundColor);
+}
+
+.categoriesPage .categoriesLoading .item .infos {}
+
+.categoriesPage .categoriesLoading .item .infos .title {
+    height: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.categoriesPage .categoriesLoading .item .infos .subTitle {
+    height: 1rem;
+    width: 80%;
+    background-color: var(--backgroundColor);
+}
+
+.categoriesPage .categoriesLoading .item .statistic {}
+
+.categoriesPage .categoriesLoading .item .statistic .part {}
+
+.categoriesPage .categoriesLoading .item .statistic .part .title {
+    width: 4rem;
+    height: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.categoriesPage .categoriesLoading .item .statistic .part .subTitle {
+    width: 3rem;
+    height: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.categoriesPage .categoriesLoading .item .actions {
+    text-align: -webkit-right !important;
+}
+
+.categoriesPage .categoriesLoading .item .action-box {
+    width: 4rem;
+    height: 2rem;
+    border-radius: 30px;
+    background-color: var(--backgroundColor);
+}
+
+.editModal {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: transparent;
+}
+
+.editModal .modal-dialog {
+    filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.097));
+}
+
+.editModal .modal-dialog .modal-content {
+    border: none;
+    border-radius: 20px;
+}
+
+.editModal .modal-dialog .modal-content .uploadIamge {
+    border: 1px dashed var(--gray);
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.editModal .modal-dialog .modal-content .active {
+    border-color: #027CC5 !important;
+    background-color: #01466f76 !important;
+}
+
+.editModal .modal-dialog .modal-content .uploadIamge .flou {
+    background-color: rgba(0, 0, 0, 0.494);
+    height: 100%;
+    align-content: center;
+    color: white;
+    font-size: 1.3rem;
+}
+
+
+.editModal .modal-dialog .modal-content .uploadIamge .icon {
+    font-size: 1.5rem;
+}
+
+.editModal .modal-dialog .modal-content .uploadIamge .text {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.single-category-page {}
+
+.single-page .headerPage {}
+
+.single-page .headerPage .title {}
+
+.single-page .headerPage .subTitle {
+    color: var(--gray);
+    font-weight: 500;
+}
+
+.single-page .headerPage .controls {
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width:500px) {
+    .single-page .headerPage .controls {
+        height: 100%;
+        width: auto !important;
+
+    }
+}
+.single-category-page .products {
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
+}
+
+.single-category-page .products .title {}
+
+.single-category-page .products .data {}
+
+.blueFilterSelect {
+    background-color: var(--blue);
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+    border: 0px !important;
+}
+
+.blueFilterSelect:focus {
+    outline: none;
+}
+
+.greenSelect {
+    border: 0px;
+    background-color: var(--success);
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.greenSelect:focus {
+    outline: none;
+}
+.single-page .loadingHeader {}
+
+.single-page .loadingHeader .title {
+    width: 8rem;
+    height: 1.1rem;
+    background-color: var(--backgroundColor);
+}
+
+.single-page .loadingHeader .subTitle {
+    width: 5rem;
+    height: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.single-page .loadingHeader .buttonLoading {
+    width: 7rem;
+    height: 2rem;
+    border-radius: 30px;
+    background-color: var(--backgroundColor);
+}
+
+/**products style*/
+.dataTableBox {
+    background-color: white;
+    border-radius: 20px;
+    width: 100%;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
+}
+.single-page .subTitle {
+    color: var(--gray);
+    font-weight: 400;
+}
+
+/*loading carte*/
+.loadingCart .title {
+    width: 100%;
+    height: 1.4rem;
+    background-color: var(--backgroundColor);
+}
+
+.loadingCart .subTitle {
+    width: 100%;
+    height: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.loadingCart td,
+th {
+    padding: 0.3rem;
+}
+
+.loadingCart .buttonLoading {
+    width: 7rem;
+    height: 2rem;
+    border-radius: 30px;
+    background-color: var(--backgroundColor);
+}
+/*
+    *style in mobile mode
+*/
+@media (max-width: 768px) {
+    .dataTableBox {
+        border-radius: 10px;
+        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.09);
+    }
+}
+/*
+    *loadig header 2
+*/
+.loadingHeader2 .title {
+    width: 9rem;
+    height: 2.2rem;
+    background-color: var(--backgroundColor);
+}
+
+.loadingHeader2 .buttonLoading {
+    width: 7rem;
+    height: 2rem;
+    border-radius: 30px;
+    background-color: var(--backgroundColor);
+}
+
+/*loading */
+.loading-title {
+    width: 5rem;
+    height: 2rem;
+    background-color: var(--backgroundColor);
+}
+
+.loading-data {
+    width: 9rem;
+    height: 2.2rem;
+    background-color: var(--backgroundColor);
+}
+
+.loading-button {
+    width: 7rem;
+    height: 2rem;
+    border-radius: 30px;
+    background-color: var(--backgroundColor);
+}

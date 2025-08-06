@@ -1,0 +1,187 @@
+:root {
+    --backgroundColor: #EDECF2;
+    --blue: #027CC5;
+    --gray: #5C5C68;
+    --success:green;
+    --flag: #5467F5;
+    --successShadow:rgba(0, 128, 0, 0.21);
+}
+.customBlueBtn{
+    background-color: var(--blue)!important;
+    border-radius: 30px;
+    color: white!important;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+.primaryBtn {
+    background-color: var(--blue) !important;
+    border-radius: 30px;
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.slectLang{
+    width: fit-content;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--gray);
+    border-color: var(--gray);
+    background-color: transparent;
+}
+.paginate .btn-next, .paginate .btn-prev{
+    border-radius: 20px;
+    color: white!important;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.2rem 0.8rem;
+    width: 5.6rem;
+}
+.paginate .btn-prev{
+    background-color: var(--gray)!important;
+}
+.paginate .btn-next{
+    background-color: var(--blue)!important;
+}
+.paginate .currentPage{
+    width:5rem!important;
+    display: inline!important;
+}
+.paginate .nb-page{
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+.blueBtn{
+    border-radius: 20px;
+    color: white !important;
+    font-weight: 500;
+    padding: 0.2rem 0.8rem;
+    background-color: var(--blue)!important;
+}
+.grayBtn{
+    border-radius: 20px;
+    color: white !important;
+    font-weight: 500;
+    padding: 0.2rem 0.8rem;
+    background-color: var(--gray)!important;
+}
+
+.headerPage {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
+}
+.customBox {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
+}
+
+.chart-line {
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
+}
+
+.chart-line .chart-header {}
+
+.chart-line .chart-header .title {}
+
+.chart-line .chart-header .sub-title {
+    color: var(--gray) !important;
+}
+
+.chart-line .chart-content {}
+
+.chart-line .chart-content canvas {
+    height: 15vw;
+}
+
+@media (max-width:500px) {
+    .chart-line .chart-content canvas {
+        min-height: 150px !important;
+    }
+}
+
+.chart-line .chart-footer {}
+
+.chart-line .chart-footer .flag {
+    background-color: var(--flag);
+    border-radius: 20px 0px 0px 0px;
+
+}
+.chart-line-loading {}
+
+.chart-line-loading .chart-header {
+    text-align: -webkit-center;
+}
+
+.chart-line-loading .title {
+    width: 6rem;
+    height: 1.5rem;
+    background-color: var(--backgroundColor);
+}
+
+.chart-line-loading .sub-title {
+    width: 10rem;
+    height: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.chart-line-loading .chart-content {}
+
+.chart-line-loading .chart-content canvas {
+    width: 100%;
+    height: 15rem;
+    background-color: var(--backgroundColor);
+}
+
+.chart-line-loading .chart-footer {}
+
+.chart-line-loading .chart-footer .flag {
+    width: 6rem;
+    height: 2.2rem;
+    background-color: var(--backgroundColor);
+    border-radius: 20px 0px 0px 0px;
+    vertical-align: middle;
+}
+.purpleSelect {
+    border: 0px;
+    background-color: var(--flag);
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.purpleSelect:focus {
+    outline: none;
+}
+.cut-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.color-white {
+    color: white;
+}
+/*
+    *style in mobile mode
+*/
+@media (max-width: 768px) {
+    .headerPage {
+        border-radius: 10px;
+        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.09);
+    }
+
+    .customBox {
+        border-radius: 10px;
+        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.09);
+    }
+
+    .chart-line {
+        border-radius: 14px;
+        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.09);
+    }
+}

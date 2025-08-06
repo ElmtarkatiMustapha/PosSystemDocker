@@ -1,0 +1,54 @@
+.cart-box{
+    border-radius: 26px;
+    background-color: white;
+}
+
+.cart-box .btn-minus, .cart-box .btn-plus{
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    width: 3rem;
+    height: 3rem;
+    padding: 0rem!important;
+    font-size: 1rem;
+}
+.cart-box .btn-minus{
+    background-color: #f8cfcf;
+    color: #bd2b2b;
+}
+.cart-box .btn-plus{
+    background-color: #aee8b9;
+    color: #439152;
+}
+.cart-box .discount{
+    width: 4rem;
+    border: none;
+}
+.cart-box .quantity{
+    width: 4rem;
+}
+.cart-box .parent-table{
+    max-height: 20rem;
+    scrollbar-width: none;
+}
+.cart-box .table{
+    min-width: 34rem;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+.cart-box .icon-remove{
+    color: #bd2b2b;
+    font-size: 2.7rem;
+}
+.cart-box .btn-remove{
+    border: none;
+}
+.cart-box .title{
+    font-weight: bold;
+    font-size: 1rem;
+}
+.mobilePosNavbarContent{
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.132);
+}

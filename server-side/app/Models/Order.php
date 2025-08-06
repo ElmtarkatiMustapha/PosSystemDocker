@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Order extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        "type",
+        "payed_margin",
+        "amountProvided",
+        "tax",
+        "status",
+        "delivered_by",
+        "customer_id",
+        "delivered_at",
+        "user_id",
+    ];
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function details_order(){
+        return $this->hasMany(Details_order::class);
+    }
+    public function returns(){
+        return $this->hasMany(Returns::class);
+    }
+    public function totalOrder()
+    {
+        $total = 0;
+        for ($i = 0; $i < count($this->details_order); $i++) {
+            $price = $this->details_order[$i]->price * $this->details_order[$i]->qnt;
+            $total +=  $price - ($price * $this->details_order[$i]->discount / 100);
+        }
+        return $total;
+    }
+    /**
+     * changing the beheviour of date returned by laravel get method 
+     */
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('d-m-Y H:i');
+    }
+}

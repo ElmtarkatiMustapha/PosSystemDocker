@@ -1,0 +1,22 @@
+{
+    "langages":[
+        {
+            "title": "English",
+            "symbol": "EN",
+            "file": "en.json",
+            "dir": "ltr"
+        },
+        {
+          "title": "French",
+          "symbol": "FR",
+          "file": "fr.json",
+          "dir": "ltr"
+        },
+        {
+          "title": "Arabic",
+          "symbol": "AR",
+          "file": "ar.json",
+          "dir": "rtl"
+        }
+    ]
+}
