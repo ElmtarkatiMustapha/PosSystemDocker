@@ -1,5 +1,6 @@
 services:
   backend:
+    image: elmtarkati/posapp
     build:
       context: ./server-side
     volumes:
