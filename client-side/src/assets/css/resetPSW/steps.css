@@ -1,0 +1,27 @@
+:root {
+    --backgroundColor: #EDECF2;
+    --blue: #027CC5;
+    --gray: #5C5C68;
+}
+
+.step {
+    font-family: "Montserrat", sans-serif;
+}
+
+.userName .userNameBox {
+    background-color: var(--blue);
+    border-radius: 30px;
+    display: inline-block;
+    padding: 0.2rem 0.2rem;
+}
+
+.userName .userNameBox .icon {
+    color: white;
+    font-size: 1.7rem;
+}
+
+.userName .userNameBox .text {
+    color: white;
+    font-size: 1rem;
+    padding: 0px 0.2rem;
+}

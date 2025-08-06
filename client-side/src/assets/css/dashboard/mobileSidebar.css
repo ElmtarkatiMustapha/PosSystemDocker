@@ -1,0 +1,50 @@
+.mobile-sidebar-open-btn{
+    right: 1rem;
+    bottom: 1rem;
+}
+.mobile-sidebar-open-btn .btn{
+    border-radius: 50px;
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    background-color: var(--blue)!important;
+    color: white!important;
+    font-size: 2.4rem;
+    box-shadow: 0px 0px 16px #027cc59c;
+}
+.mobile-sidebar-open-btn .btn svg{
+    vertical-align: baseline;
+}
+.mobile-sidebar {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.132);
+}
+.mobile-sidebar .main-btn{
+    border-radius: 40px;
+    padding: 0px;
+    width: 4rem;
+    height: 4rem;
+    border: 0px;
+    background-color: white;
+    color: var(--blue);
+    font-size: 2.2rem;
+    font-weight: bold;
+    box-shadow: 0px 0px 16px #027cc59c;
+}
+.mobile-sidebar .main-btn.active{
+    background-color: var(--blue)!important;
+    color: white!important;
+}
+.mobile-sidebar .back-button {
+    background-color: var(--darkBlue);
+    border-radius: 40px;
+    padding: 0px;
+    width: 4rem;
+    height: 4rem;
+    border: 0px;
+    font-size: 2.2rem;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0px 0px 16px #027cc59c;
+}

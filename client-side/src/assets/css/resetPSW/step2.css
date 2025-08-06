@@ -1,0 +1,15 @@
+:root {
+    --backgroundColor: #EDECF2;
+    --blue: #027CC5;
+    --gray: #5C5C68;
+}
+.resent button{
+    background-color: transparent;
+    border: none;
+    color: var(--blue);
+    text-decoration: underline;
+    font-style: italic;
+}
+.resent .counter{
+    color: var(--gray);
+}
