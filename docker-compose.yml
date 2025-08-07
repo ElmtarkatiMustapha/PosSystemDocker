@@ -2,7 +2,7 @@ services:
   backend:
     build:
       context: ./server-side
-    image: elmtarkati/posapp:latest
+    image: elmtarkati/posapp
     working_dir: /var/www
     command: php artisan serve --host=0.0.0.0 --port=8000
     depends_on:
@@ -16,6 +16,7 @@ services:
   frontend:
     build:
       context: ./client-side
+    image: elmtarkati/front-end-possustem
     ports:
       - "80:80"
     depends_on:
