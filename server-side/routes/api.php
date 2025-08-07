@@ -27,6 +27,7 @@ use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
 
 /*
@@ -39,6 +40,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('images/{filename}', function ($filename) {
+    $path = storage_path('app/images/' . $filename);
+    if (!File::exists($path)) {
+        abort(404);
+    }
+    return response()->file($path);
+});
 
 Route::post('register',[UserController::class, "create"]);
 Route::post('login',[AuthController::class, "login"]);
@@ -47,9 +55,11 @@ Route::post("sendVerCode",[AuthController::class, "sendVerCode"]);
 Route::post("validateCode",[AuthController::class,"validateCode"]);
 Route::post("create_role", [RoleController::class, "create"]);
 
-// Route::post('test', [TestController::class, "test"]);
-Route::get('test', [TestController::class, "test"]);
-Route::get('test/{id}', [SectorController::class, "getOneSingle"]);
+Route::get("test", [TestController::class, "test2"]);
+Route::get("test/{id}", [TestController::class, "test"]);
+// Route::get("test/{id}", function () {
+//     return response(["message" => "success2"], Response::HTTP_OK);
+// });
 
 
 Route::middleware("auth:sanctum")->group(function (){
@@ -60,13 +70,7 @@ Route::middleware("auth:sanctum")->group(function (){
     Route::post("profile", [UserController::class, "profile"]);
     Route::post("profile/{id}", [UserController::class, "updateProfile"]);
     Route::get("settings", [SettingController::class, "getAll"]);
-    Route::get('images/{filename}', function ($filename) {
-        $path = storage_path('app/images/' . $filename);
-        if (!File::exists($path)) {
-            abort(404);
-        }
-        return response()->file($path);
-    });
+    
     Route::middleware([AdminCachierManager::class])->group(function (){
         /**these shared route between admin, manager, cachier  */
         Route::get('allCategories', [CategoryController::class, "getAll"]);
