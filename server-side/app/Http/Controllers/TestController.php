@@ -20,7 +20,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TestController extends Controller
 {
+    public function test2(Request $request){
+        return response(["message" => "success2"], Response::HTTP_OK);
+    }
     public function test(Request $request){
+        return response(["message" => "success1"], Response::HTTP_OK);
         // $data = Product::create([
         //     "barcode"=>"234HTT11",
         //     "name"=> "product2",
@@ -122,92 +126,92 @@ class TestController extends Controller
         //     array_push($list, $stock->product_id);
         // }
 
-        $sales = Order::join(
-            'details_orders',
-            'details_orders.order_id',
-            '=',
-            'orders.id'
-        )
-            ->join(
-                'customers',
-                'orders.customer_id',
-                "=",
-                "customers.id"
-            )
-            ->join(
-                'users',
-                'orders.user_id',
-                "=",
-                "users.id"
-            )->join(
-                "returns",
-                "orders.id",
-                "=",
-                "returns.order_id"
-            )
-            ->whereBetween('orders.created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->select(
-                DB::raw('DATE(orders.created_at) as date'),
-                DB::raw('orders.id as id'),
-                DB::raw('customers.name as customer'),
-                DB::raw('users.name as user'),
-                DB::raw('orders.type as type'),
-                DB::raw('orders.status as status'),
-                DB::raw('SUM(details_orders.qnt) as qnt'),
-                DB::raw('SUM(details_orders.price * details_orders.qnt * details_orders.discount / 100) as discount'),
-                DB::raw('SUM((details_orders.price * details_orders.qnt) - (details_orders.price * details_orders.qnt * details_orders.discount / 100) ) as total')
-            )
-            ->groupBy("id")
-            ->orderBy('date')
-            ->get();
-        $returns = Returns::join(
-            'details_returns',
-            'details_returns.return_id',
-            '=',
-            'returns.id'
-        )
-        ->join(
-            'orders',
-            'returns.order_id',
-            "=",
-            "orders.id"
-        )
-            ->join(
-                'users',
-                'orders.user_id',
-                "=",
-                "users.id"
-            )
-            ->whereBetween('returns.created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->select(
-                DB::raw('returns.id as id'),
-                DB::raw('orders.id as sale_id'),
-                DB::raw('returns.created_at as created_at'),
-                DB::raw('users.name as user'),
-                DB::raw('SUM(details_returns.qnt) as qnt'),
-                DB::raw('SUM(details_returns.price * details_returns.qnt * details_returns.discount / 100) as discount'),
-                DB::raw('SUM((details_returns.price * details_returns.qnt) - (details_returns.price * details_returns.qnt * details_returns.discount / 100) ) as total')
-            )
-            ->groupBy("id")
-            ->orderBy('created_at')
-            ->get();
+        // $sales = Order::join(
+        //     'details_orders',
+        //     'details_orders.order_id',
+        //     '=',
+        //     'orders.id'
+        // )
+        //     ->join(
+        //         'customers',
+        //         'orders.customer_id',
+        //         "=",
+        //         "customers.id"
+        //     )
+        //     ->join(
+        //         'users',
+        //         'orders.user_id',
+        //         "=",
+        //         "users.id"
+        //     )->join(
+        //         "returns",
+        //         "orders.id",
+        //         "=",
+        //         "returns.order_id"
+        //     )
+        //     ->whereBetween('orders.created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        //     ->select(
+        //         DB::raw('DATE(orders.created_at) as date'),
+        //         DB::raw('orders.id as id'),
+        //         DB::raw('customers.name as customer'),
+        //         DB::raw('users.name as user'),
+        //         DB::raw('orders.type as type'),
+        //         DB::raw('orders.status as status'),
+        //         DB::raw('SUM(details_orders.qnt) as qnt'),
+        //         DB::raw('SUM(details_orders.price * details_orders.qnt * details_orders.discount / 100) as discount'),
+        //         DB::raw('SUM((details_orders.price * details_orders.qnt) - (details_orders.price * details_orders.qnt * details_orders.discount / 100) ) as total')
+        //     )
+        //     ->groupBy("id")
+        //     ->orderBy('date')
+        //     ->get();
+        // $returns = Returns::join(
+        //     'details_returns',
+        //     'details_returns.return_id',
+        //     '=',
+        //     'returns.id'
+        // )
+        // ->join(
+        //     'orders',
+        //     'returns.order_id',
+        //     "=",
+        //     "orders.id"
+        // )
+        //     ->join(
+        //         'users',
+        //         'orders.user_id',
+        //         "=",
+        //         "users.id"
+        //     )
+        //     ->whereBetween('returns.created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        //     ->select(
+        //         DB::raw('returns.id as id'),
+        //         DB::raw('orders.id as sale_id'),
+        //         DB::raw('returns.created_at as created_at'),
+        //         DB::raw('users.name as user'),
+        //         DB::raw('SUM(details_returns.qnt) as qnt'),
+        //         DB::raw('SUM(details_returns.price * details_returns.qnt * details_returns.discount / 100) as discount'),
+        //         DB::raw('SUM((details_returns.price * details_returns.qnt) - (details_returns.price * details_returns.qnt * details_returns.discount / 100) ) as total')
+        //     )
+        //     ->groupBy("id")
+        //     ->orderBy('created_at')
+        //     ->get();
 
-        $updatedData = array_map(function ($item) use ($returns) {
-            $item["return_qnt"] = 0;
-            foreach ($returns->toArray() as $elem) {
-                if (
-                    $item["id"] == $elem["sale_id"]
-                ) {
-                    $item["return_qnt"] = $elem["qnt"];
-                    break;
-                }
-            }
-            return $item;
-        }, $sales->toArray());
-        return response(
-            $updatedData,
-            Response::HTTP_OK
-        );
+        // $updatedData = array_map(function ($item) use ($returns) {
+        //     $item["return_qnt"] = 0;
+        //     foreach ($returns->toArray() as $elem) {
+        //         if (
+        //             $item["id"] == $elem["sale_id"]
+        //         ) {
+        //             $item["return_qnt"] = $elem["qnt"];
+        //             break;
+        //         }
+        //     }
+        //     return $item;
+        // }, $sales->toArray());
+        // return response(
+        //     $updatedData,
+        //     Response::HTTP_OK
+        // );
         
     }
 }
