@@ -3,12 +3,20 @@ services:
     build:
       context: ./server-side
     image: elmtarkati/posapp
+    deploy:
+      mode: replicated
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 2
+        delay: 5s
     working_dir: /var/www
     command: php artisan serve --host=0.0.0.0 --port=8000
     depends_on:
       - db
-    networks:
-      - app-network
     volumes:
       - vendor_data:/var/www/vendor # Use prebuilt vendor folder only
       - storage_data:/var/www/storage # Optional: persist storage uploads/logs
@@ -21,8 +29,6 @@ services:
       - "80:80"
     depends_on:
       - backend
-    networks:
-      - app-network
 
   db:
     image: mysql:8
@@ -34,14 +40,8 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
-    networks:
-      - app-network
 
 volumes:
   db_data:
   vendor_data:
   storage_data:
-
-networks:
-  app-network:
-    driver: bridge

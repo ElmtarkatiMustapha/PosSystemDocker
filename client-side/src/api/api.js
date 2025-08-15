@@ -1,25 +1,3 @@
-// import axios from "axios";
-// import { BACK_END_LINK } from "../assets/js/global";
-
-// export function getImageURL(image) {
-//   return BACK_END_LINK + "/api/images/" + image;
-// }
-// const api = axios.create({
-//   baseURL: BACK_END_LINK + "/api/",
-// });
-// export const loginApi = axios.create({
-//   baseURL: BACK_END_LINK + "/api/",
-// });
-
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response && error.response.status === 401) {
-//       location.reload();
-//     }
-//     throw error;
-//   }
-// );
 
 // export default api;
 
@@ -39,7 +17,6 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("auth_token");
     if (token) {
-      console.log("from authorization set")
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

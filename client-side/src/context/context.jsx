@@ -133,6 +133,7 @@ function reducer(state, action) {
                 picture: action.payload.picture,
                 username: action.payload.username,
                 sectors: action.payload.sectors,
+                cashier: action.payload.cashier,
                 roles: action.payload.roles
             }
         }

@@ -1,13 +1,14 @@
+import { useEffect } from "react";
 import api from "../../../api/api";
 import { Lang } from "../../../assets/js/lang";
-import { useAppAction } from "../../../context/context";
+import { useAppAction, useAppState } from "../../../context/context";
 import { usePosAction, usePosState } from "../../../context/posContext";
-import printJS from "print-js"
 
 export function CartControlsButtons({handleClick=()=>null}) {
     const posState = usePosState();
     const posAction = usePosAction();
     const appAction = useAppAction();
+    const appState = useAppState();
     const handleSave = () => {
         posAction({
             type: "SEL_LOADING_PRODUCTS",
@@ -73,17 +74,19 @@ export function CartControlsButtons({handleClick=()=>null}) {
             data: posState.cart,
             withCredentials: true
         }).then(res => {
-            const pdfBlob = atob(res.data.data); // Decode Base64
-            const byteNumbers = new Array(pdfBlob.length);
-            for (let i = 0; i < pdfBlob.length; i++) {
-                byteNumbers[i] = pdfBlob.charCodeAt(i);
+            if(appState.currentUser.cashier == 0){
+                const pdfBlob = atob(res.data.data); // Decode Base64
+                const byteNumbers = new Array(pdfBlob.length);
+                for (let i = 0; i < pdfBlob.length; i++) {
+                    byteNumbers[i] = pdfBlob.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'application/pdf' });
+    
+                // Create a URL for the PDF blob
+                const url = window.URL.createObjectURL(blob);
+                window.open(url, "_blanc")
             }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'application/pdf' });
-
-            // Create a URL for the PDF blob
-            const url = window.URL.createObjectURL(blob);
-            window.open(url, "_blanc")
             // // Clean up
             appAction({
                 type: "SET_SUCCESS",
@@ -152,6 +155,9 @@ export function CartControlsButtons({handleClick=()=>null}) {
                 })
             })
     }
+    useEffect(()=>{
+        console.log(appState.currentUser)
+    },[])
     if (posState.cart.cartItems.length === 0 || posState.loading) {
         return (
         <>

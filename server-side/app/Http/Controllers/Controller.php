@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     /**
      * upload picture for the first time
      * @param picture
