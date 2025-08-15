@@ -145,6 +145,13 @@ export function EditModal() {
                 type: "UPDATE_ITEM",
                 payload: res.data
             })
+            //check if this user is the current user
+            if(appState.currentUser?.id === res.data?.id){
+                appAction({
+                    type: "UPDATE_CURRENT_USER",
+                    payload: res.data
+                })
+            }
             appAction({
                 type: "SET_SUCCESS",
                 payload: "Updated with success"
