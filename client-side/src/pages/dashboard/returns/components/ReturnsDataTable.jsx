@@ -52,7 +52,7 @@ export const ReturnsDataTable = ({loading, setLoading}) => {
             sortable: true
         },
         {
-            name: Lang({ children: "Total(dh)" }),
+            name: Lang({ children: `Total(${appState.settings.businessInfo.currency.symbol})` }),
             selector: row => Number(Number(row.total).toFixed(2)),
             sortable: true
         },

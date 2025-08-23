@@ -2,14 +2,14 @@
 import { SelectAction } from "../../../../components/SelectAction";
 import api, { getImageURL } from "../../../../api/api";
 import { useNavigate } from "react-router-dom";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 import { useCateAction, useCateState } from "../../../../context/categoriesContext";
-import { Lang } from "../../../../assets/js/lang";
 export function CategoryItem({ data }) {
     const navigate = useNavigate();
     const appAction = useAppAction();
     const cateAction = useCateAction();
     const cateState = useCateState();
+    const appState = useAppState();
     const selectData = [
         {
             name: "View",
@@ -123,7 +123,7 @@ export function CategoryItem({ data }) {
                 </div>
                 <div  className="statistic align-self-center pt-2 pb-2 text-start text-md-center  col-7 col-md-4 d-inline-block">
                     <div  className="part p-1 d-inline-block text-center">
-                        <div className="title">{Number(data.turnover).toFixed(2) }dh</div>
+                        <div className="title">{Number(data.turnover).toFixed(2) }{appState.settings.businessInfo.currency.symbol}</div>
                         <div className="subTitle">Turnover</div>
                     </div>
                     <div className="line d-inline-block"></div>

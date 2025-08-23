@@ -1,20 +1,11 @@
+import { useAppState } from "../../../context/context";
 import { ProductItemLoading } from "./ProductItemLoading";
 
 export function ProductsListLoading() {
+    const appState = useAppState()
     return (
-        <>
-            <ProductItemLoading key={1}/>
-            <ProductItemLoading key={2}/>
-            <ProductItemLoading key={3}/>
-            <ProductItemLoading key={4}/>
-            <ProductItemLoading key={5}/>
-            <ProductItemLoading key={6}/>
-            <ProductItemLoading key={7}/>
-            <ProductItemLoading key={8}/>
-            <ProductItemLoading key={9}/>
-            <ProductItemLoading key={10}/>
-            <ProductItemLoading key={11}/>
-            <ProductItemLoading key={12}/>
-        </>
+        Array.from({ length: appState.settings?.posSettings?.productPerPage }, (_, i) => (
+            <ProductItemLoading key={i}/>
+        ))
     )
 }

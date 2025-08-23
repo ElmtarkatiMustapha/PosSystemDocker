@@ -135,8 +135,8 @@ export function ProductItem({ id,codebar, name, Wprice, Rprice, discount, image,
                     <div className="col-9 p-2">
                         <div style={{ fontSize: "smaller" }} className="barcode">{ codebar}</div>
                         <div style={{ fontSize: "small",fontWeight:"bold",WebkitLineClamp:1,overflow:"hidden",WebkitBoxOrient:"vertical",display:"-webkit-box" }}  className="title m-0">{name}</div>
-                        <div style={{ fontSize: "small" }} className="price">P.R {discount > 0 ? <del>{Number(Rprice).toFixed(2)}dh</del>:""} {Number(Rprice -(discount*Rprice/100)).toFixed(2) }dh</div>
-                        <div style={{ fontSize: "small" }} className="price">P.W {discount > 0 ? <del>{Number(Wprice).toFixed(2)}dh</del>:""} {Number(Wprice -(discount*Wprice/100)).toFixed(2)}dh</div>
+                        <div style={{ fontSize: "small" }} className="price">P.R {discount > 0 ? <del>{Number(Rprice).toFixed(2)}{appState.settings.businessInfo.currency.symbol}</del>:""} {Number(Rprice -(discount*Rprice/100)).toFixed(2) }{appState.settings.businessInfo.currency.symbol}</div>
+                        <div style={{ fontSize: "small" }} className="price">P.W {discount > 0 ? <del>{Number(Wprice).toFixed(2)}{appState.settings.businessInfo.currency.symbol}</del>:""} {Number(Wprice -(discount*Wprice/100)).toFixed(2)}{appState.settings.businessInfo.currency.symbol}</div>
                     </div>
                     <div
                         style={{

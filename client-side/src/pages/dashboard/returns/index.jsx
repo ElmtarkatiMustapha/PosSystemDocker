@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Lang } from "../../../assets/js/lang";
 import { LoadingPage } from "./components/LoadingPage";
-import { useAppAction } from "../../../context/context";
+import { useAppAction, useAppState } from "../../../context/context";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { DateRangeModal } from "../../../components/DateRangeModal";
@@ -30,6 +30,7 @@ export function Returns() {
     const [loading, setLoading] = useState(true)
     const checkFirstRender = useRef(true)
     const appAction = useAppAction();
+    const appState = useAppState()
     const returnsState = useReturnState();
     const returnsAction = useReturnAction();
     const navigate = useNavigate();
@@ -181,7 +182,7 @@ export function Returns() {
                         <div className="col-sm-12 col-md-6 col-lg-4 p-3 ">
                             <div className="rounded-4 bg-white align-content-center h-100 text-center p-3">
                                 <div className="title  h5 m-0"><Lang>Total</Lang></div>
-                                <div className="data h3 m-0 pt-2 pb-2">{returnsState.statistics?.turnover} <span className="fs-5">dh</span></div>
+                                <div className="data h3 m-0 pt-2 pb-2">{returnsState.statistics?.turnover} <span className="fs-5">{appState.settings.businessInfo.currency.symbol}</span></div>
                             </div>
                         </div>
                         <div className="col-sm-12 col-md-6 col-lg-4  p-3 ">

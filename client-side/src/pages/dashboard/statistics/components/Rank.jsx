@@ -1,6 +1,8 @@
 import { getImageURL } from "../../../../api/api";
+import { useAppState } from "../../../../context/context";
 
 export function Rank({picture,rank,name, total}) {
+    const appState = useAppState();
     return (
         <div className="pb-3">
             <div className="rounded-4 bg-white align-content-center text-center p-2">
@@ -35,7 +37,7 @@ export function Rank({picture,rank,name, total}) {
                                 <div className="title fw-semibold">{name}</div>
                             </div>
                             <div className="text-start fw-semibold">
-                                Total: {total}dh
+                                Total: {total}{appState.settings.businessInfo.currency.symbol}
                             </div>
                         </div>
                     </div>

@@ -244,7 +244,7 @@ export function ProfileContent() {
                                                 </div>
                                                 <div className="row">
                                                     <div style={{ color: "#ffd700" }} className="col-12 h4 m-0 text-center">
-                                                        {Number(profileState.currentItem?.earning).toFixed(2)}dh
+                                                        {Number(profileState.currentItem?.earning).toFixed(2)}{appState.settings.businessInfo.currency.symbol}
                                                     </div>
                                                 </div>
                                             </>

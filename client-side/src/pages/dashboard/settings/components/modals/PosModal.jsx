@@ -86,6 +86,10 @@ export function PosModal() {
                                 <input type="number" required  disabled={loading} name="tva" min={0} max={100}  className="form-control" placeholder={Lang({ children: "Tap TVA" })} defaultValue={state?.tva} />
                             </div>
                             <div className="mb-3">
+                                <label className="form-label h5"><Lang>Product per page</Lang> : {loading && <Spinner/>}</label>
+                                <input type="number" required  disabled={loading} name="productPerPage"   className="form-control" placeholder={Lang({ children: "Tap product per page" })} defaultValue={state?.productPerPage} />
+                            </div>
+                            <div className="mb-3">
                                 <label className="form-label h5"><Lang>Discount</Lang> : {loading && <Spinner/>}</label>
                                 <div className="state">
                                     <div className="form-check form-switch">

@@ -1422,7 +1422,7 @@ class OrderController extends Controller
         try {
             $connector = new WindowsPrintConnector($printer->name);
             $printerCon = new EscposPrinter($connector);
-             
+            $printerCon->selectCharacterTable(16);
             $path = resource_path('js/settings.json');
             $data = null;
             if (File::exists($path)) {
@@ -1436,6 +1436,7 @@ class OrderController extends Controller
             $companyPhone = $data["businessInfo"]["phone"];
             $companyIce = $data["businessInfo"]["ice"];
             $companyEmail = $data["businessInfo"]["email"];
+            $currency =  $data["businessInfo"]["currency"]["symbol"];
             $logo = storage_path("app/images/" . $data["businessInfo"]["logo"]);
             //start printing 
             $printerCon->setJustification(EscposPrinter::JUSTIFY_CENTER);
@@ -1462,12 +1463,12 @@ class OrderController extends Controller
             }
             if ($companyIce) {
                 $printerCon->setTextSize(1, 1);
-                $printerCon->text($companyIce);
+                $printerCon->text("ICE: ".$companyIce);
                 $printerCon->feed();
             }
             if ($companyEmail) {
                 $printerCon->setTextSize(1, 1);
-                $printerCon->text($companyEmail);
+                $printerCon->text("Email: ".$companyEmail);
                 $printerCon->feed();
             }
             $printerCon->text("-------------------------------------------");
@@ -1483,39 +1484,41 @@ class OrderController extends Controller
             $printerCon->text("Order No." . " {$order->id} Le ");
             $printerCon->text( date("d/m/Y H:i:s",strtotime($order->created_at )));
             $printerCon->feed();
-            $printerCon->text("Order Type." . " {$order->type}");
+            $printerCon->text("Order Type: " . " {$order->type}");
+            $printerCon->feed();
+            $printerCon->text("Customer: " . " {$order->customer->name} / {$order->customer->sector->title}");
             
             $printerCon->feed();
 
             $printerCon->setJustification(EscposPrinter::JUSTIFY_LEFT);
             $printerCon->text("-------------------------------------------");
             $printerCon->feed();
-            $printerCon->text('Qnt' ."  ".'Name'. "      "."Prix.U". "      ". 'Total'."      "."Discount");
+            $printerCon->text('Qnt' ."  ".'Name'. "             "."Prix.U". "  ". 'Total'."  "."Discount");
             $printerCon->feed();
             $printerCon->text("-------------------------------------------");
             $printerCon->feed();
 
             $printerCon->setEmphasis(false);
             foreach ($order->details_order as $item) {
-                $printerCon->text( $item->qnt." ". Str::limit($item->product->name, 15, '...'). "   " . number_format($item->price,2) . "  " . number_format($item->price * $item->qnt , 2). "  ". $item->discount."%");
+                $printerCon->text( sprintf("%03d", $item->qnt)." ". parent::fixedText($item->product->name,18). "   " . number_format($item->price,2) . "  " . number_format($item->price * $item->qnt , 2). "  ". $item->discount."%");
                 $printerCon->feed();
             } 
             $printerCon->text("-------------------------------------------");
             $printerCon->feed();
             $printerCon->text("Nbr.Items: ". $order->numberItems(). "      ");
             $printerCon->setTextSize(1, 1);
+            $printerCon->feed();
+            $printerCon->text("TOTAL H.Discount: " . number_format($order->totalHTD(),2)." {$currency}");
+            $printerCon->feed();
+            $printerCon->text("TOTAL Discount: " . number_format($order->totalDiscount(),2)." {$currency}");
+            $printerCon->feed();
+            $printerCon->text("TOTAL HT: " . number_format($order->totalHT(),2)." {$currency}");
+            $printerCon->feed();
+            $printerCon->text("TOTAL TAX: " . number_format($order->totalTax(),2)." {$currency}");
+            $printerCon->feed();
+            $printerCon->setTextSize(2, 2);
             $printerCon->setEmphasis(true);
-            $printerCon->feed();
-            $printerCon->text("TOTAL H.Discount: " . number_format($order->totalHTD(),2)."     ");
-            $printerCon->feed();
-            $printerCon->text("TOTAL Discount: " . number_format($order->totalDiscount(),2)."     ");
-            $printerCon->feed();
-            $printerCon->text("TOTAL HT: " . number_format($order->totalHT(),2)."     ");
-            $printerCon->feed();
-            $printerCon->text("TOTAL TAX: " . number_format($order->totalTax(),2)."     ");
-            $printerCon->feed();
-            $printerCon->setTextSize(1, 2);
-            $printerCon->text("TOTAL TTC: " . number_format($order->totalTTC(),2)."     ");
+            $printerCon->text("TOTAL TTC: " . number_format($order->totalTTC(),2)." {$currency}");
 
             $printerCon->feed(2);
             $printerCon->setTextSize(1, 1);

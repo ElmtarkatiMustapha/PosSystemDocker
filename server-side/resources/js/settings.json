@@ -1,14 +1,14 @@
 {
     "businessInfo": {
         "name": "Smart Rif Technologie",
-        "ice": "2762972568",
+        "ice": null,
         "adresse": "hay nahda oued amlil, taza",
         "phone": "06.53.70.71.31",
-        "email": "mstafamt8@gmail.com",
+        "email": null,
         "logo": "1755294540.jpg",
         "currency": {
-            "name": "MAD",
-            "symbol": "dh"
+            "name": "EURO",
+            "symbol": "\u20ac"
         }
     },
     "alertSettings": {
@@ -25,7 +25,8 @@
     },
     "posSettings": {
         "tva": 20,
-        "discount": "0"
+        "discount": true,
+        "productPerPage": 20
     },
     "currencies": [
         {
