@@ -51,7 +51,7 @@ export function MobileCategorySidebar() {
                 {/* here the content of sidebar  */}
                 <div className="mainCategorySidebar p-2 container-fluid">
                     {posState.allCategories.map((item) => {
-                        return <Item key={item.id} title={item.name} image={item.picture} id={item.id}/>
+                        return <Item key={item.id} title={item.name} image={item.picture} id={item.id} closeCategires={()=>setIsOpen(false)}/>
                     })}
                 </div>
                 </motion.div>
@@ -61,7 +61,7 @@ export function MobileCategorySidebar() {
 }
 
 // eslint-disable-next-line react/prop-types
-function Item({ title, image, id }) {
+function Item({ title, image, id, closeCategires}) {
     const posState = usePosState();
     const posAction = usePosAction(); 
 
@@ -76,6 +76,7 @@ function Item({ title, image, id }) {
             type: "SET_CURRENT_PAGE",
             payload: 1
         })
+        closeCategires()
     }
     return (
         <div className="row p-2 m-0">

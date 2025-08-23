@@ -6,7 +6,7 @@ import { SelectActionBlue } from "../../../../components/SelectActionBlue";
 import { DetailsPurchaseDataTable } from "../components/DetailsPurchaseDataTable";
 import { usePurchaseAction, usePurchaseState } from "../../../../context/purchasesContext";
 import api from "../../../../api/api";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 
 const options = [
     {
@@ -32,6 +32,7 @@ export function SinglePurchase() {
     const purchasesState = usePurchaseState();
     const purchasesAction = usePurchaseAction();
     const appAction = useAppAction();
+    const appState = useAppState();
     const navigate = useNavigate();
     /**
      * @desc this function for handle remove-edit-download-send action 
@@ -161,7 +162,7 @@ export function SinglePurchase() {
                                             </tr>
                                             <tr>
                                                 <th><Lang>Total</Lang>: </th>
-                                                <td className="subTitle">{purchasesState.currentItem?.total}dh</td>
+                                                <td className="subTitle">{purchasesState.currentItem?.total}{appState.settings.businessInfo.currency.symbol}</td>
                                             </tr>
                                             <tr>
                                                 <th><Lang>Date</Lang>: </th>

@@ -193,7 +193,8 @@ class SettingController extends Controller
         try {
             $validateFields = $request->validate([
                 "tva" => "required|numeric",
-                "discount" => "required|boolean"
+                "discount" => "required|boolean",
+                "productPerPage" => "required|numeric"
             ]);
             $path = resource_path('js/settings.json');
             if (File::exists($path)) {
@@ -203,7 +204,8 @@ class SettingController extends Controller
 
                 //update data
                 $data["posSettings"]["tva"] = (float)$validateFields["tva"];
-                $data["posSettings"]["discount"] = $validateFields["discount"];
+                $data["posSettings"]["productPerPage"] = (int)$validateFields["productPerPage"];
+                $data["posSettings"]["discount"] = (bool)$validateFields["discount"];
                 //update data
                 $updatedContents = json_encode($data, JSON_PRETTY_PRINT);
                 //update file content

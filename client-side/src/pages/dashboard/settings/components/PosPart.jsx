@@ -34,6 +34,10 @@ export function PosPart() {
                                 <td className="subTitle">{settingsState?.settings?.posSettings?.tva}%</td>
                             </tr>
                             <tr>
+                                <th><Lang>Product per page</Lang>: </th>
+                                <td className="subTitle">{settingsState?.settings?.posSettings?.productPerPage}</td>
+                            </tr>
+                            <tr>
                                 <th><Lang>Discount</Lang>: </th>
                                 <td className="subTitle">
                                     {settingsState?.settings?.posSettings?.discount == 1 ? 

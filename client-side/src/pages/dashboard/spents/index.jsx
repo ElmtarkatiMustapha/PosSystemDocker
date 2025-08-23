@@ -10,7 +10,7 @@ import { useSpentsAction, useSpentsState } from "../../../context/spentsContext"
 import { AddModal } from "./components/AddModal";
 import { EditModal } from "./components/EditModal";
 import api from "../../../api/api";
-import { useAppAction } from "../../../context/context";
+import { useAppAction, useAppState } from "../../../context/context";
 import { ViewModal } from "./components/ViewModal";
 
 const options = [
@@ -28,6 +28,7 @@ export function Spents() {
     const spentsState = useSpentsState();
     const spentsAction = useSpentsAction();
     const appAction = useAppAction();
+    const appState = useAppState();
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("week");
     const [startDate, setStartDate] = useState(0);
@@ -235,7 +236,7 @@ export function Spents() {
                         <div className="col-sm-12 col-md-6 col-lg-4 p-3 ">
                             <div className="rounded-4 bg-white align-content-center h-100 text-center p-3">
                                 <div className="title  h5 m-0"><Lang>Total</Lang></div>
-                                <div className="data h3 m-0 pt-2 pb-2">{Number(spentsState.statistics?.total).toFixed(2)} <span className="fs-5">dh</span></div>
+                                <div className="data h3 m-0 pt-2 pb-2">{Number(spentsState.statistics?.total).toFixed(2)} <span className="fs-5">{appState.settings.businessInfo.currency.symbol}</span></div>
                             </div>
                         </div>
                         <div className="col-sm-12 col-md-6 col-lg-4  p-3 ">

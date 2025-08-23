@@ -5,7 +5,7 @@ import { FilterDate } from "../../../components/FilterDate";
 import { format } from "date-fns";
 import { LoadingPage } from "./components/LoadingPage";
 import { DateRangeModal } from "../../../components/DateRangeModal";
-import { useAppAction } from "../../../context/context";
+import { useAppAction, useAppState } from "../../../context/context";
 import { usePurchaseAction, usePurchaseState } from "../../../context/purchasesContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../../api/api";
@@ -28,6 +28,7 @@ export function Purchases() {
     const [loading, setLoading] = useState(true)
     const checkFirstRender = useRef(true)
     const appAction = useAppAction();
+    const appState = useAppState()
     const purchasesAction = usePurchaseAction();
     const purchasesState= usePurchaseState();
     const navigate = useNavigate();
@@ -233,7 +234,7 @@ export function Purchases() {
                         <div className="col-sm-12 col-md-6 col-lg-4 p-3 ">
                             <div className="rounded-4 bg-white align-content-center h-100 text-center p-3">
                                 <div className="title  h5 m-0"><Lang>Total</Lang></div>
-                                <div className="data h3 m-0 pt-2 pb-2">{purchasesState?.statistics?.total} <span className="fs-5">dh</span></div>
+                                <div className="data h3 m-0 pt-2 pb-2">{purchasesState?.statistics?.total} <span className="fs-5">{appState.settings.businessInfo.currency.symbol}</span></div>
                             </div>
                         </div>
                         <div className="col-sm-12 col-md-6 col-lg-4  p-3 ">

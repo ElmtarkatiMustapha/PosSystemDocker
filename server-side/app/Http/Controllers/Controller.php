@@ -13,7 +13,15 @@ use Illuminate\Support\Facades\Storage;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    public function fixedText($text, $length = 18) {
+        // If too long, cut to length-3 and add "..."
+        if (strlen($text) > $length) {
+            return substr($text, 0, $length - 3) . '...';
+        }
 
+        // If shorter, pad with spaces
+        return str_pad($text, $length, ' ');
+    }
     /**
      * upload picture for the first time
      * @param picture

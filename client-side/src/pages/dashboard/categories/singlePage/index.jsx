@@ -8,7 +8,7 @@ import { FilterDate } from "../../../../components/FilterDate";
 import { ActionSelect } from "../../../../components/ActionSelect";
 import { ChartLineLoading } from "../../../../components/ChartLineLoading";
 import { useCateAction, useCateState } from "../../../../context/categoriesContext";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 import { EditModal } from "../components/EditModal";
 import { AddNewModal } from "../components/AddNewModal";
 import { LoadingHeader } from "../../../../components/LoadingHeader";
@@ -19,6 +19,25 @@ import { DateRangeModal } from "../../../../components/DateRangeModal";
  * @returns 
  */
 export function SingleCategory() {
+    const [startDate,setStartDate]=useState(0)
+    const [endDate, setEndDate] = useState(0)
+    const [filter, setFilter] = useState("week");
+    const [openCalendar, setOpenCalendar] = useState(false);
+    const [selectionRange,setSelectionRange] = useState([{
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection',
+    }])
+    const [salesStatistic, setSalesStatistic] = useState(null);
+    const [products, setProducts] = useState([]);
+    const [filterTitle, setFilterTitle] = useState("Current Week"); 
+    const [loading, setLoading] = useState(true);
+    const { id } = useParams();
+    const cateAction = useCateAction();
+    const cateState = useCateState();
+    const appAction = useAppAction();
+    const appState = useAppState();
+    const navigate = useNavigate();
     const columns = [
     {
         name: Lang({ children: "Ranked" }),
@@ -41,7 +60,7 @@ export function SingleCategory() {
         selector: row=>Number(row.quantity)
     },
     {
-        name: Lang({ children: "Turnover" }),
+        name: Lang({ children: `Turnover${appState.settings.businessInfo.currency.symbol}` }),
         sortable: true,
         selector: row=> Number(Number(row.turnover).toFixed(2))
     }
@@ -64,25 +83,6 @@ export function SingleCategory() {
             },
         }
     }
-    const [startDate,setStartDate]=useState(0)
-    const [endDate, setEndDate] = useState(0)
-    const [filter, setFilter] = useState("week");
-    const [openCalendar, setOpenCalendar] = useState(false);
-    const [selectionRange,setSelectionRange] = useState([{
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection',
-    }])
-    const [salesStatistic, setSalesStatistic] = useState(null);
-    const [turnoverStatistic, setTurnoverStatistic] = useState(null);
-    const [products, setProducts] = useState([]);
-    const [filterTitle, setFilterTitle] = useState("Current Week"); 
-    const [loading, setLoading] = useState(true);
-    const { id } = useParams();
-    const cateAction = useCateAction();
-    const cateState = useCateState();
-    const appAction = useAppAction();
-    const navigate = useNavigate();
     useEffect(() => {
         setLoading(true)
         api({
@@ -103,7 +103,6 @@ export function SingleCategory() {
             });
             // setCategoryInfos(res.data.info)
             setSalesStatistic(res.data.sales)
-            setTurnoverStatistic(res.data.turnover)
             setFilterTitle(res.data.filterTitle)
             setProducts(res.data.products)
             setLoading(false)

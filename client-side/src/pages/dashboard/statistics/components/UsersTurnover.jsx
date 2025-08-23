@@ -4,9 +4,11 @@ import { LoadingContent } from "./LoadingContent"
 import { Lang } from "../../../../assets/js/lang"
 import { ChartBar } from "../../../../components/ChartBar"
 import { Rank } from "./Rank"
+import { useAppState } from "../../../../context/context"
 
 export function UsersTurnover() {
     const state = useStatisticsState()
+    const appState = useAppState();
     const sendReport = () => {
         
     }
@@ -17,7 +19,7 @@ export function UsersTurnover() {
                     {state.loading ?
                         <ChartLineLoading />
                     : 
-                        <ChartBar title={"Users Turnover"} subTitle={"for "+String(state.data?.filterTitle)} dataX={state.data?.usersTurnover?.dataX} dataY={state?.data?.usersTurnover?.dataY} flag={Number(state.data?.usersTurnover?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+"dh"} />
+                        <ChartBar title={"Users Turnover"} subTitle={"for "+String(state.data?.filterTitle)} dataX={state.data?.usersTurnover?.dataX} dataY={state?.data?.usersTurnover?.dataY} flag={Number(state.data?.usersTurnover?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings.businessInfo.currency.symbol}`} />
                     }
                 </div>
                 <div className="col-sm-12 col-md-4 col-lg-4 order-sm-1 order-xs-1 order-md-2">
