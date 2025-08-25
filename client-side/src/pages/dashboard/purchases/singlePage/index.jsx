@@ -162,7 +162,7 @@ export function SinglePurchase() {
                                             </tr>
                                             <tr>
                                                 <th><Lang>Total</Lang>: </th>
-                                                <td className="subTitle">{purchasesState.currentItem?.total}{appState.settings.businessInfo.currency.symbol}</td>
+                                                <td className="subTitle">{purchasesState.currentItem?.total}{appState.settings?.businessInfo?.currency?.symbol}</td>
                                             </tr>
                                             <tr>
                                                 <th><Lang>Date</Lang>: </th>

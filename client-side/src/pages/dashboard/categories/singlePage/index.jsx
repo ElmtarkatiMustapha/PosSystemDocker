@@ -60,7 +60,7 @@ export function SingleCategory() {
         selector: row=>Number(row.quantity)
     },
     {
-        name: Lang({ children: `Turnover${appState.settings.businessInfo.currency.symbol}` }),
+        name: Lang({ children: `Turnover${appState.settings?.businessInfo?.currency?.symbol}` }),
         sortable: true,
         selector: row=> Number(Number(row.turnover).toFixed(2))
     }

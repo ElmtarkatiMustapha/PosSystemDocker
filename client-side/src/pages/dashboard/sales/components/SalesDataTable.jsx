@@ -101,12 +101,12 @@ export const SalesDataTable = ({loading, state, handleActions}) => {
             sortable: true
         },
         {
-            name: Lang({ children: `Total(${appState.settings.businessInfo.currency.symbol})` }),
+            name: Lang({ children: `Total(${appState.settings?.businessInfo?.currency?.symbol})` }),
             selector: row => Number(Number(row.total).toFixed(2)),
             sortable: true
         },
         {
-            name: Lang({ children: `Discount(${appState.settings.businessInfo.currency.symbol})` }),
+            name: Lang({ children: `Discount(${appState.settings?.businessInfo?.currency?.symbol})` }),
             selector: row => Number(Number(row.discount).toFixed(2)),
             sortable: true
         },

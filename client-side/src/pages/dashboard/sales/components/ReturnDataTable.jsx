@@ -106,7 +106,7 @@ export const ReturnDataTable = ({loading, allItems}) => {
                                 <th className="cut-text fw-medium"><Lang>Qnt</Lang></th> 
                                 <th className="cut-text fw-medium"><Lang>Return Qnt</Lang></th>  
                                 <th className="cut-text fw-medium"><Lang>Discount(%)</Lang></th> 
-                                <th className="cut-text fw-medium"><Lang>Total({appState.settings.businessInfo.currency.symbol})</Lang></th> 
+                                <th className="cut-text fw-medium"><Lang>Total({appState.settings?.businessInfo?.currency?.symbol})</Lang></th> 
                             </tr>
                         </thead>
                         <tbody >
@@ -117,11 +117,11 @@ export const ReturnDataTable = ({loading, allItems}) => {
                                             <td className="cut-text fw-normal">{item.id }</td>
                                             <td className="cut-text fw-normal">{item.barcode}</td>
                                             <td className="cut-text fw-normal">{item.product}</td>
-                                            <td className="cut-text fw-normal">{item.unitPrice} {appState.settings.businessInfo.currency.symbol}</td>
+                                            <td className="cut-text fw-normal">{item.unitPrice} {appState.settings?.businessInfo?.currency?.symbol}</td>
                                             <td className="cut-text fw-normal">{item.qnt}</td>
                                             <td className="cut-text fw-normal">{ selectedIds.includes(item.id)? <input className="form-control" type="number" step={1} name="returnQnt" min={0} max={item.qnt} onChange={(e)=>controlInput(e,item.qnt,item.id)} defaultValue={item.return_qnt} /> : null}</td>
                                             <td className="cut-text fw-normal">{item.discount}</td>
-                                            <td className="cut-text fw-normal">{item.total} {appState.settings.businessInfo.currency.symbol}</td>
+                                            <td className="cut-text fw-normal">{item.total} {appState.settings?.businessInfo?.currency?.symbol}</td>
                                         </tr>
                                     )
                                 })

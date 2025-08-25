@@ -37,7 +37,7 @@ export function Rank({picture,rank,name, total}) {
                                 <div className="title fw-semibold">{name}</div>
                             </div>
                             <div className="text-start fw-semibold">
-                                Total: {total}{appState.settings.businessInfo.currency.symbol}
+                                Total: {total}{appState.settings?.businessInfo?.currency?.symbol}
                             </div>
                         </div>
                     </div>

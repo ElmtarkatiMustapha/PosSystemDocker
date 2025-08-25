@@ -64,7 +64,7 @@ export function CartItem({ id, codebar, name, price, qnt, discount }) {
             </td>
             <td>
                 <div style={{ WebkitLineClamp: 1, overflow: "hidden", WebkitBoxOrient: "vertical", display: "-webkit-box" }} className="p-0">{name}</div>
-                <div className="p-0">{price} {appState.settings.businessInfo.currency.symbol}</div>
+                <div className="p-0">{price} {appState.settings?.businessInfo?.currency?.symbol}</div>
             </td>
             <td style={{minWidth: "10.3rem"}}>
                 <button onClick={decQnt} className=" btn-minus"><FaMinus/></button>
@@ -82,7 +82,7 @@ export function CartItem({ id, codebar, name, price, qnt, discount }) {
                 }
             </td>
             <td>
-                { Number((price*qnt) - (price*qnt*discount/100)).toFixed(2) } {appState.settings.businessInfo.currency.symbol}
+                { Number((price*qnt) - (price*qnt*discount/100)).toFixed(2) } {appState.settings?.businessInfo?.currency?.symbol}
             </td>
         </tr>
     )

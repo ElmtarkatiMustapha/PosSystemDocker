@@ -17,7 +17,7 @@ export function DetailsPurchaseDataTable({loading,state}) {
             sortable: true
         },
         {
-            name: Lang({ children: `P.Purchase(${appState.settings.businessInfo.currency.symbol})` }),
+            name: Lang({ children: `P.Purchase(${appState.settings?.businessInfo?.currency?.symbol})` }),
             selector: row => row.price,
             sortable: true
         },
@@ -27,7 +27,7 @@ export function DetailsPurchaseDataTable({loading,state}) {
             sortable: true
         },
         {
-            name: Lang({ children: `Total(${appState.settings.businessInfo.currency.symbol})` }),
+            name: Lang({ children: `Total(${appState.settings?.businessInfo?.currency?.symbol})` }),
             selector: row => Number(Number(row.total).toFixed(2)),
             sortable: true
         }

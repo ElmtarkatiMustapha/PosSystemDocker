@@ -105,6 +105,7 @@ Route::middleware("auth:sanctum")->group(function (){
     });
     Route::middleware([IsManager::class])->group(function (){
         /**these route for admin, manager user */
+        Route::get('allUsers', [UserController::class, "getAll"]);
         Route::delete("category/{id}", [CategoryController::class, "delete"]);
         Route::get("category/{id}", [CategoryController::class, "getOne"]);
         Route::post("singleCategory/{id}", [CategoryController::class, "singlePage"]);
@@ -144,10 +145,16 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::get("pendingOrders", [OrderController::class, "getPending"]);
         Route::post("setReadyOrder", [OrderController::class, "setReady"]);
         Route::post("setAllReady", [OrderController::class, "setAllReady"]);
+        
         /**
-         * these routes for retuns 
+         * these routes for returns
          */
-
+        Route::post("saveReturn/{id}", [OrderController::class, "saveReturn"]);
+        Route::post("returns", [ReturnController::class, "getAll"]);
+        Route::get("return/{id}", [ReturnController::class, "getOne"]);
+        Route::get("returnToEdit/{id}", [ReturnController::class, "getOneToEdit"]);
+        Route::delete("return/{id}", [ReturnController::class, "delete"]);
+        Route::post("return/{id}", [ReturnController::class, "update"]);
         Route::middleware([IsAdmin::class])->group(function () {
             /**
              * these routes for sectors
@@ -176,7 +183,7 @@ Route::middleware("auth:sanctum")->group(function (){
             /**
              * these routes for user
              */
-            Route::get('allUsers', [UserController::class, "getAll"]);
+            
             Route::get('user/{id}', [UserController::class, "getOne"]);
             Route::post("singleUser/{id}", [UserController::class, "getSingle"]);
             Route::post("payEarning/{id}", [UserController::class, "payEarning"]);
@@ -208,15 +215,7 @@ Route::middleware("auth:sanctum")->group(function (){
             Route::delete("spent/{id}", [ExpenseController::class, "delete"]);
             Route::get("spent/{id}", [ExpenseController::class, "getOne"]);
             Route::post("spent/{id}", [ExpenseController::class, "update"]);
-            /**
-             * these routes for returns
-             */
-            Route::post("saveReturn/{id}", [OrderController::class, "saveReturn"]);
-            Route::post("returns", [ReturnController::class, "getAll"]);
-            Route::get("return/{id}", [ReturnController::class, "getOne"]);
-            Route::get("returnToEdit/{id}", [ReturnController::class, "getOneToEdit"]);
-            Route::delete("return/{id}", [ReturnController::class, "delete"]);
-            Route::post("return/{id}", [ReturnController::class, "update"]);
+            
             /**
              * these routes for statistics
              */
