@@ -398,17 +398,21 @@ class ProductController extends Controller
                 return response(["message" => "success","products"=>$products], Response::HTTP_OK);
             }
             if($products->count() == 1 && $products[0]->enable_stock == 1){
-                $expired_at = Stock::where("product_id", $products[0]->id)->where("stock_actuel", ">", 0)->oldest()
-                    ->first();
-                //if product out of stock
-                $products[0]->expired_at = $expired_at->expired_at;
+                if($products[0]->expires == 1){
+                    $expired_at = Stock::where("product_id", $products[0]->id)->where("stock_actuel", ">", 0)->oldest()
+                        ->first();
+                    $products[0]->expired_at = $expired_at->expired_at;
+                }
                 if( ((int)$products[0]->maxQnt) > 0  ){
                     return response(["message" => "success","products"=>$products], Response::HTTP_OK);
                 }else{
                     return response(["message" => "product out of stock"], Response::HTTP_BAD_REQUEST);
                 }
+            }else{
+                $products[0]->maxQnt = -1;
+                return response(["message" => "success", "products" =>$products], Response::HTTP_OK);
             }
-            return response(["message" => "No Product"], Response::HTTP_BAD_REQUEST);
+            return response(["message" => "No Product","data"=>$products], Response::HTTP_BAD_REQUEST);
         }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }

@@ -6,9 +6,18 @@ import { CartItem } from "./CartItem";
 import { AmountProvided } from "./AmountProvided";
 import { FooterCart } from "./FooterCart";
 import { CartControlsButtons } from "./CartControlsButtons";
+import { useEffect, useRef } from "react";
 
 export function Cart({handleClick}) {
     const posState = usePosState();
+    const bottomRef = useRef(null);
+
+    useEffect(() => {
+        // Scroll to bottom when cartItems changes
+        if (bottomRef.current) {
+            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [posState?.cart?.cartItems]);
     return (
         <div className="container-fluid p-3 cart-box m-0">
             <div className="row pt-1 pb-1 m-0">
@@ -37,6 +46,7 @@ export function Cart({handleClick}) {
                             )
                         })}
                     </table>
+                    <div ref={bottomRef} />
                 </div>
             </div>
             <div className="row ps-3 pt-1 pb-1 m-0">

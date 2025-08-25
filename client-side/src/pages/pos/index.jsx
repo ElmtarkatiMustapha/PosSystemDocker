@@ -108,6 +108,10 @@ export function MainPos() {
                         }
                     }
                     //clear search input
+                    posAction({
+                        type: "SET_LOADING",
+                        payload: false
+                    })
                     searchRef.current.value = ""
                     appAction({
                         type: "SET_SUCCESS",
@@ -128,7 +132,6 @@ export function MainPos() {
                         type: "SET_ERROR",
                         payload: "Out of Stock"
                     })
-                    searchRef.current.select();
                 }
                 posAction({
                     type: "SET_LOADING",
@@ -139,7 +142,6 @@ export function MainPos() {
                     type: "SET_ERROR",
                     payload: err?.response?.data?.message
                 })
-                searchRef.current.select();
                 posAction({
                     type: "SET_LOADING",
                     payload: false
@@ -155,6 +157,11 @@ export function MainPos() {
     const handleCategories = () => {
         setCategoriesOpen(!categoriesOpen);
     }
+    useEffect(()=>{
+        if(!posState.loading){
+            searchRef.current.select();
+        }
+    },[posState.loading])
     
     return (
         <>

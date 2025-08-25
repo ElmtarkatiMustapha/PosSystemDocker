@@ -3,12 +3,13 @@ import api from "../../../../api/api";
 import { usePosAction, usePosState } from "../../../../context/posContext";
 import { ProductsListLoading } from "../../components/ProductsListLoading";
 import { ProductItem } from "./ProductItem";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 
 export function ProductsList() {
     const posState = usePosState();
     const posAction = usePosAction();
     const appAction = useAppAction();
+    const appState = useAppState();
     const loadProduct = () => {
         return new Promise((resolve, reject) => {
             api({
@@ -36,13 +37,13 @@ export function ProductsList() {
                     type: "SET_CATEGORY_PRODUCTS",
                     payload: data
                 })
-                posAction({type:"SET_NUMBER_PAGES",payload: Math.ceil(data.length / posState.productsPerPage)})
+                posAction({type:"SET_NUMBER_PAGES",payload: Math.ceil(data.length / appState.settings?.posSettings?.productPerPage)})
                 posAction({ 
                     type: "SET_CURRENT_PRODUCTS",
                     payload: 
                         data.slice(
-                            (posState.currentPage - 1) * posState.productsPerPage,
-                            posState.currentPage * posState.productsPerPage
+                            (posState.currentPage - 1) * appState.settings?.posSettings?.productPerPage,
+                            posState.currentPage * appState.settings?.posSettings?.productPerPage
                         )
                 })
                 posAction({
@@ -68,20 +69,20 @@ export function ProductsList() {
                 type: "SET_CURRENT_PRODUCTS",
                 payload: 
                     posState.categoryProducts.slice(
-                        (posState.currentPage - 1) * posState.productsPerPage,
-                        posState.currentPage * posState.productsPerPage
+                        (posState.currentPage - 1) * appState.settings?.posSettings?.productPerPage,
+                        posState.currentPage * appState.settings?.posSettings?.productPerPage
                     )
                 
             })
     }, [posState.currentPage]);
     useEffect(() => {
-        posAction({type:"SET_NUMBER_PAGES",payload: Math.ceil(posState.categoryProducts.length / posState.productsPerPage)})
+        posAction({type:"SET_NUMBER_PAGES",payload: Math.ceil(posState.categoryProducts.length / appState.settings?.posSettings?.productPerPage)})
         posAction({ 
             type: "SET_CURRENT_PRODUCTS",
             payload: 
                 posState.categoryProducts.slice(
-                    (posState.currentPage - 1) * posState.productsPerPage,
-                    posState.currentPage * posState.productsPerPage
+                    (posState.currentPage - 1) * appState.settings?.posSettings?.productPerPage,
+                    posState.currentPage * appState.settings?.posSettings?.productPerPage
                 )
             
         })
