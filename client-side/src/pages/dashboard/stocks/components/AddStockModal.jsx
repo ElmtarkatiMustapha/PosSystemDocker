@@ -12,13 +12,13 @@ export function AddStockModal({state,handleClose,action}) {
     useEffect(() => {
         api({
             method: "get",
-            url: "/product/" + state.currentProduct.id,
+            url: "/productManage/" + state.currentProduct.id,
             withCredentials: true
         }).then(res => {
             return res.data
         }).then(res => {
             setLoading(false);
-            setProduct(res.data.product);
+            setProduct(res.data);
         }).catch(err => {
             appAction({
                 type: 'SET_ERROR',

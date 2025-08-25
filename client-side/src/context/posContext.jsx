@@ -263,16 +263,25 @@ const reducer = (state,action) => {
         }
     }
     //add to cart
+    // if (action.type === "ADD_TO_CART") {
+    //     let array = state.cart.cartItems;
+    //     array.push(action.payload);
+    //     return {
+    //         ...state,
+    //         cart: {
+    //             ...state.cart,
+    //             cartItems: array
+    //         }
+    //     }
+    // }
     if (action.type === "ADD_TO_CART") {
-        let array = state.cart.cartItems;
-        array.push(action.payload);
-        return {
-            ...state,
-            cart: {
-                ...state.cart,
-                cartItems: array
-            }
+    return {
+        ...state,
+        cart: {
+        ...state.cart,
+        cartItems: [...state.cart.cartItems, action.payload] // ✅ new array
         }
+    };
     }
     //toggle loading
     if (action.type === "SET_LOADING") {
