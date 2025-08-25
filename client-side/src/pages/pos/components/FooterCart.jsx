@@ -79,19 +79,19 @@ export function FooterCart() {
         <div className="col-12 container-fluid">
             <div className="row">
                 <div className="col-4 pt-1 pb-1 title"><Lang>Total</Lang>:</div>
-                <div className="col-8 pt-1 pb-1 data">{total} {appState.settings.businessInfo.currency.symbol}</div>
+                <div className="col-8 pt-1 pb-1 data">{total} {appState.settings?.businessInfo?.currency?.symbol}</div>
                 <div className="col-4 pt-1 pb-1 title"><Lang>Quantity</Lang>:</div>
                 <div className="col-8 pt-1 pb-1 data">{quantity}</div>
                 <div className="col-4 pt-1 pb-1 title"><Lang>Total Discount</Lang>:</div>
-                <div className="col-8 pt-1 pb-1 data">{totalDiscount} {appState.settings.businessInfo.currency.symbol}</div>
-                <div className="col-4 pt-1 pb-1 title"><Lang>Total</Lang>({appState.settings.businessInfo.currency.symbol}):</div>
-                <div className="col-8 pt-1 pb-1 data">{ totalHT} {appState.settings.businessInfo.currency.symbol}</div>
+                <div className="col-8 pt-1 pb-1 data">{totalDiscount} {appState.settings?.businessInfo?.currency?.symbol}</div>
+                <div className="col-4 pt-1 pb-1 title"><Lang>Total</Lang>({appState.settings?.businessInfo?.currency?.symbol}):</div>
+                <div className="col-8 pt-1 pb-1 data">{ totalHT} {appState.settings?.businessInfo?.currency?.symbol}</div>
                 <div className="col-4 pt-1 pb-1 title"><Lang>Total Tax</Lang>:</div>
-                <div className="col-8 pt-1 pb-1 data">{ totalTax} {appState.settings.businessInfo.currency.symbol}</div>
+                <div className="col-8 pt-1 pb-1 data">{ totalTax} {appState.settings?.businessInfo?.currency?.symbol}</div>
                 <div className="col-4 pt-1 pb-1 title"><Lang>Total</Lang>(TTC):</div>
-                <div className="col-8 pt-1 pb-1 data">{ totalTTC} {appState.settings.businessInfo.currency.symbol}</div>
+                <div className="col-8 pt-1 pb-1 data">{ totalTTC} {appState.settings?.businessInfo?.currency?.symbol}</div>
                 <div className="col-4 pt-1 pb-1 title"><Lang>The Rest</Lang>:</div>
-                <div className="col-8 pt-1 pb-1 data">{rest} {appState.settings.businessInfo.currency.symbol}</div>
+                <div className="col-8 pt-1 pb-1 data">{rest} {appState.settings?.businessInfo?.currency?.symbol}</div>
             </div>
         </div>
     )

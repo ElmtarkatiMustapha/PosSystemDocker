@@ -1379,49 +1379,13 @@ class OrderController extends Controller
         }
     }
     /**
-     * print invoice using network printer
+     * print invoice 
      * @param Order $order
      * @param Printer $printer
      * @return Boolean 
      */
-    public function networkPrintInvoice(Order $order, Printer $printer)
-    {
+    public function printInvoice(Order $order,EscposPrinter $printerCon){
         try {
-            
-            $connector = new NetworkPrintConnector($printer->ipAdresse, $printer->port);
-            $printerCon = new EscposPrinter($connector);
-
-            $printerCon->text("Addition");
-            $printerCon->feed();
-            $printerCon->text("Waiter");
-            $printerCon->feed();
-            $printerCon->text("Waiter");
-            $printerCon->feed();
-            $printerCon->text("Waiter");
-            $printerCon->feed();
-            $printerCon->text("Waiter");
-            $printerCon->feed();
-            $printerCon->feed();
-            $printerCon->feed();
-            $printerCon->feed();
-
-            $printerCon->cut();
-            $printerCon->pulse();
-            $printerCon->close();
-        } catch (Exception $err) {
-            throw new Exception("check your network printer");
-        }
-    }
-    /**
-     * local printing
-     * @param Order $order
-     * @param Printer $printer
-     */
-    public function localPrintInvoice(Order $order, Printer $printer)
-    {
-        try {
-            $connector = new WindowsPrintConnector($printer->name);
-            $printerCon = new EscposPrinter($connector);
             $printerCon->selectCharacterTable(16);
             $path = resource_path('js/settings.json');
             $data = null;
@@ -1530,6 +1494,40 @@ class OrderController extends Controller
             $printerCon->cut();
             $printerCon->pulse();
             $printerCon->close();
+            
+        } catch (Exception $err) {
+            throw new Exception("check your network printer");
+        }
+    }
+    /**
+     * print invoice using network printer
+     * @param Order $order
+     * @param Printer $printer
+     * @return Boolean 
+     */
+
+    public function networkPrintInvoice(Order $order, Printer $printer)
+    {
+        try {
+            
+            $connector = new NetworkPrintConnector($printer->ipAdresse, $printer->port);
+            $printerCon = new EscposPrinter($connector);
+            $this->printInvoice($order, $printerCon);
+        } catch (Exception $err) {
+            throw new Exception("check your network printer");
+        }
+    }
+    /**
+     * local printing
+     * @param Order $order
+     * @param Printer $printer
+     */
+    public function localPrintInvoice(Order $order, Printer $printer)
+    {
+        try {
+            $connector = new WindowsPrintConnector($printer->name);
+            $printerCon = new EscposPrinter($connector);
+            $this->printInvoice($order, $printerCon);
         } catch (Exception $err) {
             throw new Exception("check your local printer");
         }

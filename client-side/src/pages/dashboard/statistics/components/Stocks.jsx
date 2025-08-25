@@ -20,7 +20,7 @@ export function Stocks() {
                     {state.loading ?
                         <ChartLineLoading />
                     : 
-                        <ChartPie title={"Stocks"} data={state.data?.stocks?.data} labels={["0 - 49", "50 - 99", "100 - 199", "200 - 299", "300 - 399", "400+"]} flag={Number(state.data?.stocks?.turnover).toFixed(2)+`${appState.settings.businessInfo.currency.symbol}`} />
+                        <ChartPie title={"Stocks"} data={state.data?.stocks?.data} labels={["0 - 49", "50 - 99", "100 - 199", "200 - 299", "300 - 399", "400+"]} flag={Number(state.data?.stocks?.turnover).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
                     }
                 </div>
                 <div className="col-sm-12 col-md-3 col-lg-3 order-sm-1 order-xs-1 order-md-2">
@@ -37,7 +37,7 @@ export function Stocks() {
                         <div className="p-3 ">
                             <div className="rounded-4 bg-white align-content-center h-100 text-center p-3">
                                 <div className="title h5 m-0"><Lang>Turnover</Lang></div>
-                                <div className="data h3 m-0 pt-2 pb-2">{Number(state.data?.stocks?.turnover).toFixed(2)} <span className="fs-5">{appState.settings.businessInfo.currency.symbol}</span></div>
+                                <div className="data h3 m-0 pt-2 pb-2">{Number(state.data?.stocks?.turnover).toFixed(2)} <span className="fs-5">{appState.settings?.businessInfo?.currency?.symbol}</span></div>
                             </div>
                         </div>
                         <div className="p-3 ">
