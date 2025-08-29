@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Lang } from "../../../assets/js/lang";
 import { LoadingPage } from "./components/LoadingPage";
 import { useAppAction, useAppState } from "../../../context/context";
-import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { DateRangeModal } from "../../../components/DateRangeModal";
 import { SearchForm } from "./components/SearchForm";
@@ -20,8 +19,8 @@ const options = [
         value: "addNew"
     },
     {
-        name: "Send Report",
-        value: "sendReport"
+        name: "Export data",
+        value: "export"
     }
 ]
 
@@ -33,7 +32,6 @@ export function Returns() {
     const appState = useAppState()
     const returnsState = useReturnState();
     const returnsAction = useReturnAction();
-    const navigate = useNavigate();
     const [filter, setFilter] = useState("week");
     const [startDate, setStartDate] = useState(0);
     const [endDate, setEndDate] = useState(0);
@@ -68,6 +66,62 @@ export function Returns() {
     }
     //handle page action
     const handlePageActions = (e) => {
+        const value = e.target.value;
+        setLoading(true)
+        switch (value) {
+            case "export":
+                api({
+                    method:"post",
+                    url:"returns/export",
+                    data: {
+                        user,
+                        filter : filter,
+                        startDate : startDate,
+                        endDate : endDate
+                    },
+                    responseType: "blob",
+                    withCredentials: true,
+                }).then((res)=>{
+                    //export data 
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement("a");
+                    link.href = url;
+
+                    // Extraire le nom du fichier si dispo sinon par défaut
+                    const contentDisposition = res.headers["content-disposition"];
+                    let fileName = "returns_export.csv";
+                    if (contentDisposition) {
+                    const match = contentDisposition.match(/filename="?(.+)"?/);
+                    if (match?.[1]) {
+                        fileName = match[1];
+                    }
+                    }
+
+                    link.setAttribute("download", fileName);
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    window.URL.revokeObjectURL(url);
+                    
+                    setLoading(false)
+                    e.target.value = "default"
+                }).catch((err)=>{
+                    appAction({
+                        type: "SET_ERROR",
+                        payload: err?.response?.data?.message
+                    })
+                    setLoading(false)
+                    e.target.value = "default"
+                })
+                break;
+            case "addNew":
+
+                e.target.value = "default"
+                break;
+            default:
+                e.target.value = "default"
+                break;
+        }
         return null;
     }
     // useEffect part

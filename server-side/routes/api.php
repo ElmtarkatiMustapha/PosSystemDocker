@@ -151,6 +151,7 @@ Route::middleware("auth:sanctum")->group(function (){
          */
         Route::post("saveReturn/{id}", [OrderController::class, "saveReturn"]);
         Route::post("returns", [ReturnController::class, "getAll"]);
+        Route::post("returns/export", [ReturnController::class, "export"]);
         Route::get("return/{id}", [ReturnController::class, "getOne"]);
         Route::get("returnToEdit/{id}", [ReturnController::class, "getOneToEdit"]);
         Route::delete("return/{id}", [ReturnController::class, "delete"]);
@@ -204,6 +205,7 @@ Route::middleware("auth:sanctum")->group(function (){
             Route::delete("sale/{id}", [OrderController::class, "delete"]);
             Route::get("sale/{id}", [OrderController::class, "getSingle"]);
             Route::post("sendSalesReport", [OrderController::class, "sendReport"]);
+            Route::post("sales/export", [OrderController::class, "export"]);
             Route::post("deliveredSale/{id}", [OrderController::class, "setDelivered"]);
             Route::post("pendingSale/{id}", [OrderController::class, "setPending"]);
             Route::get("saleReturn/{id}", [OrderController::class, "saleReturn"]);

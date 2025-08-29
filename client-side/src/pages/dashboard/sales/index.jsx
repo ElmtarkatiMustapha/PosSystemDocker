@@ -165,28 +165,43 @@ export function Sales() {
         }
     }
     //send report to admin
-    const sendReport = () => {
+    const exportData = () => {
         setLoading(true)
         api({
-            method: "post",
-            url: "/sendSalesReport",
+            method:"post",
+            url:"sales/export",
             data: {
                 user,
                 filter : filter,
                 startDate : startDate,
                 endDate : endDate
             },
-            withCredentials: true
-        })
-        .then(res => res.data)
-        .then(res => {
-            appAction({
-                type: "SET_SUCCESS",
-                payload: res.message
-            })
+            responseType: "blob",
+            withCredentials: true,
+        }).then((res)=>{
+            //export data 
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+
+            // Extraire le nom du fichier si dispo sinon par défaut
+            const contentDisposition = res.headers["content-disposition"];
+            let fileName = "sales_export.csv";
+            if (contentDisposition) {
+            const match = contentDisposition.match(/filename="?(.+)"?/);
+            if (match?.[1]) {
+                fileName = match[1];
+            }
+            }
+
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+            
             setLoading(false)
-        })
-        .catch(err => {
+        }).catch((err)=>{
             appAction({
                 type: "SET_ERROR",
                 payload: err?.response?.data?.message
@@ -307,7 +322,7 @@ export function Sales() {
                         </div>
                         <div className="col-sm-12 col-md-6 col-lg-4  p-3 ">
                             <div className="rounded-4 bg-white text-center align-content-center h-100 p-3">
-                                <ButtonWithIcon Icon={<FaPaperPlane fontSize={"1.7rem"} color="white"/>} label={"Send Report"} handleClick={sendReport} type={"button"} />
+                                <ButtonWithIcon Icon={<FaPaperPlane fontSize={"1.7rem"} color="white"/>} label={"Export Data"} handleClick={exportData} type={"button"} />
                             </div>
                         </div>
                     </div>

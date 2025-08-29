@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response as ResponseFacades;
 
 use function PHPSTORM_META\type;
 
@@ -272,6 +273,138 @@ class ReturnController extends Controller
             $return->delete();
             return response(["message" => "delete with success"], Response::HTTP_OK);
         } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * export data
+     * 
+     */
+    public function export(Request $request){
+        try{
+            $validateFields = $request->validate([
+                "filter" => "required|string",
+                "startDate" => "",
+                "endDate" => "",
+                "user" => "numeric"
+            ]);
+            $filterData = $this->filterData($validateFields, "returns.created_at");
+            //get returns
+            $returns = [];
+            $statistics = [];
+            if ($validateFields["user"] != -1) {
+                $returns = Returns::join(
+                    'details_returns',
+                    'details_returns.return_id',
+                    '=',
+                    'returns.id'
+                )
+                    ->join(
+                        'orders',
+                        'returns.order_id',
+                        "=",
+                        "orders.id"
+                    )
+                    ->join(
+                        'users',
+                        'orders.user_id',
+                        "=",
+                        "users.id"
+                    )
+                    ->where(
+                        'orders.user_id',
+                        '=',
+                        $validateFields["user"]
+                    )
+                    ->whereBetween('returns.created_at', $filterData["filter"])
+                    ->select(
+                        // DB::raw($filterData["filterType"]),
+                        DB::raw('returns.id as id'),
+                    DB::raw('orders.id as sale_id'),
+                        DB::raw('returns.created_at as created_at'),
+                        DB::raw('users.name as user'),
+                        DB::raw('SUM(details_returns.qnt) as qnt'),
+                        DB::raw('SUM(details_returns.price * details_returns.qnt * details_returns.discount / 100) as discount'),
+                        DB::raw('SUM((details_returns.price * details_returns.qnt) - (details_returns.price * details_returns.qnt * details_returns.discount / 100) ) as total')
+                    )
+                    ->groupBy("id")
+                    ->orderBy('created_at')
+                    ->get();
+            } else {
+                $returns = Returns::join(
+                    'details_returns',
+                    'details_returns.return_id',
+                    '=',
+                    'returns.id'
+                )
+                    ->join(
+                        'orders',
+                        'returns.order_id',
+                        "=",
+                        "orders.id"
+                    )
+                    ->join(
+                        'users',
+                        'orders.user_id',
+                        "=",
+                        "users.id"
+                    )
+                    ->whereBetween('returns.created_at', $filterData["filter"])
+                    ->select(
+                        DB::raw('returns.id as id'),
+                    DB::raw('orders.id as sale_id'),
+                        DB::raw('returns.created_at as created_at'),
+                        DB::raw('users.name as user'),
+                        DB::raw('SUM(details_returns.qnt) as qnt'),
+                        DB::raw('SUM(details_returns.price * details_returns.qnt * details_returns.discount / 100) as discount'),
+                        DB::raw('SUM((details_returns.price * details_returns.qnt) - (details_returns.price * details_returns.qnt * details_returns.discount / 100) ) as total')
+                    )
+                    ->groupBy("id")
+                    ->orderBy('created_at')
+                    ->get();
+            }
+            //format number 
+            $returns->transform(function($row) {
+                $row->qnt = number_format($row->qnt, 2, ',', '');
+                $row->discount = number_format($row->discount, 2, ',', '');
+                $row->total = number_format($row->total, 2, ',', '');
+                return $row;
+            });
+            // Génération du CSV
+            $fileName = "returns_export_" . date('Y-m-d_H-i-s') . ".csv";
+
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0"
+            ];
+
+            $columns = ['Return ID', 'Sale ID', 'Created At', 'User', 'Quantity', 'Discount', 'Total'];
+
+            $callback = function() use ($returns, $columns) {
+                $file = fopen('php://output', 'w');
+                // Écrire l'entête
+                fputcsv($file, $columns,";");
+
+                // Écrire les données
+                foreach ($returns as $row) {
+                    fputcsv($file, [
+                        $row->id,
+                        $row->sale_id,
+                        $row->created_at,
+                        $row->user,
+                        $row->qnt,
+                        $row->discount,
+                        $row->total
+                    ],";");
+                }
+                fclose($file);
+            };
+
+            return ResponseFacades::stream($callback, 200, $headers);
+        } catch (Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }

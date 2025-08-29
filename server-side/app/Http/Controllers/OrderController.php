@@ -25,6 +25,7 @@ use Monolog\Handler\PushoverHandler;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Response as ResponseFacades;
 
 class OrderController extends Controller
 {
@@ -1575,6 +1576,225 @@ class OrderController extends Controller
         ]);
         // $pdf = Pdf::loadView('pdf.receipt', ['order' => $order]);
         return $pdf->output();
+    }
+    /**
+     * export sales 
+     * @param Request $request has data sent by front-end
+     * data sent by front-end: start dat, end date, user, filter type
+     * @return Blob return a blob object ready to download from front-end
+     */
+    public function export(Request $request){
+        try{
+            $validateFields = $request->validate([
+                "filter" => "required|string",
+                "startDate" => "",
+                "endDate" => "",
+                "user" => "numeric"
+            ]);
+            $filterData = $this->filterData($validateFields, "orders.created_at");
+            //get sales 
+            $sales = [];
+            if ($validateFields["user"] != -1) {
+                $sales = Order::join(
+                    'details_orders',
+                    'details_orders.order_id',
+                    '=',
+                    'orders.id'
+                )
+                    ->join(
+                        'customers',
+                        'orders.customer_id',
+                        "=",
+                        "customers.id"
+                    )
+                    ->join(
+                        'users',
+                        'orders.user_id',
+                        "=",
+                        "users.id"
+                    )
+                    ->where(
+                        'orders.user_id',
+                        '=',
+                        $validateFields["user"]
+                    )
+                    ->whereBetween('orders.created_at', $filterData["filter"])
+                    ->select(
+                        // DB::raw($filterData["filterType"]),
+                        DB::raw('orders.id as id'),
+                    DB::raw('DATE_FORMAT(orders.created_at,"%d-%m-%Y %H:%i") as date'),
+                        DB::raw('customers.name as customer'),
+                        DB::raw('users.name as user'),
+                        DB::raw('orders.type as type'),
+                        DB::raw('orders.status as status'),
+                    DB::raw('orders.tax as tax'),
+                        DB::raw('SUM(details_orders.qnt) as qnt'),
+                        DB::raw('SUM(details_orders.price * details_orders.qnt * details_orders.discount / 100) as discount'),
+                        DB::raw('SUM((details_orders.price * details_orders.qnt) - (details_orders.price * details_orders.qnt * details_orders.discount / 100) ) as total')
+                    )
+                    ->groupBy("id")
+                    ->orderBy('date')
+                    ->get();
+                $returns = Returns::join(
+                    'details_returns',
+                    'details_returns.return_id',
+                    '=',
+                    'returns.id'
+                )
+                ->join(
+                    'orders',
+                    'returns.order_id',
+                    "=",
+                    "orders.id"
+                )
+                ->join(
+                    'users',
+                    'orders.user_id',
+                    "=",
+                    "users.id"
+                )
+                ->where(
+                    'orders.user_id',
+                    '=',
+                    $validateFields["user"]
+                )
+                ->whereBetween('orders.created_at', $filterData["filter"])
+                ->select(
+                    DB::raw('returns.id as id'),
+                    DB::raw('orders.id as sale_id'),
+                    DB::raw('returns.created_at as created_at'),
+                    DB::raw('users.name as user'),
+                    DB::raw('SUM(details_returns.qnt) as qnt'),
+                    DB::raw('SUM(details_returns.price * details_returns.qnt * details_returns.discount / 100) as discount'),
+                    DB::raw('SUM((details_returns.price * details_returns.qnt) - (details_returns.price * details_returns.qnt * details_returns.discount / 100) ) as total')
+                )
+                ->groupBy("id")
+                ->orderBy('created_at')
+                ->get();
+                
+            } else {
+                $sales = Order::join(
+                    'details_orders',
+                    'details_orders.order_id',
+                    '=',
+                    'orders.id'
+                )
+                    ->join(
+                        'customers',
+                        'orders.customer_id',
+                        "=",
+                        "customers.id"
+                    )
+                    ->join(
+                        'users',
+                        'orders.user_id',
+                        "=",
+                        "users.id"
+                    )
+                    ->whereBetween('orders.created_at', $filterData["filter"])
+                    ->select(
+                    DB::raw("DATE_FORMAT(orders.created_at,'%d-%m-%Y %H:%i') as date"),
+                        DB::raw('orders.id as id'),
+                        DB::raw('customers.name as customer'),
+                        DB::raw('users.name as user'),
+                        DB::raw('orders.type as type'),
+                    DB::raw('orders.tax as tax'),
+                        DB::raw('orders.status as status'),
+                        DB::raw('SUM(details_orders.qnt) as qnt'),
+                        DB::raw('SUM(details_orders.price * details_orders.qnt * details_orders.discount / 100) as discount'),
+                        DB::raw('SUM((details_orders.price * details_orders.qnt) - (details_orders.price * details_orders.qnt * details_orders.discount / 100) ) as total')
+                    )
+                    ->groupBy("id")
+                    ->orderBy('date')
+                    ->get();
+                $returns = Returns::join(
+                    'details_returns',
+                    'details_returns.return_id',
+                    '=',
+                    'returns.id'
+                )
+                ->join(
+                    'orders',
+                    'returns.order_id',
+                    "=",
+                    "orders.id"
+                )
+                    ->join(
+                        'users',
+                        'orders.user_id',
+                        "=",
+                        "users.id"
+                    )
+                    ->whereBetween('orders.created_at', $filterData["filter"])
+                    ->select(
+                        DB::raw('returns.id as id'),
+                        DB::raw('orders.id as sale_id'),
+                        DB::raw('returns.created_at as created_at'),
+                        DB::raw('users.name as user'),
+                        DB::raw('SUM(details_returns.qnt) as qnt'),
+                        DB::raw('SUM(details_returns.price * details_returns.qnt * details_returns.discount / 100) as discount'),
+                        DB::raw('SUM((details_returns.price * details_returns.qnt) - (details_returns.price * details_returns.qnt * details_returns.discount / 100) ) as total')
+                    )
+                    ->groupBy("id")
+                    ->orderBy('created_at')
+                    ->get();
+            }
+            // merge sales and returns 
+            $updatedSales = array_map(function ($item) use ($returns) {
+                $item["return_qnt"] = 0;
+                foreach ($returns->toArray() as $elem) {
+                    if (
+                        $item["id"] == $elem["sale_id"]
+                    ) {
+                        $item["return_qnt"] = $elem["qnt"];
+                        break;
+                    }
+                }
+                $item["qnt"] = number_format($item["qnt"], 2, ',', '');
+                $item["discount"] = number_format($item["discount"], 2, ',', '');
+                $item["total"] = number_format($item["total"], 2, ',', '');
+                $item["return_qnt"] = number_format($item["return_qnt"], 2, ',', '');
+                return $item;
+            }, $sales->toArray());
+            // generate CSV
+            $fileName = "sales_export_" . date('Y-m-d_H-i-s') . ".csv";
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0",
+                "Access-Control-Expose-Headers" => "Content-Disposition" 
+            ];
+
+            $columns = ['id', 'Date', 'Customer', 'User', 'Type', 'Status', 'Tax', 'Quantity', 'Discount', 'Total', 'Return Qty'];
+
+            $callback = function () use ($updatedSales, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns,";");
+
+                foreach ($updatedSales as $row) {
+                    fputcsv($file, [
+                        $row['id'],
+                        $row['date'],
+                        $row['customer'],
+                        $row['user'],
+                        $row['type'],
+                        $row['status'],
+                        $row['tax'],
+                        $row['qnt'],
+                        $row['discount'],
+                        $row['total'],
+                        $row['return_qnt']
+                    ],";");
+                }
+                fclose($file);
+            };
+
+            return ResponseFacades::stream($callback, 200, $headers);
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
     
 }
