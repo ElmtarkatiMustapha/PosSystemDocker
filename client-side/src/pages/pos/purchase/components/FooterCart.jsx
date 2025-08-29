@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Lang } from "../../../../assets/js/lang";
 import { usePosState } from "../../../../context/posContext";
+import { useAppState } from "../../../../context/context";
 
 export function FooterCart() {
     const [total, setTolal] = useState(0);
     const [quantity, setquantity] = useState(0);
 
     const posState = usePosState();
+    const appState = useAppState();
 
     useEffect(() => {
         //total 
@@ -28,7 +30,7 @@ export function FooterCart() {
                 <div className="col-4 pt-1 pb-1 title"><Lang>Quantity</Lang>:</div>
                 <div className="col-8 pt-1 pb-1 data">{quantity}</div>
                 <div className="col-4 pt-1 pb-1 title"><Lang>Total</Lang>:</div>
-                <div className="col-8 pt-1 pb-1 data">{total}dh</div>
+                <div className="col-8 pt-1 pb-1 data">{total}{appState.settings?.businessInfo?.currency?.symbol}</div>
             </div>
         </div>
     )

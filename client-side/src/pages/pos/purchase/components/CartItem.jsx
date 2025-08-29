@@ -3,11 +3,13 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 import { TiDelete } from "react-icons/ti";
 import { Lang } from "../../../../assets/js/lang";
 import { usePosAction } from "../../../../context/posContext";
+import { useAppState } from "../../../../context/context";
 
 export function CartItem({ id, codebar, name, stocks, qnt, price }) {
     const qntInput = useRef();
     const priceInput = useRef();
     const posAction = usePosAction();
+    const appState = useAppState();
     const changePrice = () => {
         posAction({
             type: "SET_PRICE",
@@ -73,7 +75,7 @@ export function CartItem({ id, codebar, name, stocks, qnt, price }) {
                 <button onClick={incQnt} className=" btn-plus"><FaPlus/></button>
             </td>
             <td>
-                { Number((price*qnt)).toFixed(2) }dh
+                { Number((price*qnt)).toFixed(2) }{appState.settings?.businessInfo?.currency?.symbol}
             </td>
         </tr>
     )

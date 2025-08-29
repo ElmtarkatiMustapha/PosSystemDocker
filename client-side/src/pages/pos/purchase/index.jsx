@@ -140,7 +140,7 @@ export function Purchase() {
             <main style={{height:"100vh"}} className="w-100 text-end">
                 <motion.div
                     style={{
-                        marginTop:"4rem"
+                        marginTop:"4.5rem"
                     }}
                     variants={variantsContent}
                     animate={categoriesOpen ? "open" : "close"}

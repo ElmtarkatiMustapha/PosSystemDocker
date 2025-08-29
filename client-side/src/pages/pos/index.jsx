@@ -179,7 +179,7 @@ export function MainPos() {
                         <div className="container-fluid ps-2">
                             <div className="row">
                                 <div className={ appState.isMobile ? "col-12":"col-7" }>
-                                    <div className="container-fluid ">
+                                    <div className="container-fluid">
                                         <div className="row">
                                             <form onSubmit={handleSubmit} className="col-12">
                                                 <input ref={searchRef} autoFocus disabled={posState.loading} className="form-control form-control-lg" type="text" placeholder={Lang({children:"Search for products"})} aria-label=".form-control-lg example"/>
