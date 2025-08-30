@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Type\Integer;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response as ResponseFacades;
 
 class PurchaseController extends Controller
 {
@@ -329,6 +330,95 @@ class PurchaseController extends Controller
             //return response
             return response(["message" => "Purchase Updated with success"], Response::HTTP_OK);
         } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * @description : this fnction allow exporting purchase based on filters
+     * @param Reaquet $request: containe 
+     */
+    public function export(Request $request){
+        try{
+            $validateFields = $request->validate([
+                "filter" => "required|string",
+                "startDate" => "",
+                "endDate" => "",
+                "supplier" => "numeric"
+            ]);
+            $filterData = $this->filterData($validateFields, "purchases.created_at");
+            $purchases = [];
+            if ($validateFields["supplier"] != -1) {
+                $purchases = Purchase::join("users", "purchases.user_id", "=", "users.id")
+                ->join("suppliers", "purchases.supplier_id", "=", "suppliers.id")
+                ->join("stocks", "stocks.purchase_id", "=", "purchases.id")
+                ->where("suppliers.id", "=", $validateFields["supplier"])
+                ->whereBetween('purchases.created_at', $filterData["filter"])
+                ->select(
+                    DB::raw("purchases.id as id"),
+                    DB::raw("DATE_FORMAT(purchases.created_at,'%d-%m-%Y %H:%i') as date"),
+                    DB::raw("suppliers.name as supplier"),
+                    DB::raw("users.name as user"),
+                    DB::raw("SUM(stocks.stock_init) as qnt"),
+                    DB::raw("SUM(stocks.stock_init*stocks.price) as total")
+                )->groupBy("id")
+                    ->orderBy("date")
+                    ->get();
+            } else {
+                $purchases = Purchase::join("users", "purchases.user_id", "=", "users.id")
+                ->join("suppliers", "purchases.supplier_id", "=", "suppliers.id")
+                ->join("stocks", "stocks.purchase_id", "=", "purchases.id")
+                ->whereBetween('purchases.created_at', $filterData["filter"])
+                ->select(
+                    DB::raw("purchases.id as id"),
+                    DB::raw("DATE_FORMAT(purchases.created_at,'%d-%m-%Y %H:%i') as date"),
+                    DB::raw("suppliers.name as supplier"),
+                    DB::raw("users.name as user"),
+                    DB::raw("SUM(stocks.stock_init) as qnt"),
+                    DB::raw("SUM(stocks.stock_init*stocks.price) as total")
+                )->groupBy("id")
+                    ->orderBy("date")
+                    ->get();
+            }
+             // CSV file name
+        $fileName = "purchases_export_" . date('Y-m-d_H-i-s') . ".csv";
+
+        // Headers
+        $headers = [
+            "Content-type" => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        // CSV Columns
+        $columns = ['Purchase ID', 'Date', 'Supplier', 'User', 'Quantity', 'Total'];
+
+        // Callback to stream CSV
+        $callback = function () use ($purchases, $columns) {
+            $file = fopen('php://output', 'w');
+            // Add UTF-8 BOM for Excel compatibility
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // Write header
+            fputcsv($file, $columns, ";");
+
+            // Write rows
+            foreach ($purchases as $row) {
+                fputcsv($file, [
+                    $row->id,
+                    $row->date,
+                    $row->supplier,
+                    $row->user,
+                    number_format($row->qnt, 2, ',', ''),   // force 12,5 format
+                    number_format($row->total, 2, ',', '') // same for totals
+                ], ";");
+            }
+            fclose($file);
+        };
+        return ResponseFacades::stream($callback, 200, $headers);
+
+        }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }

@@ -176,6 +176,7 @@ Route::middleware("auth:sanctum")->group(function (){
             Route::post('savePurchase', [PurchaseController::class, "save"]);
             Route::post('savePrintPurchase', [PurchaseController::class, "savePrint"]);
             Route::post('purchases', [PurchaseController::class, "getAll"]);
+            Route::post('purchases/export', [PurchaseController::class, "export"]);
             Route::delete('purchase/{id}', [PurchaseController::class, "delete"]);
             Route::get("purchase/{id}", [PurchaseController::class, "getSingle"]);
             Route::get("editPurchase/{id}", [PurchaseController::class, "getEditPurchase"]);
@@ -214,6 +215,7 @@ Route::middleware("auth:sanctum")->group(function (){
              */
             Route::post("addSpent", [ExpenseController::class, "create"]);
             Route::post("spents", [ExpenseController::class, "getAll"]);
+            Route::post("spents/export", [ExpenseController::class, "export"]);
             Route::delete("spent/{id}", [ExpenseController::class, "delete"]);
             Route::get("spent/{id}", [ExpenseController::class, "getOne"]);
             Route::post("spent/{id}", [ExpenseController::class, "update"]);
