@@ -18,11 +18,10 @@ const options = [
         value: "addNew"
     },
     {
-        name: "Send Report",
-        value: "sendReport"
+        name: "Export Data",
+        value: "export"
     }
 ]
-
 export function Purchases() {
     const [suppliers, setSuppliers] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -62,8 +61,50 @@ export function Purchases() {
     const handleSuppliers = (e) => {
         setSupplier(e.target.value);
     }
-    const sendReport = () => {
-        
+    //export purshase 
+    const exportData = () => {
+        setLoading(true)
+        api({
+            method: "post",
+            url: "/purchases/export",
+            data: {
+                supplier,
+                filter : filter,
+                startDate : startDate,
+                endDate : endDate
+            },
+            responseType: "blob",
+            withCredentials: true,
+        }).then(res=>{
+            //export data 
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement("a");
+                link.href = url;
+
+                // Extraire le nom du fichier si dispo sinon par défaut
+                const contentDisposition = res.headers["content-disposition"];
+                let fileName = "purshase_export.csv";
+                if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?(.+)"?/);
+                if (match?.[1]) {
+                    fileName = match[1];
+                }
+                }
+
+                link.setAttribute("download", fileName);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                window.URL.revokeObjectURL(url);
+                
+                setLoading(false)
+        }).catch(err=>{
+            appAction({
+                type: "SET_ERROR",
+                payload: err?.response?.data?.message
+            })
+            setLoading(false)
+        })
     }
     //handle action of purchase 
     const handleAction = (e) => {
@@ -121,8 +162,9 @@ export function Purchases() {
                 navigate("/pos/purchase")
                 e.target.value = "default";
                 break;
-            case "sendReport":
-                //code
+            case "export":
+                //export data
+                exportData();
                 e.target.value = "default";
                 break;
             default:

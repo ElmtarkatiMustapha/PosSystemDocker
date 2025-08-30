@@ -19,8 +19,8 @@ const options = [
         value: "addNew"
     },
     {
-        name: "Send Report",
-        value: "sendReport"
+        name: "Export Data",
+        value: "export"
     }
 ]
 
@@ -39,6 +39,9 @@ export function Spents() {
         endDate: new Date(),
         key: 'selection',
     }])
+    /***
+     * change the filter 
+     */
     const handleFilter = (e) => {
         if (e.target.value === "range") {
             setOpenCalendar(true);
@@ -46,6 +49,11 @@ export function Spents() {
             setFilter(e.target.value)
         }
     }
+    /**
+     * 
+     * @param {Event} e
+     * if the filter is range this function will prepae the strat and the end date 
+     */
     const handleSubmitRange = (e) => {
         e.preventDefault()
         setStartDate(format(selectionRange[0].startDate, "Y-MM-dd"));
@@ -53,8 +61,53 @@ export function Spents() {
         setFilter("range");
         handleCloseRangeModal();
     }
+    /**
+     * @desc close the calendry 
+     */
     const handleCloseRangeModal = () => {
         setOpenCalendar(false);
+    }
+    const exportData = ()=>{
+        setLoading(true)
+         api({
+            method: "post",
+            url: "/spents/export",
+            data: {
+                filter : filter,
+                startDate : startDate,
+                endDate : endDate
+            },
+            withCredentials: true
+        }).then(res=>{
+            //export data 
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+
+            // Extraire le nom du fichier si dispo sinon par défaut
+            const contentDisposition = res.headers["content-disposition"];
+            let fileName = "spents_export.csv";
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?(.+)"?/);
+                if (match?.[1]) {
+                    fileName = match[1];
+                }
+            }
+
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+            
+            setLoading(false)
+        }).catch(err=>{
+            appAction({
+                type: "SET_ERROR",
+                payload: err?.response?.data?.message
+            })
+            setLoading(false)
+        })
     }
     /**
      * @desc handle page action 
@@ -70,8 +123,9 @@ export function Spents() {
                 })
                 e.target.value = "default";
                 break;
-            case "sendReport":
+            case "export":
                 //code
+                exportData()
                 e.target.value = "default";
                 break;
             default:

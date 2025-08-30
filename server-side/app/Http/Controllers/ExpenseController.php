@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response as ResponseFacades;
 
 class ExpenseController extends Controller
 {
@@ -134,6 +135,71 @@ class ExpenseController extends Controller
             $collect->put("user", $spent->user->name);
             return response(["message" => "Success", "data" => $collect], Response::HTTP_OK);
         } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * @desc export costs using filter
+     * @param Request $request contine filter parametre
+     */
+    public function export(Request $request){
+        try{
+            $validateFields = $request->validate([
+                "filter" => "required|string",
+                "startDate" => "",
+                "endDate" => ""
+            ]);
+            $filterData = $this->filterData($validateFields, "expenses.created_at");
+            $spents = Expense::join("users", "users.id", "=", "expenses.user_id")
+            ->whereBetween("expenses.created_at", $filterData["filter"])
+            ->select(
+                DB::raw("expenses.id as id"),
+                DB::raw("expenses.title as title"),
+                DB::raw("expenses.amount as amount"),
+                DB::raw("expenses.description as description"),
+                DB::raw("expenses.created_at as created_at"),
+                DB::raw("users.name as user"),
+            )
+                ->get();
+             // CSV file name
+            $fileName = "costs_export_" . date('Y-m-d_H-i-s') . ".csv";
+
+            // Headers
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0"
+            ];
+
+            // CSV Columns
+            $columns = ['Expense ID', 'Title', 'Amount', 'Description', 'Created At', 'User'];
+
+            // Callback for CSV streaming
+            $callback = function () use ($spents, $columns) {
+                $file = fopen('php://output', 'w');
+                // Add UTF-8 BOM for Excel
+                fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+                // Write header row
+                fputcsv($file, $columns, ";");
+
+                // Write data rows
+                foreach ($spents as $row) {
+                    fputcsv($file, [
+                        $row->id,
+                        $row->title,
+                        number_format($row->amount, 2, ',', ''), // format as 12,5
+                        $row->description,
+                        $row->created_at,
+                        $row->user
+                    ], ";");
+                }
+                fclose($file);
+            };
+            return ResponseFacades::stream($callback, 200, $headers);
+        }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
