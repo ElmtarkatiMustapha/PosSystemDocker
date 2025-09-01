@@ -3,6 +3,12 @@ services:
     build:
       context: ./server-side
     image: elmtarkati/posapp
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: meaningstocklara
+      DB_USERNAME: root
+      DB_PASSWORD: 12345679
     deploy:
       mode: replicated
       replicas: 3

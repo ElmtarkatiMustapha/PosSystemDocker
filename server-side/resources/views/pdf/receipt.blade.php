@@ -6,7 +6,7 @@
         /* Header */
         .header {
             position: fixed;
-            top: -150px;
+            top: -120px;
             left: 0;
             right: 0;
             text-align: center;
@@ -86,7 +86,7 @@
         }
         .invoice-total {
             text-align: right;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
         }
         .d-inline-block{
@@ -125,6 +125,13 @@
         }
         .align-self-end{
             align-self: flex-end;
+        }
+        th, td{
+            font-size: 12px;
+        }
+        .total-to-pay{
+            font-size: 20px;
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -190,9 +197,11 @@
         </table>
 
         <div class="invoice-total">
-            <p><strong>Total HT:</strong> {{ number_format($totalHT, 2) }}</p>
-            <p><strong>Total TAX:</strong> {{ number_format($totalTAX, 2) }}</p>
-            <p><strong>Total TTC:</strong> {{ number_format($totalTTC, 2) }}</p>
+            <p><strong>TOTAL H.Discount:</strong> {{ number_format($totalHD, 2) }} {{$currency}}</p>
+            <p><strong>TOTAL Discount:</strong> {{ number_format($totalDiscount, 2) }} {{$currency}}</p>
+            <p><strong>Total HT:</strong> {{ number_format($totalHT, 2) }} {{$currency}}</p>
+            <p><strong>Total TAX:</strong> {{ number_format($totalTAX, 2) }} {{$currency}}</p>
+            <p class="total-to-pay"><strong>Total TTC:</strong> {{ number_format($totalTTC, 2) }} {{$currency}}</p>
         </div>
     </div>
     <!-- Footer -->

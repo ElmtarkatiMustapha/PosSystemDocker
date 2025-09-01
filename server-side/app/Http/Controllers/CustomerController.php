@@ -27,6 +27,7 @@ class CustomerController extends Controller
                 "adresse"=>"required|string",
                 "ice" => "string|nullable",
                 "phone" => "string|nullable",
+                "email" => "string|nullable",
                 "sector_id"=>"required",
                 "picture" => "image|nullable"
             ]);
@@ -58,6 +59,7 @@ class CustomerController extends Controller
                 "adresse" => "required|string",
                 "ice" => "string|nullable",
                 "phone" => "string|nullable",
+                "email" => "string|nullable",
                 "active" => "boolean",
                 "sector_id" => "required",
                 "picture" => "image|nullable"
@@ -96,6 +98,7 @@ class CustomerController extends Controller
                 "name" => "required|string",
                 "adresse" => "required|string",
                 "ice" => "string|nullable",
+                "email" => "string|nullable",
                 "phone" => "string|nullable",
                 "sector_id" => "required",
                 "picture" => "image|nullable"
@@ -167,6 +170,7 @@ class CustomerController extends Controller
                     "name" => $customers[$i]["name"],
                     "adresse" => $customers[$i]["adresse"],
                     "ice" => $customers[$i]["ice"],
+                    "email" => $customers[$i]["email"],
                     "phone" => $customers[$i]["phone"],
                     "active" => $customers[$i]["active"],
                     "sector" => $sector->id,
@@ -198,6 +202,7 @@ class CustomerController extends Controller
                     "name" => $customers[$i]->name,
                     "adresse" => $customers[$i]->adresse,
                     "ice" => $customers[$i]->ice,
+                    "email" => $customers[$i]->email,
                     "phone" => $customers[$i]->phone,
                     "active" => $customers[$i]->active,
                     "sector" => $customers[$i]->sector,
@@ -318,10 +323,11 @@ class CustomerController extends Controller
                 "name" => $customer->name,
                 "adresse" => $customer->adresse,
                 "ice" => $customer->ice,
+                "email" => $customer->email,
                 "phone" => $customer->phone,
                 "active" => $customer->active,
                 "sector" => $customer->sector,
-            "sectorTitle" => $customer->sector->title,
+                "sectorTitle" => $customer->sector->title,
                 "picture" => $customer->picture,
                 "total" => $customer->total,
                 "purchase" => $customer->orders,

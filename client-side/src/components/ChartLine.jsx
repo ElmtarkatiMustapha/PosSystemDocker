@@ -1,5 +1,6 @@
 import Chart from "chart.js/auto"
 import { useEffect, useRef, useState } from "react"
+import { Lang } from "../assets/js/lang";
 
 export function ChartLine({ title, subTitle, dataX, dataY, flag }) {
     const refChartContext = useRef(null);
@@ -49,7 +50,7 @@ export function ChartLine({ title, subTitle, dataX, dataY, flag }) {
     return (
         <div className="chart-line p-0">
             <div className="chart-header pt-3 ps-3 pe-3">
-                <div className="title text-center h3 m-0">{title}</div>
+                <div className="title text-center h3 m-0"><Lang>{title}</Lang></div>
                 <div className="sub-title text-center h6">for {subTitle}</div>
             </div>
             <div className="chart-content ps-4 pe-4 ">

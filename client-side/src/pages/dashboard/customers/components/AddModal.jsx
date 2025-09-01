@@ -96,6 +96,10 @@ export function AddModal() {
                             <input type="text"  disabled={loading} name="ice"  className="form-control" placeholder={Lang({ children: "Tap Ice" })}  id="" />
                         </div>
                         <div className="mb-3">
+                                <label className="form-label h5"><Lang>email</Lang> : {loading && <Spinner/>}</label>
+                                <input type="text"  disabled={loading} name="email"  className="form-control" placeholder={Lang({ children: "Tap email" })}  id="" />
+                            </div>
+                        <div className="mb-3">
                             <label className="form-label h5"><Lang>Phone</Lang> : {loading && <Spinner/>}</label>
                             <input type="text"  disabled={loading} name="phone"  className="form-control" placeholder={Lang({ children: "Tap Phone" })}  id="" />
                         </div>

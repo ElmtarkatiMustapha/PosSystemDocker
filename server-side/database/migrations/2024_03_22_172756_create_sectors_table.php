@@ -20,6 +20,12 @@ class CreateSectorsTable extends Migration
             $table->boolean("active")->default(1);
             $table->timestamps();
         });
+        DB::table('sectors')->insert([
+            [
+                "id" => 1,
+                "title"=> "default"
+            ],
+        ]);
     }
 
     /**

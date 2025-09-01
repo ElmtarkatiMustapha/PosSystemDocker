@@ -26,8 +26,8 @@ const SelectOption1 = [
             value: "return"
         },
         {
-            name: "Download Invoice",
-            value: "download_invoice"
+            name: "Print Invoice",
+            value: "print_invoice"
         },
         {
             name: "Send to Customer",
@@ -57,8 +57,8 @@ const SelectOption2 = [
             value: "return"
         },
         {
-            name: "Download Invoice",
-            value: "download_invoice"
+            name: "Print Invoice",
+            value: "print_invoice"
         },
         {
             name: "Send to Customer",

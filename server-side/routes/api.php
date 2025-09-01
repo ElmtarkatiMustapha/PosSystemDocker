@@ -93,6 +93,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::get("cashierCustomer/{id}", [CustomerController::class, "getOneCashier"]);
         Route::post("cashierCustomer/{id}", [CustomerController::class, "updateCashier"]);
         Route::post("cashierAddCustomer", [CustomerController::class, "create"]);
+        Route::post("/sale/print/{id}", [OrderController::class, "printSale"]);
     });
     Route::middleware([IsDelivery::class])->group(function (){
         /**these route for admin, delivery user */
@@ -102,6 +103,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::get("deliveredOrder/{id}", [OrderController::class, "getOneOrderDelivered"]);
         Route::post("deliveryOrder/{id}", [OrderController::class, "setDeliveredByUser"]);
         Route::post("deliveredSalesUser", [OrderController::class, "getOrdersDelivered"]);
+        Route::post("/deliverySale/print/{id}", [OrderController::class, "printSale"]);
     });
     Route::middleware([IsManager::class])->group(function (){
         /**these route for admin, manager user */

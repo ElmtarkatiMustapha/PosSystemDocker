@@ -160,6 +160,41 @@ export function Sales() {
                 })
                 e.target.value = "default";
                 break;
+            case "print_invoice":
+                //send request to download
+                setLoading(true)
+                api({
+                    method: "post",
+                    url: "/sale/print/"+id,
+                    // withCredentials:true
+                }).then(res => {
+                    if(appState.currentUser.cashier == 0){
+                        const pdfBlob = atob(res.data.data); // Decode Base64
+                        const byteNumbers = new Array(pdfBlob.length);
+                        for (let i = 0; i < pdfBlob.length; i++) {
+                            byteNumbers[i] = pdfBlob.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: 'application/pdf' });
+            
+                        // Create a URL for the PDF blob
+                        const url = window.URL.createObjectURL(blob);
+                        window.open(url, "_blanc")
+                    }
+                    setLoading(false)
+                }).catch(err => {
+                    appAction({
+                        type: "SET_ERROR",
+                        payload: err?.response?.data?.message
+                    })
+                    setLoading(false)
+                })
+                e.target.value ="default";
+                break;
+            case "send":
+                //send request to send invoice to customer
+                e.target.value = "default";
+                break;
             default:
                 break;
         }
