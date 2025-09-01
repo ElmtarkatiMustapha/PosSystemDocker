@@ -39,6 +39,11 @@ export function Customers() {
             sortable: true
         },
         {
+            name: Lang({ children: "Email" }),
+            selector: row => row.email,
+            sortable: true
+        },
+        {
             name: Lang({ children: "Sector" }),
             selector: row => row.sector?.title,
             sortable: true

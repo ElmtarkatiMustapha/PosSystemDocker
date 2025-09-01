@@ -45,7 +45,7 @@ export function ChartPie({ title, data, labels, flag }) {
     return (
         <div className="chart-line p-0">
             <div className="chart-header  p-3">
-                <div className="title text-center h3 m-0">{title}</div>
+                <div className="title text-center h3 m-0"><Lang>{title}</Lang></div>
                 <div className="sub-title text-center h6"><Lang>Number of product by stock</Lang> </div>
             </div>
             <div className="chart-content ps-4 pe-4 ">

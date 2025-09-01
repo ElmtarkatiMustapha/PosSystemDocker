@@ -41,19 +41,23 @@ export function Carte({state, handleAction}) {
                             <div className="row m-0">
                                 <table>
                                     <tr>
-                                        <th>Ice: </th>
+                                        <th><Lang>Ice</Lang>: </th>
                                         <td className="subTitle">{ state.currentItem?.ice}</td>
                                     </tr>
                                     <tr>
-                                        <th>Sector: </th>
+                                        <th><Lang>Email</Lang>: </th>
+                                        <td className="subTitle">{ state.currentItem?.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <th><Lang>Sector</Lang>: </th>
                                         <td className="subTitle">{state.currentItem?.sector?.title }</td>
                                     </tr>
                                     <tr>
-                                        <th>Phone: </th>
+                                        <th><Lang>Phone</Lang>: </th>
                                         <td className="subTitle">{ state.currentItem?.phone}</td>
                                     </tr>
                                     <tr>
-                                        <th>State: </th>
+                                        <th><Lang>State</Lang>: </th>
                                         <td>
                                             {state.currentItem?.active == 1 ? 
                                             <span style={{ borderRadius: "30px", backgroundColor: "rgba(0, 128, 0, 0.21)", color: "green", fontWeight: "bold" }} className="ps-2 pe-2"><Lang>Active</Lang></span>
@@ -63,7 +67,7 @@ export function Carte({state, handleAction}) {
                                         </td>
                                     </tr>
                                         <tr>
-                                            <th>Adresse: </th>
+                                            <th><Lang>Adresse</Lang>: </th>
                                             <td className="subTitle"> {state.currentItem?.adresse} </td>
                                     </tr>
                                 </table>

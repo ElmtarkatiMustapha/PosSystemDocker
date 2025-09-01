@@ -1481,6 +1481,10 @@ class OrderController extends Controller
             $printerCon->feed();
             $printerCon->text("TOTAL TAX: " . number_format($order->totalTax(),2)." {$currency}");
             $printerCon->feed();
+            $printerCon->text("Montant Fourni: " . number_format($order->amountProvided,2)." {$currency}");
+            $printerCon->feed();
+            $printerCon->text("Le rest: " . number_format($order->totalTTC() - $order->amountProvided,2)." {$currency}");
+            $printerCon->feed();
             $printerCon->setTextSize(2, 2);
             $printerCon->setEmphasis(true);
             $printerCon->text("TOTAL TTC: " . number_format($order->totalTTC(),2)." {$currency}");
@@ -1555,7 +1559,8 @@ class OrderController extends Controller
         $companyPhone = $data["businessInfo"]["phone"];
         $companyIce = $data["businessInfo"]["ice"];
         $companyEmail = $data["businessInfo"]["email"];
-        $logo = public_path("images/" . $data["businessInfo"]["logo"]);
+        $currency = $data["businessInfo"]["currency"]["symbol"];
+        $logo = storage_path("app/images/" . $data["businessInfo"]["logo"]);
 
 
 
@@ -1568,11 +1573,14 @@ class OrderController extends Controller
             'companyPhone' => $companyPhone,
             'companyIce' => $companyIce,
             'companyEmail' => $companyEmail,
+            'currency' => $currency,
             'logo' => $logo,
             'order' => $order,
-            'totalHT' => $order->totalOrder(),
-            'totalTAX' => $order->totalOrder() * $order->tax / 100,
-            'totalTTC' => $order->totalOrder() + ($order->totalOrder() * $order->tax / 100),
+            'totalHD' => $order->totalHTD(),
+            'totalDiscount' => $order->totalDiscount(),
+            'totalHT' => $order->totalHT(),
+            'totalTAX' => $order->totalTax(),
+            'totalTTC' => $order->totalTTC(),
         ]);
         // $pdf = Pdf::loadView('pdf.receipt', ['order' => $order]);
         return $pdf->output();
@@ -1794,6 +1802,44 @@ class OrderController extends Controller
             return ResponseFacades::stream($callback, 200, $headers);
         }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * print sale 
+     */
+    public function printSale(Request $request){
+        try{
+            $user = Auth::user();
+            $id = $request->route("id");
+            $order = Order::find($id);
+            if ($user->cashier) {
+                //get printer
+                if (!empty($user->printer)) {
+                    try {
+                        if ($user->printer->network) {
+                            //network printer
+                            $this->networkPrintInvoice($order, $user->printer);
+                        } else {
+                            //local printer
+                            $this->localPrintInvoice($order, $user->printer);
+                        }
+                    } catch (Exception $err) {
+                        $this->remove($order);
+                        throw new Exception($err->getMessage());
+                    }
+                } else {
+                    $this->remove($order);
+                    throw new Exception("Set up printer");
+                }
+            } else {
+                //it mean this user is seller
+                $invoice = $this->generateInvoicePdf($order);
+                $pdfBase64 = base64_encode($invoice);
+                // return $invoice;
+                return response(["message" => "Order Saved with success", "data" => $pdfBase64], Response::HTTP_OK);
+            }
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST); 
         }
     }
     

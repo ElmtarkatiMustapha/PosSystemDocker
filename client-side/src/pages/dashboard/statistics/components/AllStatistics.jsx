@@ -25,7 +25,7 @@ export function AllStatistics() {
                 <ChartLine title={"Returns"} subTitle={String(state.data?.filterTitle)} dataX={state.data?.returns?.dataX} dataY={state?.data?.returns?.dataY} flag={Number(state.data?.returns?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
             </div>
             <div className="col-sm-12 col-md-6 col-lg-4 p-2">
-                <ChartPie title={"Stocks"} data={state.data?.stocks?.data} labels={["0 - 49", "50 - 99", "100 - 199", "200 - 299", "300 - 399", "400+"]} flag={Number(state.data?.stocks?.turnover).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
+                <ChartPie title={"Stock"} data={state.data?.stocks?.data} labels={["0 - 49", "50 - 99", "100 - 199", "200 - 299", "300 - 399", "400+"]} flag={Number(state.data?.stocks?.turnover).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
             </div>
             <div className="col-sm-12 col-md-6 col-lg-4 p-2">
                 <ChartBar title={"Users Earning"} subTitle={""} dataX={state.data?.users?.dataX} dataY={state?.data?.users?.dataY} flag={Number(state.data?.users?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
