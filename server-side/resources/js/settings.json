@@ -13,15 +13,15 @@
     },
     "alertSettings": {
         "stock_alert": 10,
-        "stock_expiration": 10,
+        "stock_expiration": 3,
         "repport_email": [
             "mstafamt8@gmail.com",
             "mustapha.elmterkati8@gmail.com"
         ],
-        "host": "stmp.gmail.com",
+        "host": "smtp.gmail.com",
         "port": 587,
         "username": "mstafamt8@gmail.com",
-        "password": "password"
+        "password": "yhzqmixashleaxpa"
     },
     "posSettings": {
         "tva": 20,

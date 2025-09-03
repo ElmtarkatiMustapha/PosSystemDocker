@@ -155,10 +155,11 @@
     <div class="content">
         <div class="invoice-details row">
             <div class="customerInfos col-6 ">
-                <p><strong>Customer:</strong> {{ $order->customer->name }}</p>
-                <p><strong>Customer ICE:</strong> {{ $order->customer->ice }}</p>
-                <p><strong>Customer Phone:</strong> {{ $order->customer->phone }}</p>
-                <p><strong>Customer Adresse:</strong> {{ $order->customer->adresse }}</p>
+                <h3 class="m-0 p-0 "><u>Customer Infos</u></h5>
+                <p><strong>Name:</strong> {{ $order->customer->name }}</p>
+                <p><strong>ICE:</strong> {{ $order->customer->ice }}</p>
+                <p><strong>Phone:</strong> {{ $order->customer->phone }}</p>
+                <p><strong>Adresse:</strong> {{ $order->customer->adresse }}</p>
             </div>
             <div class="orderInfos col-6 text-end  ">
                 <p><strong>Invoice Number:</strong> {{ $order->id }}</p>

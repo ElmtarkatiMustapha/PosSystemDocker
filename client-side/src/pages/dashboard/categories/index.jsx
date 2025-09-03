@@ -152,7 +152,7 @@ export function Categories() {
         }
     }
     return (
-            <div className="categoriesPage container-fluid p-3">
+            <div className="categoriesPage container-fluid p-2">
                 <div className="row m-0">
                     <div className="col-12 headerPage p-2 container-fluid">
                         <div className="row m-0 justify-content-between">

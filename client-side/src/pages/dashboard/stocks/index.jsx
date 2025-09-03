@@ -6,6 +6,8 @@ import { useAppAction } from "../../../context/context";
 import { RecordTable } from "./components/RecordTable";
 import api from "../../../api/api";
 import { EditStockModal } from "./components/EditStockModal";
+import { ButtonWithIcon } from "../../../components/ButtonWithIcon";
+import { FaPaperPlane } from "react-icons/fa6";
 
 export const Stocks = () => {
     const refSearch = useRef();
@@ -69,6 +71,44 @@ export const Stocks = () => {
         })
 
     }
+    //export stocks report 
+    const exportData = () => {
+        setLoading(true)
+        api({
+            method: "post",
+            url: "/stocks/export",
+            withCredentials: true
+        }).then(res=>{
+            //export data 
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+
+            // Extraire le nom du fichier si dispo sinon par défaut
+            const contentDisposition = res.headers["content-disposition"];
+            let fileName = "stock_export.csv";
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?(.+)"?/);
+                if (match?.[1]) {
+                    fileName = match[1];
+                }
+            }
+
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+            
+            setLoading(false)
+        }).catch(err=>{
+            appAction({
+                type: "SET_ERROR",
+                payload: err?.response?.data?.message
+            })
+            setLoading(false)
+        })
+    }
     useEffect(() => {
         api({
             method: "get",
@@ -98,13 +138,14 @@ export const Stocks = () => {
     },[stocksState.storedItems])
     return (
         <>
-            <div className="container-fluid single-page">
+            <div className="container-fluid single-page pt-2">
                 <div className="row m-0">
                     <div className="col-12 headerPage p-2 container-fluid">
                         <div className="row m-0 justify-content-between">
                             <div className={"col-5 h2 align-content-center "}><Lang>Stocks</Lang></div>
                             <div className="col-7 text-end">
                                 <div style={{ verticalAlign: "middle" }} className="d-inline-block p-1">
+                                    <PrimaryButton label={"Export Data"} handleClick={exportData} type={"button"} />
                                 </div>
                             </div>
                         </div>

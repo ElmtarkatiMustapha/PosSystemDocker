@@ -1,17 +1,63 @@
 import { FaPaperPlane } from "react-icons/fa"
 import { ButtonWithIcon } from "../../../../components/ButtonWithIcon"
 import { ChartLineLoading } from "../../../../components/ChartLineLoading"
-import { useStatisticsState } from "../../../../context/statisticsContext"
+import { useStatisticsAction, useStatisticsState } from "../../../../context/statisticsContext"
 import { LoadingContent } from "./LoadingContent"
 import { Lang } from "../../../../assets/js/lang"
 import { ChartPie } from "../../../../components/ChartPie"
-import { useAppState } from "../../../../context/context"
+import { useAppAction, useAppState } from "../../../../context/context"
+import api from "../../../../api/api"
 
 export function Stocks() {
     const state = useStatisticsState()
+    const statisticsAction = useStatisticsAction()
     const appState = useAppState()
-    const sendReport = () => {
-        
+    const appAction = useAppAction()
+    const exportData = () => {
+        statisticsAction({
+            type: "SET_LOADING",
+            payload: true
+        })
+        api({
+            method: "post",
+            url: "/stocks/export",
+            withCredentials: true
+        }).then(res=>{
+            //export data 
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+
+            // Extraire le nom du fichier si dispo sinon par défaut
+            const contentDisposition = res.headers["content-disposition"];
+            let fileName = "stock_export.csv";
+            if (contentDisposition) {
+                const match = contentDisposition.match(/filename="?(.+)"?/);
+                if (match?.[1]) {
+                    fileName = match[1];
+                }
+            }
+
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+            
+            statisticsAction({
+                type: "SET_LOADING",
+                payload: false
+            })
+        }).catch(err=>{
+            appAction({
+                type: "SET_ERROR",
+                payload: err?.response?.data?.message
+            })
+            statisticsAction({
+                type: "SET_LOADING",
+                payload: false
+            })
+        })
     }
     return (
         <div className="container-fluid p-3">
@@ -42,7 +88,7 @@ export function Stocks() {
                         </div>
                         <div className="p-3 ">
                             <div className="rounded-4 bg-white text-center align-content-center h-100 p-3">
-                                <ButtonWithIcon Icon={<FaPaperPlane fontSize={"1.7rem"} color="white"/>} label={"Send Report"} handleClick={sendReport} type={"button"} />
+                                <ButtonWithIcon Icon={<FaPaperPlane fontSize={"1.7rem"} color="white"/>} label={"Export Data"} handleClick={exportData} type={"button"} />
                             </div>
                         </div>
                     </>

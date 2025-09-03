@@ -8,7 +8,7 @@ import { SearchForm } from "./SearchForm";
 import { SalesDataTable } from "./SalesDataTable";
 import { useDeliveryAction, useDeliveryState } from "../../../context/deliveryContext";
 import api from "../../../api/api";
-import { useAppAction } from "../../../context/context";
+import { useAppAction, useAppState } from "../../../context/context";
 import { ViewModal } from "./components/ViewModal";
 import { Link } from "react-router-dom";
 
@@ -17,6 +17,7 @@ export function DeliveredOrders() {
     const deliveryState = useDeliveryState()
     const deliveryAction = useDeliveryAction();
     const appAction = useAppAction();
+    const appState = useAppState();
     const [filter, setFilter] = useState("week");
     const [startDate, setStartDate] = useState(0);
     const [endDate, setEndDate] = useState(0);
@@ -96,6 +97,33 @@ export function DeliveredOrders() {
             e.target.value = "default"
         } else if (action == "invoice") {
             //print invoice 
+            setLoading(true)
+            api({
+                method: "post",
+                url: "/deliverySale/print/"+id,
+                // withCredentials:true
+            }).then(res => {
+                if(appState.currentUser.cashier == 0){
+                    const pdfBlob = atob(res.data.data); // Decode Base64
+                    const byteNumbers = new Array(pdfBlob.length);
+                    for (let i = 0; i < pdfBlob.length; i++) {
+                        byteNumbers[i] = pdfBlob.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: 'application/pdf' });
+        
+                    // Create a URL for the PDF blob
+                    const url = window.URL.createObjectURL(blob);
+                    window.open(url, "_blanc")
+                }
+                setLoading(false)
+            }).catch(err => {
+                appAction({
+                    type: "SET_ERROR",
+                    payload: err?.response?.data?.message
+                })
+                setLoading(false)
+            })
             e.target.value = "default"
         } else {
             e.target.value = "default"
@@ -109,7 +137,7 @@ export function DeliveredOrders() {
                 <div style={{marginTop:"4rem"}}>
                     {!loading ?
                         <>
-                            <div className="container-fluid">
+                            <div className="container-fluid p-2">
                                 <div className="row m-0">
                                     <div className="col-12 headerPage p-2 container-fluid">
                                         <div className="row m-0 justify-content-between">

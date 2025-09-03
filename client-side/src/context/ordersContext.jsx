@@ -15,7 +15,26 @@ const Reducer = (state, action) => {
     if (action.type === "SET_ALL_ITEMS") {
         return {
             ...state,
-            allItems: action.payload
+            allItems: action.payload.filter(item=>state.selectedUsers.includes(item.user_id))
+        }
+    }
+    if(action.type === "FILTER_BY_USERS"){
+        return {
+            ...state,
+            allItems: state.storedItems.filter(item=>action.payload.includes(item.user_id))
+        }
+    }
+    if(action.type === "SET_SELECTED_USERS"){
+         return {
+            ...state,
+            selectedUsers: action.payload,
+            allItems: state.storedItems.filter(item=>action.payload.includes(item.user_id))
+        }
+    }
+    if(action.type === "UPDATE_ITEMS"){
+        return {
+            ...state,
+            storedItems: state.storedItems.filter(item=>!state.selectedUsers.includes(item.user_id))
         }
     }
 }
@@ -24,6 +43,7 @@ const Reducer = (state, action) => {
 const initialState = {
     storedItems :[],
     allItems: [],
+    selectedUsers: []
 }
 
 

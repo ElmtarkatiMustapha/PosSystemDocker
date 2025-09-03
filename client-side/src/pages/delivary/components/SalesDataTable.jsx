@@ -17,7 +17,7 @@ export const SalesDataTable = ({loading, state, handleActions}) => {
             value: "delivered"
         },
         {
-            name: "Get Invoice",
+            name: "Download Invoice",
             value: "invoice"
         }
     ]

@@ -26,7 +26,9 @@ use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Response as ResponseFacades;
-
+use App\Mail\SaleInvoiceMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 class OrderController extends Controller
 {
     /**
@@ -255,14 +257,22 @@ class OrderController extends Controller
      * set all ready 
      * @todo set all order ready
      */
-    public function setAllReady()
+    public function setAllReady(Request $request)
     {
         try {
+            $userIds = $request->input('users', []); // array of user IDs
+
+            // Safety check: only run if array is not empty
+            if (empty($userIds)) {
+                return response(["message" => "No users selected"], Response::HTTP_BAD_REQUEST);
+            }
+            
             Order::join("details_orders", "orders.id", "=", "details_orders.order_id")
             ->join("products", "products.id", "=", "details_orders.product_id")
             ->join("users", "orders.user_id", "=", "users.id")
-            ->where("orders.status", "=", "pending")
-            ->where("details_orders.status", "=", "pending")
+            ->where("orders.status", "pending")
+            ->where("details_orders.status", "pending")
+            ->whereIn("orders.user_id", $userIds) 
             ->update([
                 "details_orders.status" => "ready"
             ]);
@@ -1562,10 +1572,6 @@ class OrderController extends Controller
         $currency = $data["businessInfo"]["currency"]["symbol"];
         $logo = storage_path("app/images/" . $data["businessInfo"]["logo"]);
 
-
-
-
-
         // Load the Blade template and pass data
         $pdf = Pdf::loadView('pdf.receipt', [
             'companyName' => $companyName,
@@ -1706,7 +1712,7 @@ class OrderController extends Controller
                         DB::raw('customers.name as customer'),
                         DB::raw('users.name as user'),
                         DB::raw('orders.type as type'),
-                    DB::raw('orders.tax as tax'),
+                        DB::raw('orders.tax as tax'),
                         DB::raw('orders.status as status'),
                         DB::raw('SUM(details_orders.qnt) as qnt'),
                         DB::raw('SUM(details_orders.price * details_orders.qnt * details_orders.discount / 100) as discount'),
@@ -1838,6 +1844,45 @@ class OrderController extends Controller
                 // return $invoice;
                 return response(["message" => "Order Saved with success", "data" => $pdfBase64], Response::HTTP_OK);
             }
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST); 
+        }
+    }
+
+    /**
+     * send invoice to customer the factures
+     */
+    public function sendSaleToCustomer(Request $request){
+        try{
+            $id = $request->route("id");
+            $order = Order::find($id);
+            $path = resource_path('js/settings.json');
+            $data = null;
+            if (File::exists($path)) {
+                $content = File::get($path);
+                $data = json_decode($content, true);
+            } else {
+                throw new Exception("file not found");
+            }
+            Config::set('mail.mailers.smtp', [
+                'transport' => 'smtp',
+                'host' => $data["alertSettings"]['host'],  
+                'port' => $data["alertSettings"]['port'],
+                'encryption' => 'tls',
+                'username' => $data["alertSettings"]['username'],
+                'password' => $data["alertSettings"]['password'],
+                'timeout' => null,
+                'auth_mode' => null,
+            ]);
+            Config::set('mail.from', [
+                'address' => $data["alertSettings"]['username'], 
+                'name' => $settings['businessInfo']['name'] ?? 'webStock',
+            ]);
+
+            $invoice = $this->generateInvoicePdf($order);
+            $pdfBase64 = base64_encode($invoice);
+            Mail::to( $order->customer->email )->send(new SaleInvoiceMail($order, $invoice));
+            return response(["message" => "invoice sent with success"], Response::HTTP_OK);
         }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST); 
         }

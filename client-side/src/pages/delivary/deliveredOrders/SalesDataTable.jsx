@@ -12,7 +12,7 @@ export function SalesDataTable({ loading, state, handleActions }) {
                 value: "view"
             },
             {
-                title: "Get Invoice",
+                title: "download Invoice",
                 value: "invoice"
             }
         ]
@@ -32,6 +32,11 @@ export function SalesDataTable({ loading, state, handleActions }) {
             {
                 name: Lang({ children: "QNT" }),
                 selector: row => row.qnt,
+                sortable: true
+            },
+            {
+                name: Lang({ children: "Discount" }),
+                selector: row => row.discount,
                 sortable: true
             },
             {
