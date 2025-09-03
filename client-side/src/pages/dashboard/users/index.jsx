@@ -241,7 +241,7 @@ export function Users() {
         })
     },[usersState.storedItems])
     return (
-        <>
+        <div className="container-fluid pt-2">
             <div className="row m-0">
                 <div className="col-12 headerPage p-2 container-fluid">
                     <div className="row m-0 justify-content-between">
@@ -278,6 +278,6 @@ export function Users() {
             </div>
             { usersState.openEditModal && <EditModal/>}
             { usersState.openAddModal && <AddNewModal/>}
-        </>
+        </div>
     )
 }

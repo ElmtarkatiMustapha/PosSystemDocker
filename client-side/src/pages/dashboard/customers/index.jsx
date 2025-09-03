@@ -191,7 +191,7 @@ export function Customers() {
     },[customersState.storedItems])
     return (
         <>
-        <div className="container-fluid">
+        <div className="container-fluid pt-2">
             <div className="row m-0">
                 <div className="col-12 headerPage p-2 container-fluid">
                     <div className="row m-0 justify-content-between">

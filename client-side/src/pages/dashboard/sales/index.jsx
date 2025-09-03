@@ -193,7 +193,27 @@ export function Sales() {
                 break;
             case "send":
                 //send request to send invoice to customer
-                e.target.value = "default";
+                setLoading(true)
+                api({
+                    method: "post",
+                    url: "/sale/sendToCustomer/"+id,
+                    // withCredentials:true
+                }).then(res => {
+                    //handle response
+                    
+                    appAction({
+                        type: "SET_SUCCESS",
+                        payload: res?.data?.message
+                    })
+                    setLoading(false)
+                }).catch(err => {
+                    appAction({
+                        type: "SET_ERROR",
+                        payload: err?.response?.data?.message
+                    })
+                    setLoading(false)
+                })
+                e.target.value ="default";
                 break;
             default:
                 break;
@@ -326,7 +346,7 @@ export function Sales() {
     return (
         <>
         {!loading?
-                <div className="container-fluid">
+                <div className="container-fluid pt-2">
                     <div className="row m-0">
                         <div className="col-12 headerPage p-2 container-fluid">
                             <div className="row m-0 justify-content-between">

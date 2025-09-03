@@ -94,6 +94,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("cashierCustomer/{id}", [CustomerController::class, "updateCashier"]);
         Route::post("cashierAddCustomer", [CustomerController::class, "create"]);
         Route::post("/sale/print/{id}", [OrderController::class, "printSale"]);
+        Route::post("/sale/sendToCustomer/{id}", [OrderController::class, "sendSaleToCustomer"]);
     });
     Route::middleware([IsDelivery::class])->group(function (){
         /**these route for admin, delivery user */
@@ -125,6 +126,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("stock/{id}", [StockController::class, "update"]);
         Route::delete("stock/{id}", [StockController::class, "delete"]);
         Route::get("stocks", [StockController::class, "getAll"]);
+        Route::post("stocks/export", [StockController::class, "export"]);
         Route::get("allSectors", [SectorController::class, "getAll"]);
         Route::delete("sector/{id}", [SectorController::class, "delete"]);
         Route::get("sector/{id}", [SectorController::class, "getOne"]);

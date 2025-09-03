@@ -104,7 +104,7 @@ export function Statistics() {
     },[statisticsState.filter])
     return (
         <>
-                <div className="container-fluid">
+                <div className="container-fluid pt-2">
                     <div className="row m-0">
                         {statisticsState.loading ?
                             <LoadingHeader2/>
