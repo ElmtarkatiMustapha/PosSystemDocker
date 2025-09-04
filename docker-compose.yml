@@ -26,6 +26,7 @@ services:
     volumes:
       - vendor_data:/var/www/vendor # Use prebuilt vendor folder only
       - storage_data:/var/www/storage # Optional: persist storage uploads/logs
+      - resources_data:/var/www/resources 
 
   frontend:
     build:
@@ -51,3 +52,4 @@ volumes:
   db_data:
   vendor_data:
   storage_data:
+  resources_data:
