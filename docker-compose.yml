@@ -15,12 +15,12 @@ services:
       restart_policy:
         condition: on-failure
         delay: 5s
-        max_attempts: 3
+        max_attempts: 5
       update_config:
         parallelism: 2
         delay: 5s
     working_dir: /var/www
-    command: php artisan serve --host=0.0.0.0 --port=8000
+    command: sh -c "until nc -z db 3306; do echo '⏳ Waiting for DB...'; sleep 2; done; php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
     depends_on:
       - db
     volumes:

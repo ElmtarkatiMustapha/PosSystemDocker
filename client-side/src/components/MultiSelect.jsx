@@ -20,6 +20,7 @@ export default function MultiSelect({handleChange, list}) {
       setSelected(list.map(item=>item.id)); // select all
     }
   };
+  
   useEffect(()=>{
     handleChange(selected)
   },[selected])
