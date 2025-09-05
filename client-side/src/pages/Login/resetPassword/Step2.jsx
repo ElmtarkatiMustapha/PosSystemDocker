@@ -55,6 +55,10 @@ export function ResetPSWStep2() {
             dispatch({ type: "SET_SUCCESS", payload: res.data.message })
             dispatch({ type: "SET_USER", payload: res.data.user });
             dispatch({ type: "SET_ROLES", payload: res.data.roles});
+            const token = res.data.token;
+            localStorage.setItem("auth_token", token);
+            // Set it in the default Axios headers
+            api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
             navigate("/login/resetpass/step3")
         }).catch(err => {
             dispatch({type:"SET_ERROR",payload: err.response.data.message})

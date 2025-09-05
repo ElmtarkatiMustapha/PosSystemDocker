@@ -17,7 +17,6 @@ export function Login(username, password) {
 
         const token = res.data.token;
         localStorage.setItem("auth_token", token);
-        console.log("tokenn "+token)
         // Set it in the default Axios headers
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }).catch((err) => {

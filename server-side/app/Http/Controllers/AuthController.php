@@ -104,11 +104,18 @@ class AuthController extends Controller
             //generate token to reset password
             $user = User::all()->where("username","=",$request->input("username"));
             Auth::login($user[0]);
-            $user = Auth::user();
-            $token = $user->createToken("token")->plainTextToken;
-            $cookie = cookie("jwt", $token, 60 * 24);
-            ResetPass::where("username", "=", $request->input("username"))->delete();
-            return response(["message"=>"Success","user"=>$user],Response::HTTP_OK)->withCookie($cookie);
+            $userAuth = Auth::user();
+            // $token = $user->createToken("token")->plainTextToken;
+            // $cookie = cookie("jwt", $token, 60 * 24);
+            // ResetPass::where("username", "=", $request->input("username"))->delete();
+            // return response(["message"=>"Success","user"=>$user],Response::HTTP_OK)->withCookie($cookie);
+            $token = $userAuth->createToken("token")->plainTextToken;
+            $user = User::with("sectors")->find($userAuth->id);
+            $roles = [];
+            foreach($user->roles as $role){
+                array_push($roles, $role->title);
+            }
+            return response(["message"=>"success","user"=>$user,"roles"=>$roles,"token"=>$token],Response::HTTP_ACCEPTED);
         }
         return response(["message"=>"code invalide"],Response::HTTP_UNAUTHORIZED);
     }
