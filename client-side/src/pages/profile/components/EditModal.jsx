@@ -6,12 +6,15 @@ import { UploadImage } from "../../../components/UploadImage";
 import api, { getImageURL } from "../../../api/api";
 import { useAppAction, useAppState } from "../../../context/context";
 import { useProfileAction, useProfileState } from "../../../context/profileContext";
+import { ButtonDanger } from "../../../components/ButtonDanger";
+import { useNavigate } from "react-router-dom";
 
 export function EditModal() {
     const [loading, setLoading] = useState(false);
     const appAction = useAppAction();
     const profileAction = useProfileAction()
     const profileState = useProfileState()
+    const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
         let formData = new FormData(e.target);
@@ -62,6 +65,12 @@ export function EditModal() {
             payload: false
         })
     }
+    /**
+     * handle change password
+     */
+    const navigateToResetPass = ()=>{
+        navigate("/login/resetpass/step3")
+    }
     
     return (
         <div className="editModal modal z-2 d-block" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -98,6 +107,9 @@ export function EditModal() {
                         <div className="mb-3">
                             <label className="form-label h5"><Lang>Picture</Lang> : {loading && <Spinner/>}</label>
                             <UploadImage loading={loading} image={getImageURL(profileState.currentItem?.picture)} />
+                        </div>
+                        <div className="mb-3">
+                            <ButtonDanger label={"Change Password"} handleClick={navigateToResetPass} disabled={loading} />
                         </div>
                     </div>
                     <div className="modal-footer">
