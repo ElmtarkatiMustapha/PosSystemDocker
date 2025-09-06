@@ -147,7 +147,7 @@ export function ProfileContent() {
                                             <h4><Lang>User Infos</Lang> </h4>
                                         </div>
                                         <div className="col-5 text-end">
-                                                    <button style={{borderRadius:"30px"}} className="btn btn-success" onClick={handleActions}>Edit</button>
+                                            <button style={{borderRadius:"30px"}} className="btn btn-success" onClick={handleActions}>Edit</button>
                                             {/* <ActionSelect onChange={handleActions}/> */}
                                         </div>
                                     </div>

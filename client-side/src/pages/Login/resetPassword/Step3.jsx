@@ -7,6 +7,7 @@ import { useAppAction, useAppState } from "../../../context/context";
 import { useNavigate } from "react-router-dom";
 import { ChangePassHeader } from "../components/ChangePassHeader";
 import api from "../../../api/api";
+import { ButtonDanger } from "../../../components/ButtonDanger";
 export function ResetPSWStep3() {
     const [password, setPassword] = useState();
     const [passwordConf, setPasswordConf] = useState();
@@ -19,6 +20,9 @@ export function ResetPSWStep3() {
     }
     const handlePassCon = (e) => {
         setPasswordConf(e.target.value)
+    }
+    const handleGoBack = (e)=>{
+        navigate(-1);
     }
     function handleSubmit() {
         if (password === passwordConf) {
@@ -73,6 +77,9 @@ export function ResetPSWStep3() {
                 </div>
             </div>
             <div className="row pt-3 pb-3">
+                <div className="col-12  text-start">
+                    <ButtonDanger type="button" label="Back" handleClick={handleGoBack} />
+                </div>
                 <div className="col-12  text-end">
                     <ButtonBlue type="button" label="Finish" handleClick={handleSubmit} />
                 </div>
