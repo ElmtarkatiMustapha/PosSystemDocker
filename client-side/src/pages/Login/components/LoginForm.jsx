@@ -7,6 +7,7 @@ import { ButtonBlue } from "../../../components/ButtonBlue";
 import api from "../../../api/api";
 import { Link, useNavigate } from "react-router-dom";
 import { APP_NAME } from "../../../assets/js/global";
+import { Popover } from "bootstrap/dist/js/bootstrap.bundle.min";
 // import { Login } from "../login.logique";
 
 
@@ -105,6 +106,7 @@ export function LoginForm() {
                                     onChange={(e)=>{setUserName(e.target.value)}}
                                     placeholder={Lang({ children: "UserName or E-mail Adresse" })}
                                     whileFocus={{scale:1.05}}
+                                    
                                 />
                             </div>
                             <div className="password ps-2 pe-2 pt-3 pb-2">
@@ -126,6 +128,9 @@ export function LoginForm() {
                             </div>
                                 <div className="submitBtn p-2">
                                     <ButtonBlue type="submit" label="Connect" />
+                            </div>
+                            <div className="text-start">
+                                <i>username: admin/ password: admin</i>
                             </div>
                         </form>
             </>

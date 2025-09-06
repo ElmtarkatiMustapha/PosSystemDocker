@@ -2,11 +2,12 @@ import DataTable from "react-data-table-component";
 import { Lang } from "../../../assets/js/lang";
 import { PrimaryButton } from "../../../components/primaryButton";
 import { RecordTable } from "./components/RecordTable";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOrdersAction, useOrdersState } from "../../../context/ordersContext";
 import api from "../../../api/api";
 import { useAppAction } from "../../../context/context";
 import MultiSelect from "../../../components/MultiSelect";
+import { Button, Popover } from "bootstrap";
 
 export function Orders() {
     const [loading, setLoading] = useState(true);
@@ -101,6 +102,7 @@ export function Orders() {
                                 <div style={{ verticalAlign: "middle" }} className="d-inline-block pe-2">
                                     <MultiSelect handleChange={handleChangeUsers} list={users}/>
                                 </div>
+                                
                                 <div style={{ verticalAlign: "middle" }} className="d-inline-block ">
                                     <PrimaryButton className="float-start float-sm-end" label={"All Ready"} handleClick={setAllReady} type={"button"}/>
                                 </div>
