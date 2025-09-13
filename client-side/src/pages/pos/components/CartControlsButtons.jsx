@@ -155,9 +155,6 @@ export function CartControlsButtons({handleClick=()=>null}) {
                 })
             })
     }
-    useEffect(()=>{
-        console.log(appState.currentUser)
-    },[])
     if (posState.cart.cartItems.length === 0 || posState.loading) {
         return (
         <>

@@ -31,6 +31,10 @@ export function EditSale() {
     }
     //load order details
     useEffect(() => {
+        posAction({
+            type: "SEL_LOADING_PRODUCTS",
+            payload: true
+        })
         api({
             method: "get",
             url: "/editOrder/" + id,

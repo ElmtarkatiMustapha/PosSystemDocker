@@ -14,6 +14,10 @@ export function SalesDataTable({ loading, state, handleActions }) {
             {
                 title: "download Invoice",
                 value: "invoice"
+            },
+            {
+                title: "Send to Customer",
+                value: "send"
             }
         ]
         

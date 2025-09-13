@@ -125,6 +125,27 @@ export function DeliveredOrders() {
                 setLoading(false)
             })
             e.target.value = "default"
+        } else if (action == "send") {
+            setLoading(true)
+            api({
+                method: "post",
+                url: "/deliverySale/sendToCustomer/"+id,
+                // withCredentials:true
+            }).then(res => {
+                //handle response
+                appAction({
+                    type: "SET_SUCCESS",
+                    payload: res?.data?.message
+                })
+                setLoading(false)
+            }).catch(err => {
+                appAction({
+                    type: "SET_ERROR",
+                    payload: err?.response?.data?.message
+                })
+                setLoading(false)
+            })
+            e.target.value = "default"
         } else {
             e.target.value = "default"
             //dont do anything
