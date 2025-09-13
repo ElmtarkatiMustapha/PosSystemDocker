@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 use App\Mail\otpMail;
 use App\Models\ResetPass;
-use DateTime;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Exception;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class AuthController extends Controller
 {
@@ -79,6 +79,29 @@ class AuthController extends Controller
         }
         //generate otp 
         $otp = random_int(100000,999999);
+        // config Mail
+        $path = resource_path('js/settings.json');
+        $data = null;
+        if (File::exists($path)) {
+            $content = File::get($path);
+            $data = json_decode($content, true);
+        } else {
+            throw new Exception("file not found");
+        }
+        Config::set('mail.mailers.smtp', [
+            'transport' => 'smtp',
+            'host' => $data["alertSettings"]['host'],
+            'port' => $data["alertSettings"]['port'],
+            'encryption' => 'tls',
+            'username' => $data["alertSettings"]['username'],
+            'password' => $data["alertSettings"]['password'],
+            'timeout' => null,
+            'auth_mode' => null,
+        ]);
+        Config::set('mail.from', [
+            'address' => $data["alertSettings"]['username'],
+            'name' => $settings['businessInfo']['name'] ?? 'webStock',
+        ]);
         //send mail
         Mail::to($user[0]->email)->send(new otpMail($user[0]->name, $otp));
         //store data in resetpass table

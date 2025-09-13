@@ -95,7 +95,64 @@ export function CartControlsButtons() {
             })
     }
     const handleSavePrint = () => {
-        return null
+        if (posState.purchaseCart.supplier == 0) {
+            appAction({
+                    type: "SET_ERROR",
+                    payload: "Chose a supplier"
+            })
+            return true
+        }
+        appAction({
+            type: "SET_LOADING",
+            payload: true
+        })
+        api({
+            method: 'POST',
+            url: '/savePrintPurchase',
+            data: posState.purchaseCart,
+            withCredentials: true
+        }).then(res => {
+            appAction({
+                type: "SET_SUCCESS",
+                payload: res.data.message
+            });
+            //generate pdf purchase invoice  
+            const pdfBlob = atob(res.data.data); // Decode Base64
+            const byteNumbers = new Array(pdfBlob.length);
+            for (let i = 0; i < pdfBlob.length; i++) {
+                byteNumbers[i] = pdfBlob.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            // Create a URL for the PDF blob
+            const url = window.URL.createObjectURL(blob);
+            window.open(url, "_blanc")
+
+            posAction({
+                type: "INIT_PURCHASE_CART"
+            })
+            //set loading
+            posAction({
+                type: "SEL_LOADING_PRODUCTS",
+                payload: true
+            })
+            //reload product
+            loadProduct();
+            //handle return
+            appAction({
+                type: "SET_LOADING",
+                payload: false
+            })
+        }).catch(err => {
+            appAction({
+                type: "SET_ERROR",
+                payload: err?.response?.data?.message
+            })
+            appAction({
+                type: "SET_LOADING",
+                payload: false
+            })
+        })
     }
     if (posState.purchaseCart.cartItems.length === 0) {
         return (

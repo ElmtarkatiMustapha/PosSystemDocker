@@ -105,6 +105,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("deliveryOrder/{id}", [OrderController::class, "setDeliveredByUser"]);
         Route::post("deliveredSalesUser", [OrderController::class, "getOrdersDelivered"]);
         Route::post("/deliverySale/print/{id}", [OrderController::class, "printSale"]);
+        Route::post("/deliverySale/sendToCustomer/{id}", [OrderController::class, "sendSaleToCustomer"]);
     });
     Route::middleware([IsManager::class])->group(function (){
         /**these route for admin, manager user */

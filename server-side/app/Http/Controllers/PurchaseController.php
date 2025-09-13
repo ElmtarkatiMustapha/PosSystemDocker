@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\Stock;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use Ramsey\Uuid\Type\Integer;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Response as ResponseFacades;
 
@@ -42,6 +41,7 @@ class PurchaseController extends Controller
             foreach ($validateFields["cartItems"] as $ligne) {
                 $stock->create($ligne["product"]["purchasePrice"], null, $ligne["qnt"],  $ligne["qnt"], $purchase, Product::find($ligne["product"]["id"]));
             }
+            return $purchase;
             //return response
             // return response(["message" => "Purchase Saved with success"], Response::HTTP_OK);
         } catch (Exception $err) {
@@ -68,11 +68,13 @@ class PurchaseController extends Controller
     {
         try {
             //create purchase
-            $this->create($request);
+            $purchase = $this->create($request);
             //print purchase
-
+            $invoice = $this->generateInvoicePdf($purchase);
+            $pdfBase64 = base64_encode($invoice);
+            // return $invoice;
+            return response(["message" => "Order Saved with success", "data" => $pdfBase64], Response::HTTP_OK);
             //return response
-            return response(["message" => "Purchase Saved with success"], Response::HTTP_OK);
         } catch (Exception $err) {
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
@@ -421,5 +423,42 @@ class PurchaseController extends Controller
         }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
+    }
+    /**
+     * generate a pdf for purchase
+     */
+    public function generateInvoicePdf(Purchase $purchase)
+    {
+        //load settings
+        $path = resource_path('js/settings.json');
+        $data = null;
+        if (File::exists($path)) {
+            $content = File::get($path);
+            $data = json_decode($content, true);
+        } else {
+            throw new Exception("file not found");
+        }
+        $companyName = $data["businessInfo"]["name"];
+        $companyAddress = $data["businessInfo"]["adresse"];
+        $companyPhone = $data["businessInfo"]["phone"];
+        $companyIce = $data["businessInfo"]["ice"];
+        $companyEmail = $data["businessInfo"]["email"];
+        $currency = $data["businessInfo"]["currency"]["symbol"];
+        $logo = storage_path("app/images/" . $data["businessInfo"]["logo"]);
+
+        // Load the Blade template and pass data
+        $pdf = Pdf::loadView('pdf.purchaseInvoice', [
+            'companyName' => $companyName,
+            'companyAddress' => $companyAddress,
+            'companyPhone' => $companyPhone,
+            'companyIce' => $companyIce,
+            'companyEmail' => $companyEmail,
+            'currency' => $currency,
+            'logo' => $logo,
+            'purchase' => $purchase,
+            'total' => $purchase->totalPurchase(),
+        ]);
+        // $pdf = Pdf::loadView('pdf.receipt', ['order' => $order]);
+        return $pdf->output();
     }
 }

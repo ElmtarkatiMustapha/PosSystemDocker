@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Details_order;
-use App\Models\Details_return;
 use App\Models\Order;
 use App\Models\Printer;
 use App\Models\Returns;
-use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Error;
@@ -21,10 +18,7 @@ use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer as EscposPrinter;
 use Mike42\Escpos\EscposImage;
-use Monolog\Handler\PushoverHandler;
-use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Response as ResponseFacades;
 use App\Mail\SaleInvoiceMail;
 use Illuminate\Support\Facades\Mail;
@@ -1879,6 +1873,7 @@ class OrderController extends Controller
                 'name' => $settings['businessInfo']['name'] ?? 'webStock',
             ]);
 
+            // return response(["message" => $order->details_order[0]->product], Response::HTTP_OK);
             $invoice = $this->generateInvoicePdf($order);
             $pdfBase64 = base64_encode($invoice);
             Mail::to( $order->customer->email )->send(new SaleInvoiceMail($order, $invoice));

@@ -7,13 +7,14 @@ import { DateRangeModal } from "../../../components/DateRangeModal";
 import { SearchForm } from "./components/SearchForm";
 import api from "../../../api/api";
 import { useNavigate } from "react-router-dom";
-import { useAppAction } from "../../../context/context";
+import { useAppAction, useAppState } from "../../../context/context";
 import { usePosAction, usePosState } from "../../../context/posContext";
 
 export function SalesList() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate()
     const appAction = useAppAction()
+    const appState = useAppState();
     const posAction = usePosAction();
     const posState = usePosState();
      const [filter, setFilter] = useState("week");
@@ -47,7 +48,7 @@ export function SalesList() {
         let id = e.target.getAttribute("data-id")
         switch (e.target.value) {
             case "view":
-                navigate("/sales/"+id)
+                navigate("/pos/sales/"+id)
                 break;
             case "remove":
                 if (window.confirm("are you sure you want to delete this Sale")) {
@@ -83,7 +84,61 @@ export function SalesList() {
                 break;
             case "edit":
                 //edit here
+                
                 navigate("/pos/sales/" + id)
+                e.target.value = "default"
+                break;
+            case "download_invoice":
+                //edit here
+                setLoading(true)
+                api({
+                    method: "post",
+                    url: "/deliverySale/print/"+id,
+                    // withCredentials:true
+                }).then(res => {
+                    if(appState.currentUser.cashier == 0){
+                        const pdfBlob = atob(res.data.data); // Decode Base64
+                        const byteNumbers = new Array(pdfBlob.length);
+                        for (let i = 0; i < pdfBlob.length; i++) {
+                            byteNumbers[i] = pdfBlob.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: 'application/pdf' });
+            
+                        // Create a URL for the PDF blob
+                        const url = window.URL.createObjectURL(blob);
+                        window.open(url, "_blanc")
+                    }
+                    setLoading(false)
+                }).catch(err => {
+                    appAction({
+                        type: "SET_ERROR",
+                        payload: err?.response?.data?.message
+                    })
+                    setLoading(false)
+                })
+                e.target.value = "default"
+                break;
+            case "send":
+                setLoading(true)
+                api({
+                    method: "post",
+                    url: "/sale/sendToCustomer/"+id,
+                    // withCredentials:true
+                }).then(res => {
+                    //handle response
+                    appAction({
+                        type: "SET_SUCCESS",
+                        payload: res?.data?.message
+                    })
+                    setLoading(false)
+                }).catch(err => {
+                    appAction({
+                        type: "SET_ERROR",
+                        payload: err?.response?.data?.message
+                    })
+                    setLoading(false)
+                })
                 e.target.value = "default"
                 break;
             default:
