@@ -29,6 +29,16 @@ export  function MainRoute() {
                 } else {
                     dispatch({ type: "SET_DEVICE", payload: false })
                 }
+                //get lang data
+                const langData = await fetch(`/langs/${state.currentLang}`)
+                .then((res) => {
+                    return res.json();
+                })
+                //set lang data
+                dispatch({
+                    type: "CHG_LANG_DATA",
+                    payload: langData
+                })
                 //get user infos
                 const res = await loginApi({
                     method: "get",
@@ -54,16 +64,7 @@ export  function MainRoute() {
                     payload: resSettings.data.data
                 })
                 
-                //get lang data
-                const langData = await fetch(`/langs/${state.currentLang}`)
-                .then((res) => {
-                    return res.json();
-                })
-                //set lang data
-                dispatch({
-                    type: "CHG_LANG_DATA",
-                    payload: langData
-                })
+                
                 // set loeding false
                 dispatch({type: "SET_LOADING", payload:false})
             } catch (err) {

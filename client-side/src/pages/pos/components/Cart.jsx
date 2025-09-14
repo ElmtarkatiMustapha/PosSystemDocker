@@ -15,8 +15,11 @@ export function Cart({handleClick}) {
     useEffect(() => {
         // Scroll to bottom when cartItems changes
         if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({ behavior: "smooth" });
+            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         }
+        // if (bottomRef.current) {
+        //     bottomRef.current.scrollIntoView({ behavior: "smooth" });
+        // }
     }, [posState?.cart?.cartItems]);
     return (
         <div className="container-fluid p-3 cart-box m-0">
@@ -29,7 +32,7 @@ export function Cart({handleClick}) {
                 <CartHeader/>
             </div>
             <div className="row pt-1 pb-1 m-0">
-                <div className="col-12 parent-table table-responsive">
+                <div ref={bottomRef} className="col-12 parent-table table-responsive">
                     <table className="table ">
                         <tr>
                             <th>
@@ -46,7 +49,6 @@ export function Cart({handleClick}) {
                             )
                         })}
                     </table>
-                    <div ref={bottomRef} />
                 </div>
             </div>
             <div className="row ps-3 pt-1 pb-1 m-0">
