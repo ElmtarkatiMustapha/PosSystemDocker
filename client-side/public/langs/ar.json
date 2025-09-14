@@ -1,5 +1,5 @@
 {
-  "Welcome to NourStock": "NourStock مرحبا بكم في",
+  "Welcome to": "مرحبا بكم في",
   "Password": "كلمة السر",
   "UserName or E-mail Adresse": "إسم المستعمل أو البريد",
   "Connect": "إتصل",
@@ -248,5 +248,10 @@
   "Printer info": "معلومات الطابعة",
   "Printer name": "اسم الطابعة",
   "Network": "الشبكة",
+  "A mail with a 6-digit verification code was just sent to": "تم للتو إرسال بريد إلكتروني يحتوي على رمز تحقق مكون من 6 أرقام إلى",
+  "Back": "رجوع",
+  "Search by Sale Id": "البحث برقم معرف البيع",
+  "we will send a verification code to": "سوف نرسل رمز تحقق إلى",
+  "To help keep your account safe, we wants to make sure that it's really you trying to sign in": "للمساعدة في حماية حسابك، نريد التأكد من أنك أنت بالفعل من يحاول تسجيل الدخول",
   "Are you sure with this action?": "هل أنت متأكد من هذا الإجراء؟"
 }

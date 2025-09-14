@@ -63,7 +63,7 @@ export function ResetPSWStep1() {
                     <Lang>Get a verification code</Lang>
                 </div>
                 <div  className="col-12 subText">
-                    { APP_NAME}<Lang> will send a verification code to </Lang> <strong> {state.emailAdress} </strong> 
+                    <Lang>we will send a verification code to</Lang> <strong> {state.emailAdress} </strong> 
                      <Lang>Standard rates apply</Lang>
                 </div>
             </div>

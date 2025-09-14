@@ -17,7 +17,7 @@ export function ResetHeader() {
                     <Lang>Account Recovery</Lang>
                 </div>
                 <div className="col-12 para">
-                    <Lang>To help keep your account safe, {APP_NAME} wants to make sure that it's really you trying to sign in</Lang>
+                    <Lang>To help keep your account safe, we wants to make sure that it's really you trying to sign in</Lang>
                 </div>
             </div>
             <div className="row ">

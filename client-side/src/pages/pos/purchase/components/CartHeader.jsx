@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import api from "../../../../api/api";
 import { usePosAction, usePosState } from "../../../../context/posContext"
+import { Lang } from "../../../../assets/js/lang";
 
 export function CartHeader() {
     const posState = usePosState();
@@ -39,7 +40,7 @@ export function CartHeader() {
          <>
         <div className="col-12 pt-1 pb-1">
             <select className="form-select" required defaultValue={posState.purchaseCart.supplier} onChange={toggleSupplier} name="" id="">
-                    <option key={0} >Chose Supplier </option>
+                    <option key={0} ><Lang>Chose Supplier</Lang></option>
                     {posState.suppliers.map((item) => {
                         if (item.id === posState.purchaseCart.supplier) {
                             return (

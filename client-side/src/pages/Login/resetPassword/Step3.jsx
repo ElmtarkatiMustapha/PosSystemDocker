@@ -77,10 +77,10 @@ export function ResetPSWStep3() {
                 </div>
             </div>
             <div className="row pt-3 pb-3">
-                <div className="col-12  text-start">
+                <div className="col-6  text-start">
                     <ButtonDanger type="button" label="Back" handleClick={handleGoBack} />
                 </div>
-                <div className="col-12  text-end">
+                <div className="col-6  text-end">
                     <ButtonBlue type="button" label="Finish" handleClick={handleSubmit} />
                 </div>
             </div>

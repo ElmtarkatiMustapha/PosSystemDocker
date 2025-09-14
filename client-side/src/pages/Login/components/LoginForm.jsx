@@ -94,7 +94,7 @@ export function LoginForm() {
                             <img src={Logo} alt="" />
                         </div>
                         <div className="title p-2 h2">
-                            <Lang>Welcome to </Lang>{ APP_NAME}
+                            <Lang>Welcome to</Lang> { APP_NAME}
                         </div>
                         <form onSubmit={handleSubmit} className="loginForm  ps-4 pe-4 " action="" >
                             <div className="userName ps-2 pe-2 pt-3 pb-2">

@@ -1,5 +1,5 @@
 {
-  "Welcome to NourStock": "Bienvenu à NourStock",
+  "Welcome to": "Bienvenu à",
   "Password": "Mot de Pass",
   "UserName or E-mail Adresse": "Nom d'utilisateur ou E-mail",
   "Connect": "Connecter",
@@ -248,5 +248,10 @@
   "Printer info": "Informations sur l'imprimante",
   "Printer name": "Nom de l'imprimante",
   "Network": "Réseau",
+  "A mail with a 6-digit verification code was just sent to": "Un e-mail avec un code de vérification à 6 chiffres vient d'être envoyé à",
+  "Back": "Retour",
+  "Search by Sale Id": "Rechercher par ID de vente",
+  "we will send a verification code to": "nous enverrons un code de vérification à",
+  "To help keep your account safe, we wants to make sure that it's really you trying to sign in": "Pour protéger votre compte, nous voulons nous assurer que c’est bien vous qui essayez de vous connecter",
   "Are you sure with this action?": "Etes-vous sûr de cette action ?"
 }

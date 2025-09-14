@@ -1,5 +1,5 @@
 {
-  "Welcome to NourStock": "Welcome to NourStock",
+  "Welcome to": "Welcome to",
   "Password": "Password",
   "UserName or E-mail Adresse": "UserName or E-mail Adresse",
   "Connect": "Connect",
@@ -248,6 +248,11 @@
   "Printer info":"Printer info",
   "Printer name":"Printer name",
   "Network":"Network",
+  "A mail with a 6-digit verification code was just sent to":"A mail with a 6-digit verification code was just sent to",
+  "Back":"Back",
+  "Search by Sale Id":"Search by Sale Id",
+  "we will send a verification code to":"we will send a verification code to",
+  "To help keep your account safe, we wants to make sure that it's really you trying to sign in":"To help keep your account safe, we wants to make sure that it's really you trying to sign in",
   "Are you sure with this action?": "Are you sure with this action?"
 }
 
