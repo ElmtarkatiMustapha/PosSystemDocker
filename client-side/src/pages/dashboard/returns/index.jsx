@@ -19,7 +19,7 @@ const options = [
         value: "addNew"
     },
     {
-        name: "Export data",
+        name: "Export Data",
         value: "export"
     }
 ]

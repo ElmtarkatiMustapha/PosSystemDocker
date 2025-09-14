@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppAction } from "../context/context";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { Lang } from "../assets/js/lang";
 
 export function UploadImage({loading, image}) {
     const refDrag = useRef(null);
@@ -84,7 +85,7 @@ export function UploadImage({loading, image}) {
         <div style={{ backgroundImage: "url('" + imageUrl + "')" }} onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave} className="uploadIamge text-center">
             <div ref={refDrag} className="flou pt-4 pb-4 text-center">
                 <div className="icon"><FaCloudUploadAlt/></div>
-                <div ref={refUploadText} onClick={handleBrowse} className="text">Upload Image</div>
+                <div ref={refUploadText} onClick={handleBrowse} className="text"><Lang>Upload Image</Lang></div>
                 <input disabled={loading} name="picture" ref={refFileInput} onChange={handleFileChan} type="file" accept="image/png,image/jpeg,image/jpg" hidden />
             </div>
         </div>

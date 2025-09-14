@@ -1,4 +1,5 @@
 import { getImageURL } from "../../../../api/api";
+import { Lang } from "../../../../assets/js/lang";
 import { useAppState } from "../../../../context/context";
 
 export function Rank({picture,rank,name, total}) {
@@ -37,7 +38,7 @@ export function Rank({picture,rank,name, total}) {
                                 <div className="title fw-semibold">{name}</div>
                             </div>
                             <div className="text-start fw-semibold">
-                                Total: {total}{appState.settings?.businessInfo?.currency?.symbol}
+                                <Lang>Total</Lang>:{appState.settings?.businessInfo?.currency?.symbol} {total}
                             </div>
                         </div>
                     </div>

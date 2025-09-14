@@ -25,7 +25,7 @@ export function ViewModal() {
                 <form className="modal-content">
                     <div className="modal-header">
                         <div className="modal-title">
-                            <div className="title h3 m-0"><Lang>View Spent </Lang> :</div>
+                            <div className="title h3 m-0"><Lang>View Spent</Lang> :</div>
                         </div>
                         <button type="button" onClick={handleClose} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>

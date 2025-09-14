@@ -49,7 +49,7 @@ export default function MultiSelect({handleChange, list}) {
             checked={selected.length === list?.length}
             onChange={selectAll}
           />
-          <label className="form-check-label fw-bold">Select all</label>
+          <label className="form-check-label fw-bold"><Lang>Select all</Lang></label>
         </li>
         <li><hr className="dropdown-divider" /></li>
 
@@ -61,7 +61,7 @@ export default function MultiSelect({handleChange, list}) {
               checked={selected.includes(item.id)}
               onChange={() => toggleSelect(item.id)}
             />
-            <label className="form-check-label">{item.name}</label>
+            <label className="form-check-label"><Lang>{item.name}</Lang></label>
           </li>
         ))}
       </ul>

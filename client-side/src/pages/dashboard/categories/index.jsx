@@ -163,9 +163,9 @@ export function Categories() {
                                 </div>
                                 <div style={{verticalAlign:"middle"}} className="d-inline-block float-end  p-1">
                                     <select className="slectLang form-select" defaultValue={"name"} onChange={handleSort} name="" id="">
-                                        <option value="name">Order By:(Name)</option>
-                                        <option value="mostSale">Most Sale</option>
-                                        <option value="disable">disable</option>
+                                        <option value="name"><Lang>Order By:(Name)</Lang></option>
+                                        <option value="mostSale"><Lang>Most Sale</Lang></option>
+                                        <option value="disable"><Lang>disable</Lang></option>
                                     </select>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@ export function Categories() {
                 <div className="row">
                     <div className="col-12 text-end ps-0 pe-0 pt-3">
                         <div style={{verticalAlign:"middle"}} className="d-inline-block p-1">
-                            <input ref={refSearch} type="text" className="form-control form-control-lg" placeholder={"Search for category"} />
+                            <input ref={refSearch} type="text" className="form-control form-control-lg" placeholder={Lang({children: "Search for category"})} />
                         </div>
                         <div style={{verticalAlign:"middle"}} className="d-inline-block p-1">
                             <PrimaryButton label={"Search"} handleClick={handleSearch} type={"button"} />

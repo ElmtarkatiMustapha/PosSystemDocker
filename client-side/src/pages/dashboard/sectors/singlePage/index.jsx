@@ -9,7 +9,7 @@ import { ChartLineLoading } from "../../../../components/ChartLineLoading";
 import { ChartLine } from "../../../../components/ChartLine";
 import { EditModal } from "../components/EditModal";
 import api from "../../../../api/api";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 import DataTable from "react-data-table-component";
 import { CustomLoader } from "../../../../components/CustomLoader";
 import { DateRangeModal } from "../../../../components/DateRangeModal";
@@ -68,6 +68,7 @@ export function SingleSectors() {
     const [openCalendar, setOpenCalendar] = useState(false);
     const navigate = useNavigate();
     const appAction = useAppAction();
+    const appState = useAppState();
     const sectorsState = useSectorState();
     const sectorsActions = useSectorAction();
     const [selectionRange,setSelectionRange] = useState([{
@@ -213,7 +214,7 @@ export function SingleSectors() {
                 <div className="row m-0">
                     <div className="col-12 p-2 col-md-6">
                         {loading ? <ChartLineLoading/>:
-                            <ChartLine title={"Turnover"} subTitle={sectorsState.currentItem?.filterTitle} dataX={sectorsState.currentItem?.turnover?.dataX} dataY={sectorsState.currentItem?.turnover?.dataY} flag={sectorsState.currentItem?.turnover?.dataY.reduce((prev,curr)=>prev+curr).toFixed(2)+"dh"} />
+                            <ChartLine title={"Turnover"} subTitle={sectorsState.currentItem?.filterTitle} dataX={sectorsState.currentItem?.turnover?.dataX} dataY={sectorsState.currentItem?.turnover?.dataY} flag={sectorsState.currentItem?.turnover?.dataY.reduce((prev,curr)=>prev+curr).toFixed(2)+ `(${appState.settings?.businessInfo?.currency?.symbol})`} />
                         }
                     </div>
                     <div className="col-12 p-2 col-md-6">
