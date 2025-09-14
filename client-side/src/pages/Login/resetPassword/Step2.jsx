@@ -81,7 +81,7 @@ export function ResetPSWStep2() {
             <ResetHeader />
             <div className={state.currentLang==="ar.json"? "row pt-3 text-end":"row pt-3 text-start"}>
                 <div className="col-12 subPara">
-                    <Lang>A mail with a 6-digit verification code was just sent to </Lang><strong>{state.emailAdress}</strong>
+                    <Lang>A mail with a 6-digit verification code was just sent to</Lang> <strong>{state.emailAdress}</strong>
                 </div>
             </div>
             <div className="row">

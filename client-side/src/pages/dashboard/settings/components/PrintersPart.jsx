@@ -119,7 +119,7 @@ export function PrintersPart() {
                         return (
                             <div key={item.id} className="row m-0 w-100 table-responsive">
                                 <div className="col-4">
-                                    <div className="text-truncate"><Lang>Printer Name</Lang></div>
+                                    <div className="text-truncate"><Lang>Printer name</Lang></div>
                                     <div className="fs-6  text-secondary">{item.name}</div>
                                 </div>
                                 <div className="col-4">
