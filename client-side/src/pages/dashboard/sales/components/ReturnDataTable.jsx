@@ -105,8 +105,8 @@ export const ReturnDataTable = ({loading, allItems}) => {
                                 <th className="cut-text fw-medium"><Lang>P.U</Lang></th> 
                                 <th className="cut-text fw-medium"><Lang>Qnt</Lang></th> 
                                 <th className="cut-text fw-medium"><Lang>Return Qnt</Lang></th>  
-                                <th className="cut-text fw-medium"><Lang>Discount(%)</Lang></th> 
-                                <th className="cut-text fw-medium"><Lang>Total({appState.settings?.businessInfo?.currency?.symbol})</Lang></th> 
+                                <th className="cut-text fw-medium"><Lang>Discount</Lang>(%)</th> 
+                                <th className="cut-text fw-medium"><Lang>Total</Lang>({appState.settings?.businessInfo?.currency?.symbol})</th> 
                             </tr>
                         </thead>
                         <tbody >

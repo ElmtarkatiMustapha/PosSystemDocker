@@ -154,7 +154,7 @@ export const Stocks = () => {
                 <div className="row m-0">
                     <div className="col-12 text-end ps-0 pe-0 pt-3 pb-3">
                         <form style={{verticalAlign:"middle"}} onSubmit={handleSearch} className="d-inline-block p-1">
-                            <input ref={refSearch} type="text"  className="form-control form-control-lg" placeholder={"Search for Product Stock"} />
+                            <input ref={refSearch} type="text"  className="form-control form-control-lg" placeholder={Lang({children: "Search for Product Stock"})} />
                         </form>
                         <div style={{verticalAlign:"middle"}} className="d-inline-block p-1">
                             <PrimaryButton label={"Search"} handleClick={handleSearch} type={"button"} />

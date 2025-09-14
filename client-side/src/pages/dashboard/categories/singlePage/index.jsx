@@ -10,7 +10,6 @@ import { ChartLineLoading } from "../../../../components/ChartLineLoading";
 import { useCateAction, useCateState } from "../../../../context/categoriesContext";
 import { useAppAction, useAppState } from "../../../../context/context";
 import { EditModal } from "../components/EditModal";
-import { AddNewModal } from "../components/AddNewModal";
 import { LoadingHeader } from "../../../../components/LoadingHeader";
 import { format } from "date-fns";
 import { DateRangeModal } from "../../../../components/DateRangeModal";
@@ -60,7 +59,7 @@ export function SingleCategory() {
         selector: row=>Number(row.quantity)
     },
     {
-        name: Lang({ children: `Turnover${appState.settings?.businessInfo?.currency?.symbol}` }),
+        name: Lang({ children: `Turnover` })+ `${appState.settings?.businessInfo?.currency?.symbol}`,
         sortable: true,
         selector: row=> Number(Number(row.turnover).toFixed(2))
     }
@@ -212,7 +211,7 @@ export function SingleCategory() {
                         </div>
                         <div style={{ verticalAlign: "middle" }} className=" align-self-center p-2 d-inline-block">
                             <div className="h5 m-0 title">{cateState.categoryInfos?.name}</div>
-                            <div className="subTitle"><Lang>Products: </Lang>{cateState.categoryInfos?.nbProducts}</div>
+                            <div className="subTitle"><Lang>Products</Lang>: {cateState.categoryInfos?.nbProducts}</div>
                         </div>
                         <div style={{ verticalAlign: "middle" }} className="controls d-inline-block align-content-center float-end ">
                             <FilterDate onChange={handleFilter} filter={filter} />

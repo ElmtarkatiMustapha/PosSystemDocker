@@ -31,13 +31,13 @@ export function AllStatistics() {
                 <ChartBar title={"Users Earning"} subTitle={""} dataX={state.data?.users?.dataX} dataY={state?.data?.users?.dataY} flag={Number(state.data?.users?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
             </div>
             <div className="col-sm-12 col-md-6 col-lg-4 p-2">
-                <ChartBar title={"Users Turnover"} subTitle={"for "+String(state.data?.filterTitle)} dataX={state.data?.usersTurnover?.dataX} dataY={state?.data?.usersTurnover?.dataY} flag={Number(state.data?.usersTurnover?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
+                <ChartBar title={"Users Turnover"} subTitle={state.data?.filterTitle} dataX={state.data?.usersTurnover?.dataX} dataY={state?.data?.usersTurnover?.dataY} flag={Number(state.data?.usersTurnover?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
             </div>
             <div className="col-sm-12 col-md-6 col-lg-4 p-2">
-                <ChartBar title={"Customers Turnover"} subTitle={"for "+String(state.data?.filterTitle)} dataX={state.data?.customers?.dataX} dataY={state?.data?.customers?.dataY} flag={Number(state.data?.customers?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
+                <ChartBar title={"Customers Turnover"} subTitle={state.data?.filterTitle} dataX={state.data?.customers?.dataX} dataY={state?.data?.customers?.dataY} flag={Number(state.data?.customers?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
             </div>
             <div className="col-sm-12 col-md-6 col-lg-4 p-2">
-                <ChartBar title={"Suppliers Turnover"} subTitle={"for "+String(state.data?.filterTitle)} dataX={state.data?.suppliers?.dataX} dataY={state?.data?.suppliers?.dataY} flag={Number(state.data?.suppliers?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
+                <ChartBar title={"Suppliers Turnover"} subTitle={state.data?.filterTitle} dataX={state.data?.suppliers?.dataX} dataY={state?.data?.suppliers?.dataY} flag={Number(state.data?.suppliers?.dataY?.reduce((prev,curr)=>prev+curr,0)).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
             </div>
         </>
     )

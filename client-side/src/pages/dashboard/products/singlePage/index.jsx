@@ -6,7 +6,7 @@ import api, { getImageURL } from "../../../../api/api";
 import { useProductsAction, useProductsState } from "../../../../context/productsContext";
 import { FilterDate } from "../../../../components/FilterDate";
 import { ActionSelect } from "../../../../components/ActionSelect";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 import DataTable from "react-data-table-component";
 import { CustomLoader } from "../../../../components/CustomLoader";
 import { ChartLineLoading } from "../../../../components/ChartLineLoading";
@@ -75,6 +75,7 @@ export function SingleProduct() {
     const productState = useProductsState();
     const appAction = useAppAction();
     const navigate = useNavigate(); 
+    const appState = useAppState();
     const productsAction = useProductsAction();
     const productsState = useProductsState();
     const [selectionRange,setSelectionRange] = useState([{
@@ -319,11 +320,11 @@ export function SingleProduct() {
                                         <tbody>
                                             <tr className="">
                                                 <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary"><Lang>Retail Price</Lang>: </td>
-                                                <td className=" border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary">{productState.currentProduct?.retail_price} dh</td>
+                                                <td className=" border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary">{productState.currentProduct?.retail_price} {appState.settings?.businessInfo?.currency?.symbol}</td>
                                             </tr>
                                             <tr>
                                                 <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary"><Lang>Wholesale Price</Lang>: </td>
-                                                <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary">{productState.currentProduct?.wholesales_price} dh</td>
+                                                <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary">{productState.currentProduct?.wholesales_price} {appState.settings?.businessInfo?.currency?.symbol}</td>
                                             </tr>
                                             <tr>
                                                 <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary"><Lang>Discount</Lang>: </td>
@@ -331,7 +332,7 @@ export function SingleProduct() {
                                             </tr>
                                             <tr>
                                                 <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary"><Lang>Cachier Margin</Lang>: </td>
-                                                <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary">{productState.currentProduct?.cachier_margin} dh</td>
+                                                <td className="border-0 fs-6 pt-2 ps-2 pe-2 pb-0 text-secondary">{productState.currentProduct?.cachier_margin} {appState.settings?.businessInfo?.currency?.symbol}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -348,7 +349,7 @@ export function SingleProduct() {
                     </div>
                     <div className="col-12 p-2 col-md-6">
                         {loading ? <ChartLineLoading/>:
-                            <ChartLine title={"Turnover"} subTitle={productState.currentProduct?.filterTitle} dataX={productState.currentProduct?.turnover?.dataX} dataY={productState.currentProduct?.turnover?.dataY} flag={productState.currentProduct?.turnover?.dataY.reduce((prev,curr)=>prev+curr).toFixed(2)+"dh"} />
+                            <ChartLine title={"Turnover"} subTitle={productState.currentProduct?.filterTitle} dataX={productState.currentProduct?.turnover?.dataX} dataY={productState.currentProduct?.turnover?.dataY} flag={productState.currentProduct?.turnover?.dataY.reduce((prev,curr)=>prev+curr).toFixed(2)+`${appState.settings?.businessInfo?.currency?.symbol}`} />
                         }
                     </div>
                 </div>

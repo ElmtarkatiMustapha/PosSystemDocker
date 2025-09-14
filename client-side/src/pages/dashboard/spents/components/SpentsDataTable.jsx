@@ -37,7 +37,7 @@ export function SpentsDataTable({state,loading,handleActions}) {
             sortable: true
         },
         {
-            name: Lang({ children: `Amount(${appState.settings?.businessInfo?.currency?.symbol})` }),
+            name: Lang({ children: `Amount` })+`(${appState.settings?.businessInfo?.currency?.symbol})`,
             selector: row => Number(Number(row.amount).toFixed(2)),
             sortable: true
         },

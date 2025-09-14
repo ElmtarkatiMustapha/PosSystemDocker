@@ -310,7 +310,7 @@ export function SingleUser() {
                                                         <h4><Lang>Earning</Lang> </h4>
                                                     </div>
                                                     <div className="col-5 p-0 text-end">
-                                                        <button onClick={payEarning} className="btn rounded-pill btn-primary pt-1 pb-1 fw-bold">Payed</button>
+                                                        <button onClick={payEarning} className="btn rounded-pill btn-primary pt-1 pb-1 fw-bold"><Lang>Payed</Lang></button>
                                                     </div>
                                                 </div>
                                                 <div className="row">

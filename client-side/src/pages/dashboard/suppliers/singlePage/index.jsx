@@ -179,23 +179,23 @@ export function SingleSupplier() {
                             <div className="row m-0 w-100 table-responsive">
                                 <table className="table">
                                     <tr>
-                                        <th>Ice: </th>
+                                        <th><Lang>Ice</Lang>: </th>
                                         <td className="subTitle">{ suppliersState.currentItem?.ice}</td>
                                     </tr>
                                     <tr>
-                                        <th>Email: </th>
+                                        <th><Lang>Email</Lang>: </th>
                                         <td className="subTitle">{suppliersState.currentItem?.email }</td>
                                     </tr>
                                     <tr>
-                                        <th>Phone: </th>
+                                        <th><Lang>Phone</Lang>: </th>
                                         <td className="subTitle">{ suppliersState.currentItem?.phone}</td>
                                     </tr>
                                     <tr>
-                                        <th>Adresse: </th>
+                                        <th><Lang>Adresse</Lang>: </th>
                                         <td className="subTitle">{ suppliersState.currentItem?.adresse}</td>
                                     </tr>
                                     <tr>
-                                        <th>State: </th>
+                                        <th><Lang>State</Lang>: </th>
                                         <td>
                                             {suppliersState.currentItem?.active == 1 ? 
                                             <span style={{ borderRadius: "30px", backgroundColor: "rgba(0, 128, 0, 0.21)", color: "green", fontWeight: "bold" }} className="ps-2 pe-2"><Lang>Active</Lang></span>
@@ -205,7 +205,7 @@ export function SingleSupplier() {
                                         </td>
                                     </tr>
                                         <tr>
-                                            <th>Description: </th>
+                                            <th><Lang>Description</Lang>: </th>
                                             <td className="subTitle"><div className="bg-transparent">{suppliersState.currentItem?.description} </div></td>
                                     </tr>
                                 </table>

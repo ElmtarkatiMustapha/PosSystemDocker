@@ -28,7 +28,7 @@ export function SearchForm() {
         <div className="row m-0">
             <div className="col-12 text-end pt-0 pb-3">
                 <form style={{verticalAlign:"middle"}} onSubmit={handleSearch} className="d-inline-block pe-1 ps-1">
-                    <input ref={refSearch} type="text"   className="form-control form-control-lg" placeholder={"Search by Sale Id"} />
+                    <input ref={refSearch} type="text"   className="form-control form-control-lg" placeholder={Lang({children: "Search by Sale Id"})} />
                 </form>
                 <div style={{verticalAlign:"middle"}} className="d-inline-block pe-1 ps-1">
                     <PrimaryButton label={"Search"} handleClick={handleSearch} type={"button"} />

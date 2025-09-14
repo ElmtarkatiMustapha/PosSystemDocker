@@ -42,7 +42,7 @@ export function PurchaseDataTable({state,loading,handleActions}) {
             sortable: true
         },
         {
-            name: Lang({ children: `Total(${appState.settings?.businessInfo?.currency?.symbol})` }),
+            name: Lang({ children: `Total` }) + `(${appState.settings?.businessInfo?.currency?.symbol})`,
             selector: row => Number(Number(row.total).toFixed(2)),
             sortable: true
         },

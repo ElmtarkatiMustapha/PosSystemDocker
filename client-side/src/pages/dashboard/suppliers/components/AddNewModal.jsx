@@ -80,7 +80,7 @@ export function AddNewModal() {
                         </div>
                         <div className="mb-3">
                             <label className="form-label h5"><Lang>Phone</Lang> : {loading && <Spinner/>}</label>
-                            <input type="text" required disabled={loading} name="phone"  className="form-control" placeholder={Lang({ children: "Tap phone" })}   />
+                            <input type="text"  disabled={loading} name="phone"  className="form-control" placeholder={Lang({ children: "Tap phone" })}   />
                         </div>
                         <div className="mb-3">
                             <label className="form-label h5"><Lang>Description</Lang> : {loading && <Spinner/>}</label>

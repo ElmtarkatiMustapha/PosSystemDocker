@@ -51,7 +51,7 @@ export function ChartLine({ title, subTitle, dataX, dataY, flag }) {
         <div className="chart-line p-0">
             <div className="chart-header pt-3 ps-3 pe-3">
                 <div className="title text-center h3 m-0"><Lang>{title}</Lang></div>
-                <div className="sub-title text-center h6">for {subTitle}</div>
+                <div className="sub-title text-center h6"><Lang>{subTitle}</Lang></div>
             </div>
             <div className="chart-content ps-4 pe-4 ">
                 <canvas style={{width:"100%!important"}} ref={refChartContext}></canvas>
