@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import { PrimaryButton } from "../../../../components/primaryButton";
 import { useReturnAction, useReturnState } from "../../../../context/returnContext";
+import { Lang } from "../../../../assets/js/lang";
 
 export function SearchForm() {
     const refSearch = useRef();
