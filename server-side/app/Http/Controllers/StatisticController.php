@@ -70,7 +70,56 @@ class StatisticController extends Controller
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
-
+    /**
+     * get all the data for dashboard
+     */
+    public function getAllDashboard(){
+        try{
+            $validateFields = [];
+            $validateFields["filter"]="week";
+            $validateFields["startDate"]="";
+            $validateFields["endDate"]="";
+            //get sales Statistics
+            $filterData = $this->filterData($validateFields, "orders.created_at");
+            $sales = $this->sales($filterData);
+            //get purchases statistics
+            $filterData = $this->filterData($validateFields, "purchases.created_at");
+            $purchases = $this->purchases($filterData);
+            //get spentes
+            $filterData = $this->filterData($validateFields, "expenses.created_at");
+            $costs = $this->costs($filterData);
+            //get returns
+            $filterData = $this->filterData($validateFields, "returns.created_at");
+            $returns = $this->returns($filterData);
+            //get stocks
+            $stocks = $this->stocks();
+            //get users 
+            $users = $this->users();
+            //get user Turnover
+            $filterData = $this->filterData($validateFields, "orders.created_at");
+            $usersTurnover = $this->usersTurnover($filterData);
+            //get customers Turnover
+            $filterData = $this->filterData($validateFields, "orders.created_at");
+            $customers = $this->customers($filterData);
+            //get suppliers Turnover
+            $filterData = $this->filterData($validateFields, "purchases.created_at");
+            $suppliers = $this->suppliers($filterData);
+            //prepare data to return 
+            $dataToReturn["sales"] = $sales;
+            $dataToReturn["purchases"] = $purchases;
+            $dataToReturn["costs"] = $costs;
+            $dataToReturn["returns"] = $returns;
+            $dataToReturn["stocks"] = $stocks;
+            $dataToReturn["users"] = $users;
+            $dataToReturn["usersTurnover"] = $usersTurnover;
+            $dataToReturn["customers"] = $customers;
+            $dataToReturn["suppliers"] = $suppliers;
+            $dataToReturn["filterTitle"] = $filterData["filterTitle"];
+            return response(["message" => "success", "data" => $dataToReturn], Response::HTTP_OK);
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
     public function sales($filterData)
     {
         $sales = Order::join('details_orders', 'details_orders.order_id', '=', 'orders.id')

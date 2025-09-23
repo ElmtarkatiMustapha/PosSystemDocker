@@ -51,6 +51,11 @@ class OrderController extends Controller
                 $product->checkStock($item["product"]["id"], $item["qnt"]);
             }
             if ($user->cashier) {
+                //get cash register session
+                $cashRegisterSession = $user->cashRegisterSessions()->where("closed_at","=",null)->get();
+                if($cashRegisterSession->count() == 0){
+                    throw new Exception("open a session first", 1);
+                }
                 //create order
                 $order = Order::create([
                     "type" => $validateFields["orderType"],
@@ -61,7 +66,8 @@ class OrderController extends Controller
                     "user_id" => $user->id,
                     "status" => "delivered",
                     "delivered_by" => $user->id,
-                    "delivered_at" => Carbon::now()
+                    "delivered_at" => Carbon::now(),
+                    "cashRegisterSession_id" => $cashRegisterSession[0]->id,
                 ]);
             } else {
                 //create order
@@ -85,7 +91,7 @@ class OrderController extends Controller
                 $details_order->addLigne($order, $dataLigne);
             }
             //return response
-            return response(["message" => "Order Saved with success", "data" => $order->customer], Response::HTTP_OK);
+            return response(["message" => "Order Saved with success", "data" => $order], Response::HTTP_OK);
         }catch(Exception $err){
             return response(["message"=>$err->getMessage()],Response::HTTP_BAD_REQUEST);
         }
@@ -121,6 +127,11 @@ class OrderController extends Controller
                 $product->checkStock($item["product"]["id"], $item["qnt"]);
             }
             if ($user->cashier) {
+                //get cash register session
+                $cashRegisterSession = $user->cashRegisterSessions()->where("closed_at","=",null)->get();
+                if($cashRegisterSession->count() == 0){
+                    throw new Exception("open a session first", 1);
+                }
                 //create order
                 $order = Order::create([
                     "type" => $validateFields["orderType"],
@@ -131,7 +142,8 @@ class OrderController extends Controller
                     "user_id" => $user->id,
                     "status" => "delivered",
                     "delivered_by" => $user->id,
-                    "delivered_at" => Carbon::now()
+                    "delivered_at" => Carbon::now(),
+                    "cashRegisterSession_id" => $cashRegisterSession[0]->id,
                 ]);
             } else {
                 //create order
@@ -1365,6 +1377,43 @@ class OrderController extends Controller
                 throw new Exception("Order already delivered");
             }
             return response(["message" => "success", "data" => $order], Response::HTTP_OK);
+        } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    //order to view
+    public function getOneOrderForCashier(Request $request)
+    {
+        try {
+            $idOrder = $request->route("id");
+            $user = Auth::user();
+            $order = Order::whereHas('customer.sector.users', function ($query) use ($user) {
+                $query->where('users.id', $user->id);
+            })
+                ->where('id', $idOrder)
+                ->with(['customer.sector' => function ($query) {
+                    $query->select('id', 'title'); // Select only necessary fields from the sector
+                }])
+                ->with(['customer.sector.users' => function ($query) use ($user) {
+                    $query->where('users.id', $user->id);
+                    $query->select('users.id', 'users.name'); // Select only necessary fields from the users
+                }])
+                ->with(['customer' => function ($query) {
+                    $query->select('id', 'name', 'sector_id', "picture", "adresse", "phone"); // Select only necessary fields from the customer
+                }])
+                ->with(['details_order.product'])
+                ->withSum(['details_order as total' => function ($query) {
+                    $query->select(DB::raw('SUM((details_orders.price * details_orders.qnt) - (details_orders.price * details_orders.qnt * details_orders.discount / 100))'));
+                }], 'price') // Calculate the total for each order
+                ->withSum(['details_order as discount' => function ($query) {
+                    $query->select(DB::raw('SUM((details_orders.price * details_orders.qnt * details_orders.discount / 100))'));
+                }], 'price') // Calculate the total for each order
+                ->withSum(['details_order as qnt' => function ($query) {
+                    $query->select(DB::raw('SUM(details_orders.qnt)'));
+                }], 'qnt') // Calculate the total for each order
+                ->addSelect('orders.*', DB::raw('DATE_FORMAT(orders.created_at,"%d-%m-%Y %H:%i") as date'))
+                ->get();
+            return response(["message" => "success", "data" => $order[0]], Response::HTTP_OK);
         } catch (Exception $err) {
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }

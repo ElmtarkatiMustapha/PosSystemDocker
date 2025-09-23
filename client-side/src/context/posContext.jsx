@@ -517,6 +517,26 @@ const reducer = (state,action) => {
             }
         }
     }
+    //set current item to view
+    if (action.type === "SET_CURRENT_SALE") {
+        return{
+            ...state,
+            salesContext: {
+                ...state.salesContext,
+                currentItem: action.payload
+            }
+        }
+    }
+    //toggle view modal  
+    if (action.type === "TOGGLE_VIEW_SALE_MODAL") {
+        return{
+            ...state,
+            salesContext: {
+                ...state.salesContext,
+                openViewModal: action.payload
+            }
+        }
+    }
     /**
      * this part for customer page
      */
@@ -648,10 +668,12 @@ const salesContext = {
     allItems: [],
     selectedItems: [],
     currentItem: null,
+    openViewModal: false,
     filter: "week",
     startDate: 0,
     endDate: 0,
-    reloadData: 0
+    reloadData: 0,
+
 }
 const customersContext = {
     storedItems :[],

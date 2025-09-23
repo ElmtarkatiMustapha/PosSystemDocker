@@ -18,12 +18,16 @@ class Order extends Model
         "customer_id",
         "delivered_at",
         "user_id",
+        "cashRegisterSession_id",
     ];
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function cashRegisterSession(){
+        return $this->belongsTo(CashRegisterSession::class,"id","cashRegisterSession_id");
     }
     public function details_order(){
         return $this->hasMany(Details_order::class);

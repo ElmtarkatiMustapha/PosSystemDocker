@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\Cast\Bool_;
 use Ramsey\Uuid\Type\Integer;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response as ResponseFacades;
+
 
 class ProductController extends Controller
 {
@@ -502,6 +504,123 @@ class ProductController extends Controller
 
             return response(["message" => "success", "data" => $product->stocks], Response::HTTP_OK);
         } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * export data
+     */
+    public function export(){
+        try {
+            $products = Product::with("category")->get();
+            // generate CSV
+            $fileName = "products_list_export_" . date('Y-m-d_H-i-s') . ".csv";
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0",
+                "Access-Control-Expose-Headers" => "Content-Disposition" 
+            ];
+
+            $columns = ["id","barcode","name","wholesales_price","retail_price","discount","cachier_margin","picture","expires","category_id","active","enable_stock","category_name"];
+
+            $callback = function () use ($products, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns,";");
+
+                foreach ($products as $row) {
+                    fputcsv($file, [
+                        $row['id'],
+                        $row['barcode'],
+                        $row['name'],
+                        number_format($row['wholesales_price'], 3, ',', ''),
+                        number_format($row['retail_price'], 3, ',', ''),
+                        number_format($row['discount'], 3, ',', ''),
+                        number_format($row['cachier_margin'], 3, ',', ''),
+                        $row['picture'],
+                        $row['expires'],
+                        $row['category_id'],
+                        $row['active'],
+                        $row['enable_stock'],
+                        $row['category']["name"],
+                    ],";");
+                }
+                fclose($file);
+            };
+
+            return ResponseFacades::stream($callback, 200, $headers);
+        } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * template 
+     */
+    public function template(){
+        try{
+            $fileName = "products_template.csv";
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0",
+                "Access-Control-Expose-Headers" => "Content-Disposition" 
+            ];
+
+            $columns = ["barcode","name","wholesales_price","retail_price","discount","cachier_margin","picture","expires","category_id","active","enable_stock"];
+
+            $callback = function () use ( $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns,";");
+                fclose($file);
+            };
+
+            return ResponseFacades::stream($callback, 200, $headers);
+
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    public function import(Request $request){
+        try{
+            $request->validate([
+            'file' => 'required|mimes:csv,txt|max:2048',
+        ]);
+
+        $path = $request->file('file')->getRealPath();
+        $file = fopen($path, 'r');
+
+        // Read header
+        $header = fgetcsv($file, 0, ';');
+
+        $count = 0;
+        while (($row = fgetcsv($file, 0, ';')) !== false) {
+            $record = array_combine($header, $row);
+
+            Product::updateOrCreate(
+                ['barcode' => $record['barcode']],
+                [
+                    'name'            => $record['name'] ?? null,
+                    'wholesales_price'=> $record['wholesales_price'] ?? 0,
+                    'retail_price'    => $record['retail_price'] ?? 0,
+                    'discount'        => $record['discount'] ?? 0,
+                    'expires'         => isset($record['expires']) ? (bool) $record['expires'] : 0,
+                    'cachier_margin'  => $record['cachier_margin'] ?? 0,
+                    'picture'         => $record['picture'] ?? null,
+                    'category_id'     => $record['category_id'] ?? 0,
+                    'active'          => isset($record['active']) ? (bool) $record['active'] : 1,
+                    'enable_stock'    => isset($record['enable_stock']) ? (bool) $record['enable_stock'] : 1,
+                ]
+            );
+            $count++;
+        }
+
+        fclose($file);
+            return response(["message" => "import with success"], Response::HTTP_OK);
+        }catch(Exception $err){
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }

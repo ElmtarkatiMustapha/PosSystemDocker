@@ -1,9 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import api, { getImageURL } from "../api/api";
 import { Lang } from "../assets/js/lang";
 import { useAppAction, useAppState } from "../context/context";
 import { FaHome, FaUser } from "react-icons/fa";
-import { FaBagShopping, FaPowerOff, FaSackDollar, FaTruckFast } from "react-icons/fa6";
+import { FaBagShopping, FaCashRegister, FaPowerOff, FaSackDollar, FaTruckFast } from "react-icons/fa6";
 import { LangSelect } from "../pages/dashboard/components/LangSelect";
 
 export function ProfileMenu() {
@@ -13,6 +13,7 @@ export function ProfileMenu() {
         let closeBtn = document.getElementById("closeProfileMenu")
         closeBtn.click()
     }
+    //close cash register function
     return (
         <div className="offcanvas offcanvas-end" data-bs-backdrop="static" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div className="offcanvas-header">
@@ -52,6 +53,11 @@ export function ProfileMenu() {
                 }
 
                 <ProfileBtn handleClick={handleClose} />
+                {
+                    ((appState.userRoles.includes("admin") || appState.userRoles.includes("cachier") ) && location.pathname == "/pos")&&
+                    //button of cluture here
+                    <CloseCashBtn handleClick={handleClose}/>
+                }
                 <div style={{verticalAlign:"middle"}} className="p-1 text-center">
                     <LangSelect />
                 </div>
@@ -60,6 +66,48 @@ export function ProfileMenu() {
         </div>
     )
 }
+
+//close cash register button
+
+function CloseCashBtn({handleClick}){
+    const appAction = useAppAction();
+    const navigate = useNavigate(); 
+    const handleCloseCashRegister = (e)=>{
+        e.preventDefault()
+        if(window.confirm('are you sure?')){
+            api({
+                method: "post",
+                url: "/closeCashRegisterSession"
+            }).then(res => {
+                handleClick()
+                navigate("/");
+                appAction({
+                    type: "SET_SUCCESS",
+                    payload: "Success"
+                })
+                
+            }).catch(err => {
+                //handle error
+                appAction({ type: "SET_ERROR", payload: err?.response?.data?.message });
+            })
+        }
+    }
+    return (
+        <>
+            <div style={{verticalAlign:"middle"}} className="p-1 text-center">
+                <Link  onClick={handleCloseCashRegister} style={{
+                        borderRadius: "29px",
+                        fontSize: "1.1rem",
+                        fontWeight: "600",
+                }} className="btn pt-1 pb-1 ps-2 pe-2 btn-warning">
+                    <FaCashRegister fontSize={"1.7rem"} color="black" />
+                    <span className="ps-2 pe-2"><Lang>Close Cash</Lang></span>
+                </Link>
+            </div>
+        </>
+    )
+}
+
 function SalesBtn({handleClick}) {
     const state = useAppState();
     if (state.userRoles.includes("admin")) {

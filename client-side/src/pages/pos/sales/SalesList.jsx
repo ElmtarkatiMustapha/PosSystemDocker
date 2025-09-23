@@ -9,6 +9,7 @@ import api from "../../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useAppAction, useAppState } from "../../../context/context";
 import { usePosAction, usePosState } from "../../../context/posContext";
+import { ViewModal } from "./components/ViewModal";
 
 export function SalesList() {
     const [loading, setLoading] = useState(true);
@@ -48,7 +49,15 @@ export function SalesList() {
         let id = e.target.getAttribute("data-id")
         switch (e.target.value) {
             case "view":
-                navigate("/pos/sales/"+id)
+                posAction({
+                    type: "SET_CURRENT_SALE",
+                    payload: id
+                })
+                posAction({
+                    type: "TOGGLE_VIEW_SALE_MODAL",
+                    payload: true
+                })
+                e.target.value = "default"
                 break;
             case "remove":
                 if (window.confirm("are you sure you want to delete this Sale")) {
@@ -237,7 +246,7 @@ export function SalesList() {
                     </div>
                 </div>
                 {openCalendar && <DateRangeModal state={selectionRange} handleSubmit={handleSubmitRange} handleClose={handleCloseRangeModal} handleChange={item => setSelectionRange([item.selection])}/>}
-                
+                {posState.salesContext?.openViewModal && <ViewModal/>}
             </div>
         </main>
     )

@@ -16,6 +16,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CashRegisterSessionController;
 use App\Http\Middleware\AdminCachierManager;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsCachier;
@@ -95,6 +96,12 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("cashierAddCustomer", [CustomerController::class, "create"]);
         Route::post("/sale/print/{id}", [OrderController::class, "printSale"]);
         Route::post("/sale/sendToCustomer/{id}", [OrderController::class, "sendSaleToCustomer"]);
+        Route::get("/saleForCashier/{id}", [OrderController::class, "getOneOrderForCashier"]);
+        //cash register routes
+        Route::get("/checkCashRegisterSession", [CashRegisterSessionController::class, "checkSession"]);
+        Route::post("/openCashRegisterSession", [CashRegisterSessionController::class, "create"]);
+        Route::post("/closeCashRegisterSession", [CashRegisterSessionController::class, "closeSession"]);
+        
     });
     Route::middleware([IsDelivery::class])->group(function (){
         /**these route for admin, delivery user */
@@ -115,6 +122,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("singleCategory/{id}", [CategoryController::class, "singlePage"]);
         Route::post("category/{id}", [CategoryController::class, "update"]);
         Route::post("create_category", [CategoryController::class, "create"]);
+        //products
         Route::get("allProducts", [ProductController::class, "getAll"]);
         Route::delete("product/{id}", [ProductController::class, "delete"]);
         Route::post("product/{id}", [ProductController::class, "update"]);
@@ -123,11 +131,16 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post('deleteStockProduct/{id}', [ProductController::class, "deleteStock"]);
         Route::post('addProduct', [ProductController::class, "create"]);
         Route::post('product/{id}/addStock', [ProductController::class, "addStock"]);
+        Route::post('products/export', [ProductController::class, "export"]);
+        Route::post('products/template', [ProductController::class, "template"]);
+        Route::post('products/import', [ProductController::class, "import"]);
+        //stocks
         Route::get("stock/{id}", [StockController::class, "getOne"]);
         Route::post("stock/{id}", [StockController::class, "update"]);
         Route::delete("stock/{id}", [StockController::class, "delete"]);
         Route::get("stocks", [StockController::class, "getAll"]);
         Route::post("stocks/export", [StockController::class, "export"]);
+        //sectors
         Route::get("allSectors", [SectorController::class, "getAll"]);
         Route::delete("sector/{id}", [SectorController::class, "delete"]);
         Route::get("sector/{id}", [SectorController::class, "getOne"]);
@@ -135,21 +148,25 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("addSector", [SectorController::class, "create"]);
         Route::post("sectorSingle/{id}", [SectorController::class, "getOneSingle"]);
         Route::post("detachUserSector/{id}", [SectorController::class, "detachOne"]);
+        //customers
         Route::get("allCustomers", [CustomerController::class, "getAll"]);
         Route::get("customer/{id}", [CustomerController::class, "getOne"]);
         Route::post("customer/{id}", [CustomerController::class, "update"]);
         Route::post("addCustomer", [CustomerController::class, "create"]);
         Route::delete("customer/{id}", [CustomerController::class, "delete"]);
         Route::post("singleCustomers/{id}", [CustomerController::class, "getOneSingle"]);
+        //suppliers
         Route::get("allSuppliers", [SupplierController::class, "getAll"]);
         Route::post("addSupplier", [SupplierController::class, "create"]);
         Route::get("supplierManage/{id}", [SupplierController::class, "getOneManage"]);
         Route::post("supplier/{id}", [SupplierController::class, "update"]);
         Route::delete("supplier/{id}", [SupplierController::class, "delete"]);
         Route::post("singleSupplier/{id}", [SupplierController::class, "getOneSingle"]);
+        //orders
         Route::get("pendingOrders", [OrderController::class, "getPending"]);
         Route::post("setReadyOrder", [OrderController::class, "setReady"]);
         Route::post("setAllReady", [OrderController::class, "setAllReady"]);
+        Route::post("statisticsDashboard", [StatisticController::class, "getAllDashboard"]);
         
         /**
          * these routes for returns
@@ -243,6 +260,15 @@ Route::middleware("auth:sanctum")->group(function (){
             Route::delete("settings/printer/{id}", [SettingController::class, "removePrinter"]);
             Route::post("settings/printer/{id}", [SettingController::class, "updatePrinter"]);
             Route::get("settings/printers", [SettingController::class, "getAllPrinters"]);
+            /**
+             * these route for cash register 
+             */
+            Route::post("/cashRegisterSessions", [CashRegisterSessionController::class, "getAll"]);
+            Route::get("/cashRegisterSession/{id}", [CashRegisterSessionController::class, "getOne"]);
+            Route::post("/updateCashRegisterSession/{id}", [CashRegisterSessionController::class, "update"]);
+            Route::post("/deleteCashRegisterSession/{id}", [CashRegisterSessionController::class, "delete"]);
+            Route::get("/singleCashRegisterSession/{id}", [CashRegisterSessionController::class, "getSingle"]);
+            Route::post("/cashRegisterSessions/export", [CashRegisterSessionController::class, "export"]);
         });
     });
 

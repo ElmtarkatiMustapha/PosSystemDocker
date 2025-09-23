@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger("delivered_by")->default(0);
             $table->bigInteger("customer_id");
             $table->bigInteger("user_id");
+            $table->bigInteger("cashRegisterSession_id")->nullable();
             $table->timestamp("delivered_at")->useCurrent();
             $table->timestamps();
         });

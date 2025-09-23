@@ -15,10 +15,6 @@ import { ViewModal } from "./components/ViewModal";
 import { EditModal } from "./components/EditModal";
 const options = [
     {
-        name: "Add New",
-        value: "addNew"
-    },
-    {
         name: "Export Data",
         value: "export"
     }
@@ -114,12 +110,9 @@ export function Returns() {
                     e.target.value = "default"
                 })
                 break;
-            case "addNew":
-
-                e.target.value = "default"
-                break;
             default:
                 e.target.value = "default"
+                setLoading(false)
                 break;
         }
         return null;
@@ -214,7 +207,7 @@ export function Returns() {
                     <div className="row m-0">
                         <div className="col-12 headerPage p-2 container-fluid">
                             <div className="row m-0 justify-content-between">
-                                <div className={"col-5 h2 align-content-center "}><Lang>Returns</Lang></div>
+                                <div className={"col-12 col-sm-12 col-md-5 col-lg-5 h2 align-content-center "}><Lang>Returns</Lang></div>
                                 <div className="col-12 col-sm-12 col-md-7 col-lg-7 text-end">
                                     <div style={{ verticalAlign: "middle" }} className="d-inline-block ">
                                         <SelectAction options={users} onChange={handleUsers} defTitle="All Users" defaultValue={user} defaultOption={-1} />

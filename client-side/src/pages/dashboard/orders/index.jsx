@@ -97,7 +97,7 @@ export function Orders() {
                 <div className="pt-2 pb-2 m-0">
                     <div className="col-12 headerPage p-2 container-fluid">
                         <div className="row m-0 justify-content-between">
-                            <div className={"col-5 h2 align-content-center "}><Lang>Orders</Lang></div>
+                            <div className={"col-12 col-sm-12 col-md-5 col-lg-5 h2 align-content-center "}><Lang>Orders</Lang></div>
                             <div className="col-12 col-sm-12 col-md-7 col-lg-7 text-end">
                                 <div style={{ verticalAlign: "middle" }} className="d-inline-block pe-2">
                                     <MultiSelect handleChange={handleChangeUsers} list={users}/>

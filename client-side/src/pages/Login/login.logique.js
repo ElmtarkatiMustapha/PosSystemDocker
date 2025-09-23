@@ -12,16 +12,15 @@ export function Login(username, password) {
         },
         // withCredentials:true
     }).then((res) => {
-        dispatch({ action: "SET_SUCCESS",payload:res.data.message });
-        dispatch({ action: "SET_USER",payload:res.data.user });
+        dispatch({ action: "SET_SUCCESS",payload:res?.data?.message });
+        dispatch({ action: "SET_USER",payload:res?.data?.user });
 
         const token = res.data.token;
         localStorage.setItem("auth_token", token);
         // Set it in the default Axios headers
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }).catch((err) => {
-        dispatch({ action: "SET_ERROR", payload: err.response.data.message });
-        console.log(err.response.data.message);
+        dispatch({ action: "SET_ERROR", payload: err?.response?.data?.message });
     })
 
 }
