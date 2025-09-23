@@ -121,7 +121,7 @@ export const ReturnDataTable = ({loading, allItems}) => {
                                             <td className="cut-text fw-normal">{item.qnt}</td>
                                             <td className="cut-text fw-normal">{ selectedIds.includes(item.id)? <input className="form-control" type="number" step={1} name="returnQnt" min={0} max={item.qnt} onChange={(e)=>controlInput(e,item.qnt,item.id)} defaultValue={item.return_qnt} /> : null}</td>
                                             <td className="cut-text fw-normal">{item.discount}</td>
-                                            <td className="cut-text fw-normal">{item.total} {appState.settings?.businessInfo?.currency?.symbol}</td>
+                                            <td className="cut-text fw-normal">{Number(Number(item.total).toFixed(2))} {appState.settings?.businessInfo?.currency?.symbol}</td>
                                         </tr>
                                     )
                                 })

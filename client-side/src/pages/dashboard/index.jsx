@@ -16,7 +16,7 @@ export function Dashboard() {
     useEffect(() => {
         api({
             method: 'post',
-            url: '/statistics',
+            url: '/statisticsDashboard',
             data: {
                 filter : "week",
                 startDate : 0,

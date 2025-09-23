@@ -10,7 +10,7 @@
 import { motion } from "framer-motion"
 import { MobileSidebarBtn } from "./MobileSidebarBtn"
 import { MobileManageBtn } from "./MobileManageBtn"
-import { FaHouse,FaGear, FaChartLine, FaBagShopping, FaCartArrowDown, FaSackDollar } from "react-icons/fa6"
+import { FaHouse,FaGear, FaChartLine, FaBagShopping, FaCartArrowDown, FaSackDollar, FaCashRegister } from "react-icons/fa6"
 import { FaArrowRotateLeft, FaTruckFast} from "react-icons/fa6"
 import { FaTasks } from "react-icons/fa"
 import { Link, useLocation } from "react-router-dom"
@@ -35,11 +35,7 @@ export function MobileSidebarContent({ listVariant,itemVariant, handleOpen,handl
             <DashboardBtn itemVariant={itemVariant}/>
             {/* this link is user has delivery role  */}
             <DeliveryBtn itemVariant={itemVariant}/>
-            <motion.div
-                variants={itemVariant}
-                className="col-12 pt-3 text-center">
-                <LangSelect/>
-            </motion.div>
+            
         </motion.div>
     )
 }
@@ -113,6 +109,7 @@ function AdminLinks({handleOpen,itemVariant}) {
                 <MobileSidebarBtn variants={itemVariant} handle={handleOpen} path={"/sales"} Icon={FaBagShopping} />
                 <MobileSidebarBtn variants={itemVariant} handle={handleOpen} path={"/purchases"} Icon={FaCartArrowDown} />
                 <MobileSidebarBtn variants={itemVariant} handle={handleOpen} path={"/spents"} Icon={FaSackDollar} />
+                <MobileSidebarBtn variants={itemVariant} handle={handleOpen} path={"/cashRegisterSessions"} Icon={FaCashRegister} />
                 <MobileSidebarBtn variants={itemVariant} handle={handleOpen} path={"/settings"} Icon={FaGear} />
             </>
         )

@@ -4,7 +4,7 @@ export function SelectAction({options, onChange,id = 0, defTitle = "Actions", de
     return (
         <select onChange={onChange} data-id={id} className=" form-select select-action" defaultValue={defaultValue}>
             <option value={defaultOption}><Lang>{defTitle}</Lang></option>
-            {options.map((item) => {
+            {options?.map((item) => {
                 return <option key={item.value?item.value : item.id } value={item.value?item.value : item.id}><Lang>{item.name}</Lang></option>
             })}
         </select>

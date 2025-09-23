@@ -9,12 +9,14 @@ import { useAppAction, useAppState } from "../../context/context";
 import { MobileCategorySidebar } from "./components/mobile/MobileCategorySidebar";
 import { CategorySidebar } from "../../components/CategorySidebar";
 import { motion } from "framer-motion";
+import { CashRegisterModal } from "./components/CashRegisterModal";
 
 export function MainPos() {
     const posState = usePosState(); 
     const posAction = usePosAction();
     const appAction = useAppAction();
     const appState = useAppState(); 
+    const [openCashModal,setOpenCashModal] = useState(false);
     const searchRef = useRef(null); 
     const [categoriesOpen, setCategoriesOpen] = useState(false);
     const variantsContent = {
@@ -25,8 +27,42 @@ export function MainPos() {
             width: "100%",
         }
     }
-
+    /**
+     * this function will check :
+     * if(cashRegisterSession and user.cashierMode):
+     *** yes: continue ordering 
+     *** no: open modal -> tape opening amount -> save
+     */
     useEffect(() => {
+        if(appState.currentUser.cashier == 1){
+            api({
+                method: "get",
+                url: "/checkCashRegisterSession",
+                withCredentials: true
+            }).then(res => {
+                return res.data;
+            }).then(res=>{
+                //handle modal here 
+                if(res.data == 1){
+                    setOpenCashModal(true)
+                }
+                posAction({
+                    type: "SET_LOADING",
+                    payload: false
+                })
+            }).catch(err=>{
+                appAction({
+                    type: "SET_ERROR",
+                    payload: err?.response?.data?.message
+                })
+                posAction({
+                    type: "SET_LOADING",
+                    payload: false
+                })
+            })
+        }else{
+            //do nothing
+        }
         posAction({
             type: "INIT_CART"
         })
@@ -204,6 +240,7 @@ export function MainPos() {
                     {/* routes */}
                 </motion.div>
             </main>
+            {openCashModal && <CashRegisterModal handleOpen={setOpenCashModal}/>}
         </>
         )
 }

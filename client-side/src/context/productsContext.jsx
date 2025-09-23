@@ -107,6 +107,12 @@ const reducer = (state, action) => {
             }
         }
     }
+    if(action.type === "TOGGLE_EXPORT_IMPORT_MODAL"){
+        return {
+            ...state,
+            openExportImportModal: action.payload
+        }
+    }
 }
 
 const initState = {
@@ -116,6 +122,7 @@ const initState = {
     openEditModal: false,
     editProducts: 0,
     openAddModal: false,
+    openExportImportModal: false,
     currentProduct: null,
     
 }

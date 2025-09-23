@@ -254,7 +254,7 @@ export function Purchases() {
                     <div className="row m-0">
                         <div className="col-12 headerPage p-2 container-fluid">
                             <div className="row m-0 justify-content-between">
-                                <div className={"col-5 h2 align-content-center "}><Lang>Purchases</Lang></div>
+                                <div className={"col-12 col-sm-12 col-md-5 col-lg-5 h2 align-content-center "}><Lang>Purchases</Lang></div>
                                 <div className="col-12 col-sm-12 col-md-7 col-lg-7 text-end">
                                     <div style={{ verticalAlign: "middle" }} className="d-inline-block ">
                                         <SelectAction options={suppliers} onChange={handleSuppliers} defTitle="All Suppliers" defaultValue={supplier} defaultOption={-1} />

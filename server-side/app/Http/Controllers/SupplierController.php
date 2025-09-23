@@ -21,7 +21,7 @@ class SupplierController extends Controller
                 'name' => "required|string",
                 'ice'=>"required|string",
                 "adresse" => "required|string",
-                'phone' => "string|required",
+                'phone' => "string|nullable",
                 "email" => "email|nullable",
                 "picture" => "image|nullable",
                 "description" => "string|nullable",
@@ -50,9 +50,9 @@ class SupplierController extends Controller
             $id = $request->route("id");
             $validateFields = $request->validate([
                 'name' => "required|string",
-                'phone' => "required|string",
                 'ice' => "required|string",
                 "adresse" => "required|string",
+                'phone' => "nullable|string",
                 "email" => "email|nullable",
                 "picture" => "image",
                 "active" => "boolean",

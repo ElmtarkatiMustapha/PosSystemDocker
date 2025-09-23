@@ -1,5 +1,5 @@
 
-import { FaHouse, FaChartLine, FaBagShopping, FaGear , FaCartArrowDown, FaSackDollar, FaArrowRotateLeft } from "react-icons/fa6";
+import { FaHouse, FaChartLine, FaBagShopping, FaGear , FaCartArrowDown, FaSackDollar, FaArrowRotateLeft, FaCashRegister } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
 import "../../../assets/css/dashboard/sidebar.css";
 import { SidebarBtn, SidebarSubBtn } from "./SidebarBtn";
@@ -46,6 +46,7 @@ function AdminLinks({handlecloseManage}) {
                 <SidebarBtn title={"Sales"} handle={handlecloseManage} path={"/sales"} Icon={FaBagShopping} />
                 <SidebarBtn title={"Purchases"} handle={handlecloseManage} path={"/purchases"} Icon={FaCartArrowDown} />
                 <SidebarBtn title={"Spents"} handle={handlecloseManage} path={"/spents"} Icon={FaSackDollar } />
+                <SidebarBtn title={"Cash Register"} handle={handlecloseManage} path={"/cashRegisterSessions"} Icon={FaCashRegister } />
                 <SidebarBtn title={"Settings"} handle={handlecloseManage} path={"/settings"} Icon={FaGear   } />
             </>
         )

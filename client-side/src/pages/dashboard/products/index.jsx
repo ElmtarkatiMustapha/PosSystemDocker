@@ -12,7 +12,18 @@ import { EditModal } from "./components/EditModal";
 import { AddNewModal } from "./components/AddNewModal";
 import { CustomLoader } from "../../../components/CustomLoader";
 import { Picture } from "../components/Picture";
-
+import { SelectActionBlue } from "../../../components/SelectActionBlue";
+import { ExportImportMpdal } from "./components/ExportImportModal";
+const options = [
+    {
+        name: "Add New",
+        value: "addNew"
+    },
+    {
+        name: "Export / import",
+        value: "exportImport"
+    }
+]
 export function Products() {
     
     const columns = [
@@ -182,11 +193,26 @@ export function Products() {
         }
         //handle change action 
     }
-    const handleAddNew = () => {
-        productsAction({
-            type: "TOGGLE_ADD_MODAL",
-            payload: true,
-        })
+    const handlePageActions = (e) => {
+        
+        switch (e.target.value) {
+            case "addNew":
+                productsAction({
+                    type: "TOGGLE_ADD_MODAL",
+                    payload: true,
+                })
+                e.target.value = "default"
+                break;
+            case "exportImport":
+                productsAction({
+                    type: "TOGGLE_EXPORT_IMPORT_MODAL",
+                    payload: true,
+                })
+                e.target.value = "default"
+                break;
+            default:
+                break;
+        }
     }
     const handleSearch = (e) => {
         e.preventDefault();
@@ -233,7 +259,8 @@ export function Products() {
                         <div className={"col-5 h2 align-content-center "}><Lang>Products</Lang></div>
                         <div className="col-7 text-end">
                             <div style={{ verticalAlign: "middle" }} className="d-inline-block p-1">
-                                <PrimaryButton className="float-start float-sm-end" label={"Add New"} handleClick={handleAddNew} type={"button"}/>
+                                <SelectActionBlue options={options} onChange={handlePageActions} />
+                                {/* <PrimaryButton className="float-start float-sm-end" label={"Add New"} handleClick={handleAddNew} type={"button"}/> */}
                             </div>
                         </div>
                     </div>
@@ -264,6 +291,7 @@ export function Products() {
             </div>
             { productsState.openEditModal && <EditModal/>}
             { productsState.openAddModal && <AddNewModal/>}
+            { productsState.openExportImportModal && <ExportImportMpdal/>}
         </>
     )
 }
