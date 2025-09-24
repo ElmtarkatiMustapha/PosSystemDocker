@@ -125,7 +125,7 @@ export function Purchases() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         purchasesAction({
                             type: "REMOVE_ONE",

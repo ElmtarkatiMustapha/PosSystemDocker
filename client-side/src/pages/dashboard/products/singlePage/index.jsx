@@ -154,7 +154,7 @@ export function SingleProduct() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         productsAction({
                             type: "REMOVE_ONE",
@@ -203,7 +203,7 @@ export function SingleProduct() {
                     }).then(res => {
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         productsAction({
                             type: "UPDATE_STOCK",

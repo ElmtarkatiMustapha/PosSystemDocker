@@ -164,7 +164,7 @@ export function Spents() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         spentsAction({
                             type: "REMOVE_ONE",
