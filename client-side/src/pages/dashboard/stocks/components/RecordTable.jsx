@@ -129,7 +129,7 @@ export function RecordTable({ action, state, loading,setLoading }) {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         action({
                             type: "REMOVE_ONE",

@@ -157,7 +157,7 @@ export function Products() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         productsAction({
                             type: "REMOVE_ONE",

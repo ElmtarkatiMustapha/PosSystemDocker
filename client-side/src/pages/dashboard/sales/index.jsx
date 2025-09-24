@@ -75,7 +75,7 @@ export function Sales() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         salesAction({
                             type: "REMOVE_ONE",

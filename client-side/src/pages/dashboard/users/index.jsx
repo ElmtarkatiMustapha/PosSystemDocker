@@ -144,7 +144,7 @@ export function Users() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         usersAction({
                             type: "REMOVE_ONE",

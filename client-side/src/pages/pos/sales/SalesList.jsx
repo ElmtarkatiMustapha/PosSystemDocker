@@ -71,7 +71,7 @@ export function SalesList() {
                         //handle response success
                         appAction({
                             type: "SET_SUCCESS",
-                            payload: "success"
+                            payload: "Success"
                         });
                         posAction({
                             type: "REMOVE_ONE_SALE",
