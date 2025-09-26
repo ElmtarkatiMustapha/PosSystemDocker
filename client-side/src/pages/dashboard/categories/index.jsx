@@ -9,6 +9,18 @@ import { CategoriesListLoading } from "./components/CategoriesListLoading";
 import { EditModal } from "./components/EditModal";
 import { AddNewModal } from "./components/AddNewModal";
 import { searchFunction } from "../../../assets/js/sharedFunction";
+import { ExportImportModal } from "./components/ExportImportModal";
+import { SelectActionBlue } from "../../../components/SelectActionBlue";
+const options = [
+    {
+        name: "Add New",
+        value: "addNew"
+    },
+    {
+        name: "Export / Import",
+        value: "exportImport"
+    }
+]
 export function Categories() {
     const cateAction = useCateAction();
     const cateState = useCateState();
@@ -151,6 +163,28 @@ export function Categories() {
                 break;
         }
     }
+    //handle add new and open import export modal 
+    const handlePageActions = (e) => {
+        
+        switch (e.target.value) {
+            case "addNew":
+                cateAction({
+                    type: "TOGGLE_ADD_MODAL",
+                    payload: true,
+                })
+                e.target.value = "default"
+                break;
+            case "exportImport":
+                cateAction({
+                    type: "TOGGLE_EXPORT_IMPORT_MODAL",
+                    payload: true,
+                })
+                e.target.value = "default"
+                break;
+            default:
+                break;
+        }
+    }
     return (
             <div className="categoriesPage container-fluid p-2">
                 <div className="row m-0">
@@ -159,7 +193,8 @@ export function Categories() {
                             <div className={"col-12 col-sm-4 h2 align-content-center "}><Lang>Categories</Lang></div>
                             <div className="col-12 col-sm-8 text-center text-sm-end">
                                 <div style={{ verticalAlign: "middle" }} className="d-inline-block p-1">
-                                    <PrimaryButton className="float-start float-sm-end" label={"Add New"} handleClick={handleAddNew} type={"button"}/>
+                                    <SelectActionBlue options={options} onChange={handlePageActions} />
+                                    {/* <PrimaryButton className="float-start float-sm-end" label={"Add New"} handleClick={handleAddNew} type={"button"}/> */}
                                 </div>
                                 <div style={{verticalAlign:"middle"}} className="d-inline-block float-end  p-1">
                                     <select className="slectLang form-select" defaultValue={"name"} onChange={handleSort} name="" id="">
@@ -199,6 +234,7 @@ export function Categories() {
             {cateState.openAddModal &&
                 <AddNewModal/>
             }
+            { cateState.openExportImportModal && <ExportImportModal/>}
             </div>
     )
 }

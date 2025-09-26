@@ -2,17 +2,17 @@ import { useRef, useState } from "react";
 import { Lang } from "../../../../assets/js/lang";
 import { Spinner } from "../../../../components/Spinner";
 import { useAppAction } from "../../../../context/context";
-import { useProductsAction } from "../../../../context/productsContext";
 import api from "../../../../api/api";
 import { ButtonBlue } from "../../../../components/ButtonBlue";
+import { useCateAction } from "../../../../context/categoriesContext";
 
 export function ExportImportModal() {
     const appAction = useAppAction();
     const [loading,setLoading] = useState(false);
-    const productsAction = useProductsAction();
+    const cateAction = useCateAction();
     const uploadRef = useRef(null)
     const handleClose = () => {
-        productsAction({
+        cateAction({
             type: "TOGGLE_EXPORT_IMPORT_MODAL",
             payload: false,
         })
@@ -23,7 +23,7 @@ export function ExportImportModal() {
         setLoading(true)
         api({
             method:"post",
-            url:"products/export",
+            url:"categories/export",
             responseType: "blob",
             withCredentials: true,
         }).then((res)=>{
@@ -34,7 +34,7 @@ export function ExportImportModal() {
 
             // Extraire le nom du fichier si dispo sinon par défaut
             const contentDisposition = res.headers["content-disposition"];
-            let fileName = "products_export.csv";
+            let fileName = "categories_export.csv";
             if (contentDisposition) {
             const match = contentDisposition.match(/filename="?(.+)"?/);
             if (match?.[1]) {
@@ -65,7 +65,7 @@ export function ExportImportModal() {
             setLoading(true)
             api({
                 method:"post",
-                url:"products/import",
+                url:"categories/import",
                 data: formData
             }).then((res)=>{
                 //export data 
@@ -95,7 +95,7 @@ export function ExportImportModal() {
         setLoading(true)
         api({
             method:"post",
-            url:"products/template",
+            url:"categories/template",
             responseType: "blob",
             withCredentials: true,
         }).then((res)=>{
@@ -106,7 +106,7 @@ export function ExportImportModal() {
 
             // Extraire le nom du fichier si dispo sinon par défaut
             const contentDisposition = res.headers["content-disposition"];
-            let fileName = "products_template.csv";
+            let fileName = "categories_template.csv";
             if (contentDisposition) {
             const match = contentDisposition.match(/filename="?(.+)"?/);
             if (match?.[1]) {
@@ -145,13 +145,13 @@ export function ExportImportModal() {
                     </div>
                     <div className="modal-body">
                         <div className="mb-3">
-                            <label className="form-label h5"><Lang>Export Product</Lang> : {loading && <Spinner/>}</label>
+                            <label className="form-label h5"><Lang>Export Categories</Lang> : {loading && <Spinner/>}</label>
                             <div className="pt-2 pb-2">
                                 <ButtonBlue label={"Export"} handleClick={exportData} disabled={loading} type={"button"} />
                             </div>
                         </div>
                         <div className="mb-3">
-                            <label className="form-label h5"><Lang>Import Product</Lang> : {loading && <Spinner/>}</label>
+                            <label className="form-label h5"><Lang>Import Categories</Lang> : {loading && <Spinner/>}</label>
                             <input type="file" ref={uploadRef}  disabled={loading} name="name"  className="form-control" accept=".csv" placeholder={Lang({ children: "upload CSV file" })}   />
                             <div className="pt-2 pb-2">
                                 <ButtonBlue label={"Upload"} handleClick={uploadData} disabled={loading} type={"button"} />

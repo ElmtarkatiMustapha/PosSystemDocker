@@ -284,5 +284,15 @@
   "Tap opening amount": "أدخل مبلغ الافتتاح",
   "Enter opening Amount": "أدخل مبلغ الافتتاح",
   "Cash register session": "جلسة الخزينة",
+  "Close Cash": "إغلاق الخزينة",
+  "Export Categories": "تصدير الفئات",
+  "Import Categories": "استيراد الفئات",
+  "Export / Import": "تصدير / استيراد",
+  "Export Product": "تصدير منتج",
+  "Import Product": "استيراد منتج",
+  "Download Template": "تحميل القالب",
+  "Upload": "رفع",
+  "Export": "تصدير",
+  "Download": "تحميل",
   "Are you sure with this action?": "هل أنت متأكد من هذا الإجراء؟"
 }

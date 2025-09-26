@@ -122,6 +122,9 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post("singleCategory/{id}", [CategoryController::class, "singlePage"]);
         Route::post("category/{id}", [CategoryController::class, "update"]);
         Route::post("create_category", [CategoryController::class, "create"]);
+        Route::post('categories/export', [CategoryController::class, "export"]);
+        Route::post('categories/template', [CategoryController::class, "template"]);
+        Route::post('categories/import', [CategoryController::class, "import"]);
         //products
         Route::get("allProducts", [ProductController::class, "getAll"]);
         Route::delete("product/{id}", [ProductController::class, "delete"]);
