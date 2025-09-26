@@ -284,5 +284,15 @@
   "Tap opening amount": "Saisir le montant d'ouverture",
   "Enter opening Amount": "Entrez le montant d'ouverture",
   "Cash register session": "Session de caisse",
+  "Close Cash": "Clôturer la caisse",
+  "Export Categories": "Exporter les catégories",
+  "Import Categories": "Importer les catégories",
+  "Export / Import": "Exporter / Importer",
+  "Export Product": "Exporter un produit",
+  "Import Product": "Importer un produit",
+  "Download Template": "Télécharger le modèle",
+  "Upload": "Téléverser",
+  "Export": "Exporter",
+  "Download": "Télécharger",
   "Are you sure with this action?": "Etes-vous sûr de cette action ?"
 }

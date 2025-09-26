@@ -3,9 +3,8 @@ import { Lang } from "../../../assets/js/lang"
 import { PrimaryButton } from "../../../components/primaryButton"
 import DataTable from "react-data-table-component";
 import { SelectAction } from "../../../components/SelectAction";
-import api, { getImageURL } from "../../../api/api";
+import api from "../../../api/api";
 import { useProductsAction, useProductsState } from "../../../context/productsContext";
-import { ActionSelect } from "../../../components/ActionSelect";
 import { useAppAction, useAppState } from "../../../context/context";
 import { useNavigate } from "react-router-dom";
 import { EditModal } from "./components/EditModal";
@@ -13,14 +12,14 @@ import { AddNewModal } from "./components/AddNewModal";
 import { CustomLoader } from "../../../components/CustomLoader";
 import { Picture } from "../components/Picture";
 import { SelectActionBlue } from "../../../components/SelectActionBlue";
-import { ExportImportMpdal } from "./components/ExportImportModal";
+import {  ExportImportModal } from "./components/ExportImportModal";
 const options = [
     {
         name: "Add New",
         value: "addNew"
     },
     {
-        name: "Export / import",
+        name: "Export / Import",
         value: "exportImport"
     }
 ]
@@ -291,7 +290,7 @@ export function Products() {
             </div>
             { productsState.openEditModal && <EditModal/>}
             { productsState.openAddModal && <AddNewModal/>}
-            { productsState.openExportImportModal && <ExportImportMpdal/>}
+            { productsState.openExportImportModal && <ExportImportModal/>}
         </>
     )
 }

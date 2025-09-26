@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response as ResponseFacades;
+
 
 class CategoryController extends Controller
 {
@@ -345,6 +347,107 @@ class CategoryController extends Controller
         $category->turnover = $result;
         return $this->dataStructure($category);
     }
-    
+     /**
+     * export data
+     */
+    public function export(){
+        try {
+            $categories = Category::get();
+            // generate CSV
+            $fileName = "categories_list_export_" . date('Y-m-d_H-i-s') . ".csv";
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0",
+                "Access-Control-Expose-Headers" => "Content-Disposition" 
+            ];
+
+            $columns = ["id","name","description","active","picture"];
+
+            $callback = function () use ($categories, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns,";");
+
+                foreach ($categories as $row) {
+                    fputcsv($file, [
+                        $row['id'],
+                        $row['name'],
+                        $row['description'],
+                        $row['active'],
+                        $row['picture'],
+                    ],";");
+                }
+                fclose($file);
+            };
+
+            return ResponseFacades::stream($callback, 200, $headers);
+        } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * template 
+     */
+    public function template(){
+        try{
+            $fileName = "categories_template.csv";
+            $headers = [
+                "Content-type" => "text/csv; charset=UTF-8",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0",
+                "Access-Control-Expose-Headers" => "Content-Disposition" 
+            ];
+
+            $columns = ["name","description","active","picture"];
+
+            $callback = function () use ( $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns,";");
+                fclose($file);
+            };
+
+            return ResponseFacades::stream($callback, 200, $headers);
+
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    public function import(Request $request){
+        try{
+            $request->validate([
+            'file' => 'required|mimes:csv,txt|max:2048',
+        ]);
+
+        $path = $request->file('file')->getRealPath();
+        $file = fopen($path, 'r');
+
+        // Read header
+        $header = fgetcsv($file, 0, ';');
+
+        $count = 0;
+        while (($row = fgetcsv($file, 0, ';')) !== false) {
+            $record = array_combine($header, $row);
+
+            Category::updateOrCreate(
+                [
+                    'name'            => $record['name'] ?? "invalide Name",
+                    'description'     => $record['description'] ?? null,
+                    'picture'         => $record['picture'] ?? null,
+                    'active'          => isset($record['active']) ? (bool) $record['active'] : 1,
+                ]
+            );
+            $count++;
+        }
+
+        fclose($file);
+            return response(["message" => "import with success"], Response::HTTP_OK);
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
 
 }

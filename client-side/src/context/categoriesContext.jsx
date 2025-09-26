@@ -97,6 +97,12 @@ const Reducer = (state, action) => {
             categoryInfos: action.payload
         }
     }
+    if(action.type === "TOGGLE_EXPORT_IMPORT_MODAL"){
+        return {
+            ...state,
+            openExportImportModal: action.payload
+        }
+    }
 }
 
 const initState = {
@@ -109,6 +115,7 @@ const initState = {
     loading: true,
     openEditModal: false,
     openAddModal: false,
+    openExportImportModal: false,
     categoryToEdit: 0,
     categoryInfos: {}
 } 

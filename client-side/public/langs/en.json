@@ -284,6 +284,16 @@
   "Tap opening amount":"Tap opening amount",
   "Enter opening Amount":"Enter opening amount",
   "Cash register session":"Cash register session",
+  "Close Cash":"Close Cash",
+  "Export Categories":"Export Categories",
+  "Import Categories":"Import Categories",
+  "Export / Import":"Export / Import",
+  "Export Product":"Export Product",
+  "Import Product":"Import Product",
+  "Download Template":"Download Template",
+  "Upload":"Upload",
+  "Export":"Export",
+  "Download":"Download",
   "Are you sure with this action?": "Are you sure with this action?"
 }
 
