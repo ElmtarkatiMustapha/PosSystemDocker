@@ -27,7 +27,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        DB::statement("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
-        Schema::defaultStringLength(191);
+        try {
+            DB::connection()->getPdo();
+            DB::statement("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+            Schema::defaultStringLength(191);
+        } catch (\Exception $e) {
+            // Database not ready yet — ignore the error
+        }
+       
     }
 }

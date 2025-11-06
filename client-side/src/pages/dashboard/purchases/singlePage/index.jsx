@@ -16,14 +16,6 @@ const options = [
     {
         name: "Edit",
         value: "edit"
-    },
-    {
-        name: "Download Invoice",
-        value: "download_invoice"
-    },
-    {
-        name: "Print Invoice",
-        value: "print_invoice"
     }
 ]
 export function SinglePurchase() {

@@ -22,7 +22,7 @@ export function Dashboard() {
                 startDate : 0,
                 endDate : 0
             },
-            withCredentials: true,
+            // //withCredentials: true,
         })
         .then(res => res.data)
         .then(res => {

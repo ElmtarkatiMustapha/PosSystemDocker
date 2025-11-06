@@ -98,7 +98,7 @@ export function AddNewModal() {
                 cashier: formData.get("cashier"),
                 sectors: sectorsSelected.map(item=>item.id)
             },
-            withCredentials: true,
+            //withCredentials: true,
             headers:{
                 "accept": "application/json",
                 "Content-Type":"multipart/form-data"
@@ -278,20 +278,20 @@ const loadRoles =  () => {
         return api({
             method: "get",
             url: "/allRoles",
-            withCredentials: true,
+            //withCredentials: true,
         })
     }
 const loadSectors = () => {
     return api({
         method: "get",
         url: "/allSectors",
-        withCredentials: true,
+        //withCredentials: true,
     })
 }
 const loadPrinters = () => {
     return api({
         method: "GET",
         url: "/settings/printers",
-        withCredentials: true,
+        //withCredentials: true,
     })
 }

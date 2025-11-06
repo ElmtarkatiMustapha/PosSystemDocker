@@ -142,10 +142,18 @@
                 <img src="{{ $logo }}" class="img"/>
             </div>
             <div class="companyInfos d-inline-block float-end">
-                <h1>{{ $companyName }}</h1>
-                <p>{{ $companyAddress }}</p>
-                <p>Tel: {{ $companyPhone }}</p>
-                <p>ICE: {{ $companyIce }}</p>
+                @if (!empty($companyName))
+                    <h1>{{ $companyName }}</h1>
+                @endif
+                @if (!empty($companyAddress))
+                    <p>{{ $companyAddress }}</p>
+                @endif
+                @if (!empty($companyPhone))
+                    <p>Tel: {{ $companyPhone }}</p>  
+                @endif
+                @if (!empty($companyIce))
+                    <p>ICE: {{ $companyIce }}</p>
+                @endif
             </div>
         </div>
     </div>
@@ -156,10 +164,18 @@
         <div class="invoice-details row">
             <div class="customerInfos col-6 ">
                 <h3 class="m-0 p-0 "><u>Customer Infos</u></h5>
-                <p><strong>Name:</strong> {{ $order->customer->name }}</p>
-                <p><strong>ICE:</strong> {{ $order->customer->ice }}</p>
-                <p><strong>Phone:</strong> {{ $order->customer->phone }}</p>
-                <p><strong>Adresse:</strong> {{ $order->customer->adresse }}</p>
+                @if (!empty($order->customer->name))
+                    <p><strong>Name:</strong> {{ $order->customer->name }}</p>
+                @endif
+                @if (!empty($order->customer->ice))
+                    <p><strong>ICE:</strong> {{ $order->customer->ice }}</p>
+                @endif
+                @if (!empty($order->customer->phone))
+                    <p><strong>Phone:</strong> {{ $order->customer->phone }}</p>
+                @endif
+                @if (!empty($order->customer->adresse))
+                    <p><strong>Adresse:</strong> {{ $order->customer->adresse }}</p>
+                @endif
             </div>
             <div class="orderInfos col-6 text-end  ">
                 <p><strong>Invoice Number:</strong> {{ $order->id }}</p>
@@ -208,8 +224,12 @@
     <!-- Footer -->
     <div class="footer">
         <div class="invoice-footer">
-            <p>{{ $companyEmail }}</p>
-            <p>{{ $companyAddress }}</p>
+            @if (!empty($companyEmail))
+                <p>{{ $companyEmail }}</p>
+            @endif
+            @if (!empty($companyAddress))
+                <p>{{ $companyAddress }}</p>
+            @endif
         </div>
     </div>
     

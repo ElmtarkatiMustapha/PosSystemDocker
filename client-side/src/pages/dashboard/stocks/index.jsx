@@ -52,7 +52,7 @@ export const Stocks = () => {
             method: "post",
             url: "/stock/" + stocksState.editItem,
             data: formData,
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data;
         }).then(res => {

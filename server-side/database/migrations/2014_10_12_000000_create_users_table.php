@@ -29,16 +29,6 @@ class CreateUsersTable extends Migration
             $table->bigInteger("printer_id")->nullable(); 
             $table->timestamps();
         });
-        DB::table('users')->insert([
-            [
-                "id" => 1,
-                "name" => "mustapha",
-                "cin" => "Z649630",
-                "email" => "mstafamt8@gmail.com",
-                "username" => "admin",
-                "password" =>  Hash::make("admin"),
-            ],
-        ]);
     }
 
     /**

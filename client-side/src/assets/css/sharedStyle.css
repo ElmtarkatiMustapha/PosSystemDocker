@@ -77,6 +77,30 @@
     border-radius: 15px;
     box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
 }
+.flou {
+    background-color: rgba(0, 0, 0, 0.494);
+    height: 100%;
+    align-content: center;
+    color: white;
+    font-size: 1.3rem;
+}
+ .uploadIamge .flou {
+    background-color: rgba(0, 0, 0, 0.494);
+    height: 100%;
+    align-content: center;
+    color: white;
+    font-size: 1.3rem;
+}
+
+
+ .uploadIamge .icon {
+    font-size: 1.5rem;
+}
+
+ .uploadIamge .text {
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 .chart-line {
     background-color: white;
@@ -84,10 +108,11 @@
     overflow: hidden;
     box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.09);
 }
-
-.chart-line .chart-header {}
-
-.chart-line .chart-header .title {}
+.installBox{
+    background-color: white;
+    border-radius: 35px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.236) ;
+}
 
 .chart-line .chart-header .sub-title {
     color: var(--gray) !important;

@@ -27,7 +27,7 @@ export function AddNewModal() {
         let formData = new FormData(e.target);
         setLoading(true)
         api.post("/create_category", formData, {
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data;
         }).then(res => {

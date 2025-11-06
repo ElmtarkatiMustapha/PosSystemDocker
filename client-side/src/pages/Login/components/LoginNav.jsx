@@ -8,7 +8,7 @@ export function LoginNav() {
                 <div className="row">
                     <div className="col-6  align-self-center">
                         <Link to="/" className="brand">
-                            <img src={Logo} alt="" className="logo" />
+                            <img src={Logo} alt="" className="logo" fetchPriority="high" />
                         <span className="title">{APP_NAME }</span>
                         </Link>
                     </div>

@@ -73,7 +73,7 @@ export function Statistics() {
                 startDate : statisticsState.startDate,
                 endDate : statisticsState.endDate
             },
-            withCredentials: true,
+            //withCredentials: true,
         })
         .then(res => res.data)
         .then(res => {

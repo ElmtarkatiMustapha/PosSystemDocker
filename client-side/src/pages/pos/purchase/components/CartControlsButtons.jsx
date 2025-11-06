@@ -1,11 +1,12 @@
 import api from "../../../../api/api";
 import { Lang } from "../../../../assets/js/lang";
-import { useAppAction } from "../../../../context/context";
+import { useAppAction, useAppState } from "../../../../context/context";
 import { usePosAction, usePosState } from "../../../../context/posContext"
 
-export function CartControlsButtons() {
+export function CartControlsButtons({handleClick=()=>null}) {
     const posState = usePosState();
     const appAction = useAppAction();
+    const appState = useAppState();
     const posAction = usePosAction();
     const handleSave = () => {
         if (posState.purchaseCart.supplier == 0) {
@@ -37,6 +38,7 @@ export function CartControlsButtons() {
                     type: "SEL_LOADING_PRODUCTS",
                     payload: true
                 })
+                handleClick()
                 //reload product
                 loadProduct();
                 //handle return
@@ -127,7 +129,6 @@ export function CartControlsButtons() {
             // Create a URL for the PDF blob
             const url = window.URL.createObjectURL(blob);
             window.open(url, "_blanc")
-
             posAction({
                 type: "INIT_PURCHASE_CART"
             })
@@ -136,6 +137,7 @@ export function CartControlsButtons() {
                 type: "SEL_LOADING_PRODUCTS",
                 payload: true
             })
+            handleClick()
             //reload product
             loadProduct();
             //handle return

@@ -25,7 +25,7 @@ export function ExportImportModal() {
             method:"post",
             url:"categories/export",
             responseType: "blob",
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res)=>{
             //export data 
             const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -97,7 +97,7 @@ export function ExportImportModal() {
             method:"post",
             url:"categories/template",
             responseType: "blob",
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res)=>{
             //export data 
             const url = window.URL.createObjectURL(new Blob([res.data]));

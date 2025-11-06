@@ -318,7 +318,7 @@ class PurchaseController extends Controller
                     $stock->delete();
                 }
             }
-            return true;
+            return $purchase;
         } catch (Exception $err) {
             throw new Exception($err->getMessage());
             // return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
@@ -331,6 +331,21 @@ class PurchaseController extends Controller
             $this->update($request);
             //return response
             return response(["message" => "Purchase Updated with success"], Response::HTTP_OK);
+        } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * update and print invoice 
+     */
+    public function updatePrintPurchase(Request $request)
+    {
+        try {
+            $purchase = $this->update($request);
+            $invoice = $this->generateInvoicePdf($purchase);
+            $pdfBase64 = base64_encode($invoice);
+            // return $invoice;
+            return response(["message" => "Purchase Updated with success", "data" => $pdfBase64], Response::HTTP_OK);
         } catch (Exception $err) {
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }

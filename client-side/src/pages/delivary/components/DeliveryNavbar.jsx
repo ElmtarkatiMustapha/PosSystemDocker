@@ -20,7 +20,7 @@ export function DeliveryNavbar() {
                 <div className="row align-items-center">
                     <div className="col-4">
                         <Link to="/" className="brand">
-                            <img  src={Logo} alt="" className="logo" />
+                            <img  src={Logo} alt="" className="logo" fetchPriority="high"/>
                             <span className="title">{APP_NAME }</span>
                         </Link>
                     </div>

@@ -28,7 +28,7 @@ export function Returns() {
                 endDate : state.endDate
             },
             responseType: "blob",
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res)=>{
             //export data 
             const url = window.URL.createObjectURL(new Blob([res.data]));

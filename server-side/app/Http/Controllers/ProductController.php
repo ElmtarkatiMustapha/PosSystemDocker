@@ -600,15 +600,30 @@ class ProductController extends Controller
         while (($row = fgetcsv($file, 0, ';')) !== false) {
             $record = array_combine($header, $row);
 
+            // Product::updateOrCreate(
+            //     ['barcode' => $record['barcode']],
+            //     [
+            //         'name'            => $record['name'] ?? null,
+            //         'wholesales_price'=> $record['wholesales_price'] ?? 0,
+            //         'retail_price'    => $record['retail_price'] ?? 0,
+            //         'discount'        => $record['discount'] ?? 0,
+            //         'expires'         => isset($record['expires']) ? (bool) $record['expires'] : 0,
+            //         'cachier_margin'  => $record['cachier_margin'] ?? 0,
+            //         'picture'         => $record['picture'] ?? null,
+            //         'category_id'     => $record['category_id'] ?? 0,
+            //         'active'          => isset($record['active']) ? (bool) $record['active'] : 1,
+            //         'enable_stock'    => isset($record['enable_stock']) ? (bool) $record['enable_stock'] : 1,
+            //     ]
+            // );
             Product::updateOrCreate(
                 ['barcode' => $record['barcode']],
                 [
                     'name'            => $record['name'] ?? null,
-                    'wholesales_price'=> $record['wholesales_price'] ?? 0,
-                    'retail_price'    => $record['retail_price'] ?? 0,
-                    'discount'        => $record['discount'] ?? 0,
+                    'wholesales_price'=> isset($record['wholesales_price']) ? (float) str_replace(',', '.', $record['wholesales_price']) : 0,
+                    'retail_price'    => isset($record['retail_price']) ? (float) str_replace(',', '.', $record['retail_price']) : 0,
+                    'discount'        => isset($record['discount']) ? (float) str_replace(',', '.', $record['discount']) : 0,
                     'expires'         => isset($record['expires']) ? (bool) $record['expires'] : 0,
-                    'cachier_margin'  => $record['cachier_margin'] ?? 0,
+                    'cachier_margin'  => isset($record['cachier_margin']) ? (float) str_replace(',', '.', $record['cachier_margin']) : 0,
                     'picture'         => $record['picture'] ?? null,
                     'category_id'     => $record['category_id'] ?? 0,
                     'active'          => isset($record['active']) ? (bool) $record['active'] : 1,

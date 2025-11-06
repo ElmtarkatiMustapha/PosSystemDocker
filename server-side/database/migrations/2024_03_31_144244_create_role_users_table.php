@@ -20,12 +20,7 @@ class CreateRoleUsersTable extends Migration
             $table->bigInteger("role_id");
             $table->timestamps();
         });
-        DB::table('role_user')->insert([
-            [
-                "user_id" => 1,
-                "role_id" => 1
-            ]
-        ]);
+        
     }
 
     /**

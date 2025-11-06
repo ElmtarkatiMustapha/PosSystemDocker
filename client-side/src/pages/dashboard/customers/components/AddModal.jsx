@@ -55,7 +55,7 @@ export function AddModal() {
         api({
             method: "get",
             url: "/allSectors",
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data;
         }).then(res => {

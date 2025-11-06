@@ -28,7 +28,7 @@ export function EditModal() {
                 phone: formData.get("phone"),
                 picture: formData.get("picture")
             },
-            withCredentials: true,
+            //withCredentials: true,
             headers:{
                 "accept": "application/json",
                 "Content-Type":"multipart/form-data"

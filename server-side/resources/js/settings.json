@@ -1,30 +1,27 @@
 {
     "businessInfo": {
-        "name": "Smart Rif Technologie",
+        "name": "web store",
         "ice": null,
-        "adresse": "hay nahda oued amlil, taza",
-        "phone": "06.53.70.71.31",
+        "adresse": "hay nahda",
+        "phone": null,
         "email": null,
-        "logo": "1755294540.jpg",
+        "logo": "1760184370.jpg",
         "currency": {
             "name": "EURO",
             "symbol": "\u20ac"
         }
     },
     "alertSettings": {
-        "stock_alert": 10,
-        "stock_expiration": 3,
-        "repport_email": [
-            "mstafamt8@gmail.com",
-            "mustapha.elmterkati8@gmail.com"
-        ],
-        "host": "smtp.gmail.com",
-        "port": 587,
-        "username": "mstafamt8@gmail.com",
-        "password": "yhzqmixashleaxpa"
+        "stock_alert": 20,
+        "stock_expiration": 7,
+        "repport_email": [],
+        "host": null,
+        "port": 0,
+        "username": null,
+        "password": null
     },
     "posSettings": {
-        "tva": 20,
+        "tva": 0,
         "discount": true,
         "productPerPage": 20
     },
@@ -36,6 +33,123 @@
         {
             "name": "EURO",
             "symbol": "\u20ac"
+        },
+        {
+            "name": "USD",
+            "symbol": "$"
+        },
+        {
+            "name": "GBP",
+            "symbol": "\u00a3"
+        },
+        {
+            "name": "JPY",
+            "symbol": "\u00a5"
+        },
+        {
+            "name": "CNY",
+            "symbol": "\u00a5"
+        },
+        {
+            "name": "CAD",
+            "symbol": "$"
+        },
+        {
+            "name": "AUD",
+            "symbol": "$"
+        },
+        {
+            "name": "CHF",
+            "symbol": "CHF"
+        },
+        {
+            "name": "SAR",
+            "symbol": "\ufdfc"
+        },
+        {
+            "name": "AED",
+            "symbol": "\u062f.\u0625"
+        },
+        {
+            "name": "QAR",
+            "symbol": "\u0631.\u0642"
+        },
+        {
+            "name": "KWD",
+            "symbol": "\u062f.\u0643"
+        },
+        {
+            "name": "BHD",
+            "symbol": ".\u062f.\u0628"
+        },
+        {
+            "name": "EGP",
+            "symbol": "\u00a3"
+        },
+        {
+            "name": "TND",
+            "symbol": "\u062f.\u062a"
+        },
+        {
+            "name": "DZD",
+            "symbol": "\u062f.\u062c"
+        },
+        {
+            "name": "TRY",
+            "symbol": "\u20ba"
+        },
+        {
+            "name": "INR",
+            "symbol": "\u20b9"
+        },
+        {
+            "name": "PKR",
+            "symbol": "\u20a8"
+        },
+        {
+            "name": "NGN",
+            "symbol": "\u20a6"
+        },
+        {
+            "name": "ZAR",
+            "symbol": "R"
+        },
+        {
+            "name": "BRL",
+            "symbol": "R$"
+        },
+        {
+            "name": "MXN",
+            "symbol": "$"
+        },
+        {
+            "name": "RUB",
+            "symbol": "\u20bd"
+        },
+        {
+            "name": "KRW",
+            "symbol": "\u20a9"
+        },
+        {
+            "name": "SEK",
+            "symbol": "kr"
+        },
+        {
+            "name": "NOK",
+            "symbol": "kr"
+        },
+        {
+            "name": "DKK",
+            "symbol": "kr"
+        },
+        {
+            "name": "PLN",
+            "symbol": "z\u0142"
+        },
+        {
+            "name": "CZK",
+            "symbol": "K\u010d"
         }
-    ]
+    ],
+    "installed": true
 }
