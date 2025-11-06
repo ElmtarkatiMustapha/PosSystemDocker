@@ -74,7 +74,7 @@ export function Purchases() {
                 endDate : endDate
             },
             responseType: "blob",
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res=>{
             //export data 
                 const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -329,7 +329,7 @@ const getPurchases = async (supplier,filter,startDate,endDate) => {
             startDate : startDate,
             endDate : endDate
         },
-        withCredentials: true,
+        //withCredentials: true,
     })
     return res.data.data;
 }

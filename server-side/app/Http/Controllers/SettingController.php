@@ -355,4 +355,24 @@ class SettingController extends Controller
             return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
+    /**
+     * get all curencies
+     */
+    public function currencies(){
+        try {
+            //load settings file
+            $path = resource_path('js/settings.json');
+            $dataToReturn = null;
+            if(File::exists($path)){
+                $content = File::get($path);
+                $data = json_decode($content,true);
+                $dataToReturn["currencies"] = $data["currencies"];
+            } else {
+                throw new Exception("file not found");
+            }
+            return response(["message" => "success", "data" => $dataToReturn ], Response::HTTP_OK);
+        }catch(Exception $err){
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
 }

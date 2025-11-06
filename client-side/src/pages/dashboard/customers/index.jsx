@@ -159,7 +159,7 @@ export function Customers() {
         api({
             method: "GET",
             url: "/allCustomers",
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res) => {
             return res.data;
         }).then((res) => {

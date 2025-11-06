@@ -149,7 +149,7 @@ export function Suppliers() {
         api({
             method: "GET",
             url: "/allSuppliers",
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res) => {
             return res.data;
         }).then((res) => {

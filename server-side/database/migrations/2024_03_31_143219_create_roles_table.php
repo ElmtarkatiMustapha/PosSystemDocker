@@ -20,10 +20,10 @@ class CreateRolesTable extends Migration
             $table->timestamps();
         });
         DB::table('roles')->insert([
-            ["title"=>"admin"],
-            ["title"=> "cachier"],
-            ["title"=> "delivery"],
-            ["title"=> "manager"]
+            ["id"=>1,"title"=>"admin"],
+            ["id"=>2,"title"=> "cachier"],
+            ["id"=>3,"title"=> "delivery"],
+            ["id"=>4,"title"=> "manager"]
         ]);
     }
 

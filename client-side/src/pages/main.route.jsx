@@ -1,10 +1,11 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { LoginRoute } from "./Login/login.route";
-import { PrivateRoute } from "./components/PrivateRoute";
+import { CheckInstall, CheckNotInstall, PrivateRoute } from "./components/PrivateRoute";
 import { useEffect } from "react";
 import { useAppAction, useAppState } from "../context/context";
 import { LoggedRoute } from "./logged.route";
 import api, { loginApi } from "../api/api";
+import { InstallRoute } from "./installation/install.route";
 
 export  function MainRoute() {
     /**logique
@@ -39,7 +40,17 @@ export  function MainRoute() {
                     type: "CHG_LANG_DATA",
                     payload: langData
                 })
-                //get user infos
+                
+                const resInstall = await loginApi({
+                    method: "get",
+                    url: "/checkInstall",
+                    // withCredentials:true
+                })
+                dispatch({
+                    type: "TOGGLE_INSTALLED",
+                    payload: resInstall?.data?.data?.installed
+                })
+                //get user
                 const res = await loginApi({
                     method: "get",
                     url: "/user",
@@ -79,10 +90,11 @@ export  function MainRoute() {
         !state.loading &&
             <Routes>
                 {/* login routes */}
-                <Route path="/login/*" element={<LoginRoute />} />
+                <Route path="/login/*" element={<CheckInstall component={<LoginRoute />}/> } />
                 <Route path="/notFound" element={<h1>Not Found 404</h1>} />
+                <Route path="/install" element={<CheckNotInstall component={<InstallRoute/>}/> } />
                 {/* if the user logged in */}
-                <Route path="/*" element={<PrivateRoute component={<LoggedRoute />} />} />
+                <Route path="/*" element={<CheckInstall component={ <PrivateRoute component={<LoggedRoute />} /> }/> } />
             </Routes>
     )
 }

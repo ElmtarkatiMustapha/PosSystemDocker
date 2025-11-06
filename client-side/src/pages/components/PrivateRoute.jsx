@@ -108,6 +108,13 @@ export function PrivateAdminRoute({ component }) {
         return <Navigate to="/login" replace/>
     }
 }
-/**
- * 
- */
+//check if instaaled
+export function CheckInstall({component}){
+    const state = useAppState();
+    return state.installed ? component : <Navigate to="/install" replace />
+}
+//check if not
+export function CheckNotInstall({component}){
+    const state = useAppState();
+    return !state.installed ? component : <Navigate to="/" replace />
+}

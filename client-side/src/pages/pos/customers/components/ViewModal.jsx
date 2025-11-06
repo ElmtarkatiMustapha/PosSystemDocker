@@ -26,7 +26,7 @@ export function ViewModal() {
         api({
             method: "GET",
             url: "/cashierCustomer/" + posState.customersContext.currentItem,
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data
         }).then(res => {

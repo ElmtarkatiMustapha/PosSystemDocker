@@ -19,7 +19,7 @@ export function EditModal() {
         api({
             method: "GET",
             url: "/customer/" + customersState.editItem,
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data
         }).then(res => {

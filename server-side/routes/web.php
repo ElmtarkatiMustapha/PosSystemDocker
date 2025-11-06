@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
-});
-// Route::get('/{any}', function () {
+// Route::get('/', function () {
 //     return view('app');
-// })->where("any", "*");
+// });
+Route::get('/{any}', function () {
+    return file_get_contents( resource_path('dist/index.html'));
+})->where("any", ".*");

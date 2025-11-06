@@ -20,7 +20,7 @@ export function AddNewModal() {
         api({
             method: "GET",
             url: "/allCategories",
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data
         }).then(res => {

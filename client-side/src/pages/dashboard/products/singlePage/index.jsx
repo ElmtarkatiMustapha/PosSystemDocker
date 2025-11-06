@@ -238,7 +238,7 @@ export function SingleProduct() {
             method: "post",
             url: "/stock/" + stockId,
             data: formData,
-            withCredentials: true,
+            //withCredentials: true,
         }).then(res => {
             return res.data;
         }).then(res => {

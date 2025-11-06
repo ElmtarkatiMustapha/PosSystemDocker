@@ -870,7 +870,12 @@ class OrderController extends Controller
                     DB::raw('products.wholesales_price as wholesalePrice'),
                     DB::raw('details_orders.discount as discount'),
                     DB::raw('details_orders.qnt as qnt'),
-                    DB::raw('SUM(stocks.stock_actuel) as maxQnt'),
+                    DB::raw('
+                        CASE 
+                            WHEN products.enable_stock = 1 
+                            THEN SUM(stocks.stock_actuel)+ details_orders.qnt
+                            ELSE -1 
+                        END as maxQnt'),
                 )
                 ->groupBy("id", "deId")
                 ->get();
@@ -975,6 +980,112 @@ class OrderController extends Controller
                 "amountProvided" => $validateFields["amountProvided"],
                 "customer_id" => $validateFields["customer"]
             ]);
+
+            return response(["message" => "order updated with success"], Response::HTTP_OK);
+        } catch (Exception $err) {
+            return response(["message" => $err->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    /**
+     * @desc update and print order
+     * @todo get the order
+     * @todo check if user type and order status
+     * @todo return the old details order to the stock
+     * @todo set the new details order
+     * @todo update order infos
+     * @todo return success msg
+     */
+    public function updatePrintOrder(Request $request)
+    {
+        try {
+            $validateFields = $request->validate([
+                "customer" => "required",
+                "orderType" => [
+                    "required",
+                    Rule::in(["retail", "wholesale"])
+                ],
+                "amountProvided" => "required",
+                "cartItems" => "required|array",
+                "cartItems.*.product" => "required",
+                "cartItems.*.qnt" => "required|integer",
+            ]);
+            $id = $request->route("id");
+            $order = Order::find($id);
+            if (empty($order)) {
+                throw new Error("Something wrrong");
+            }
+            //check user
+            $user = Auth::user();
+            $userController = new UserController();
+            if (!$userController->isAdmin($user->id)) {
+                if (!$userController->isAdmin($user->id) && $order->status != "pending") {
+                    throw new Error("Order already delivered");
+                } else if ($order->status != "pending" && $order->user_id != $user->id) {
+                    throw new Error("none authorized");
+                }
+            }
+            //return old details to the stock
+            /**
+             * @todo loop the details_order
+             * @todo check if product stockManage active
+             * @todo call returnLine function 
+             * @todo delete line
+             */
+            $details_order = new DetailsOrderController();
+            foreach ($order->details_order as $item) {
+                if ($item->product->enable_stock == 1) {
+                    //handle return 
+                    $details_order->returnLine($item);
+                }
+                //delete line
+                $item->delete();
+            }
+            //set new details order
+            $product = new ProductController();
+            foreach ($validateFields["cartItems"] as $item) {
+                $product->checkStock($item["product"]["id"], $item["qnt"]);
+            }
+            foreach ($validateFields["cartItems"] as $ligne) {
+                $dataLigne = [
+                    "qnt" => $ligne["qnt"],
+                    "discount" => $ligne["product"]["discount"],
+                    "id_product" => $ligne["product"]["id"]
+                ];
+                $details_order->addLigne($order, $dataLigne);
+            }
+            //update order infos
+            $order->update([
+                "type" => $validateFields["orderType"],
+                "amountProvided" => $validateFields["amountProvided"],
+                "customer_id" => $validateFields["customer"]
+            ]);
+            //print order
+            if ($user->cashier) {
+                //get printer
+                if (!empty($user->printer)) {
+                    try {
+                        if ($user->printer->network) {
+                            //network printer
+                            $this->networkPrintInvoice($order, $user->printer);
+                        } else {
+                            //local printer
+                            $this->localPrintInvoice($order, $user->printer);
+                        }
+                    } catch (Exception $err) {
+                        $this->remove($order);
+                        throw new Exception($err->getMessage());
+                    }
+                } else {
+                    $this->remove($order);
+                    throw new Exception("Set up printer");
+                }
+            } else {
+                //it mean this user is seller
+                $invoice = $this->generateInvoicePdf($order);
+                $pdfBase64 = base64_encode($invoice);
+                // return $invoice;
+                return response(["message" => "order updated with success", "data" => $pdfBase64], Response::HTTP_OK);
+            }
 
             return response(["message" => "order updated with success"], Response::HTTP_OK);
         } catch (Exception $err) {

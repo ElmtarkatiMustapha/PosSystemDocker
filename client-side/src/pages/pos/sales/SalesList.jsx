@@ -163,7 +163,7 @@ export function SalesList() {
                 startDate : startDate,
                 endDate : endDate
             },
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res) => {
             return res.data
         }).then(res => {
@@ -197,7 +197,7 @@ export function SalesList() {
                 startDate : startDate,
                 endDate : endDate
             },
-            withCredentials: true,
+            //withCredentials: true,
         }).then((res) => {
             return res.data
         }).then(res => {

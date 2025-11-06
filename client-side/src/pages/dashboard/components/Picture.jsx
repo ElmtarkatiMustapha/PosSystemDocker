@@ -10,7 +10,7 @@ export function Picture({picture}) {
             borderRadius: "30px",
             width: "3rem",
             height: "3rem"
-        }} >
+        }} loading="lazy" >
         </div>
     )
 }

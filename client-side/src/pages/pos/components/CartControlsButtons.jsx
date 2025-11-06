@@ -22,7 +22,7 @@ export function CartControlsButtons({handleClick=()=>null}) {
             method: 'post',
             url: '/saveOrder',
             data: posState.cart,
-            withCredentials: true,
+            //withCredentials: true,
             headers: {
                 "Content-Type": "application/json"
             },

@@ -138,6 +138,13 @@ function reducer(state, action) {
             }
         }
     }
+    //toggle Installed
+    if (action.type === "TOGGLE_INSTALLED") {
+        return {
+            ...state,
+            installed: action.payload
+        }
+    }
 }
 
 
@@ -154,6 +161,7 @@ var initState = {
     emailAdress: sessionStorage.getItem("email"),
     username: sessionStorage.getItem("username"),
     currentUser:null,
+    installed:false,
     isAdmin: false,
     userRoles: [],
     loading: true,

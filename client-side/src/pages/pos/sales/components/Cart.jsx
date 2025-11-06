@@ -7,7 +7,7 @@ import { AmountProvided } from "../../components/AmountProvided";
 import { FooterCart } from "../../components/FooterCart";
 import { CartControlsButtons } from "./CartControlsButtons";
 
-export function Cart() {
+export function Cart({handleClick=()=>null}) {
     const posState = usePosState();
     // useEffect(() => {
     //     console.log(posState.cart)
@@ -49,7 +49,7 @@ export function Cart() {
                 <FooterCart/>
             </div>
             <div className="row ps-3 pt-1 pb-1">
-                <CartControlsButtons/>
+                <CartControlsButtons handleClick={handleClick}/>
             </div>
         </div>
     )

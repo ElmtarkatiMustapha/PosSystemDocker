@@ -1,12 +1,13 @@
 import {motion} from "framer-motion"
 import { FaCartShopping, FaUsers } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Lang } from "../../../../assets/js/lang";
 import { useAppState } from "../../../../context/context";
 import { FaHouse,FaTruckFast } from "react-icons/fa6";
 import { LangSelect } from "../../../dashboard/components/LangSelect";
 import { usePosState } from "../../../../context/posContext";
 export function MobilePosNavbarContent({handleCart}) {
+    const location = useLocation();
     const menuVariant = {
         open: {
             opacity: 1,
@@ -63,7 +64,11 @@ export function MobilePosNavbarContent({handleCart}) {
                         variants={listVariant}
                         className="row"
                     >
-                        <CartBtn handleCart={handleCart} variants={itemVariant}/>
+                        {location.pathname.includes("/pos/purchase")? 
+                            <PurchaseCartBtn handleCart={handleCart} variants={itemVariant}/>
+                        :
+                            <CartBtn handleCart={handleCart} variants={itemVariant}/>
+                        }
                         <ClientsBtn variants={itemVariant} />
                         <DeliveryBtn variants={itemVariant} />
                         <DashboardBtn variants={itemVariant} />
@@ -97,6 +102,23 @@ function CartBtn({ variants,handleCart }) {
             }} className="btn pt-1 pb-1 ps-2 pe-2 btn-primary">
                 <FaCartShopping fontSize={"1.7rem"} color="white" />
                 <span className="ps-2 pe-2"><Lang>Cart</Lang>({posState.cart.cartItems.reduce((acc,item)=>acc+item.qnt,0)})</span>
+            </button>
+        </motion.div>
+    )
+}
+function PurchaseCartBtn({ variants,handleCart }) {
+    const posState = usePosState();
+    return (
+        <motion.div
+            variants={variants}
+            className="col-12 pt-3 text-center">
+            <button onClick={handleCart} style={{
+                    borderRadius: "29px",
+                    fontSize: "1.1rem",
+                    fontWeight: "600",
+            }} className="btn pt-1 pb-1 ps-2 pe-2 btn-primary">
+                <FaCartShopping fontSize={"1.7rem"} color="white" />
+                <span className="ps-2 pe-2"><Lang>Cart</Lang>({posState?.purchaseCart?.cartItems.reduce((acc,item)=>acc+item.qnt,0)})</span>
             </button>
         </motion.div>
     )

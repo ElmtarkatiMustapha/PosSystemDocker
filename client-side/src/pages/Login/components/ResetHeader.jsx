@@ -9,7 +9,7 @@ export function ResetHeader() {
         <>
             <div className="row">
                 <div className="col-12">
-                    <img style={{width: "5rem"}} className="logo" src={logo} alt="" />
+                    <img style={{width: "5rem"}} className="logo" src={logo} alt="" fetchPriority="high" />
                 </div>
             </div>
             <div className="row p-3">

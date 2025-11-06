@@ -91,7 +91,7 @@ export function LoginForm() {
     return (
         <>
                 <div className="logo">
-                            <img src={Logo} alt="" />
+                            <img src={Logo} alt="" fetchPriority="high" />
                         </div>
                         <div className="title p-2 h2">
                             <Lang>Welcome to</Lang> { APP_NAME}
@@ -126,11 +126,8 @@ export function LoginForm() {
                                 </Link>
                                 
                             </div>
-                                <div className="submitBtn p-2">
-                                    <ButtonBlue type="submit" label="Connect" />
-                            </div>
-                            <div className="text-start">
-                                <i>username: admin/ password: admin</i>
+                            <div className="submitBtn p-2">
+                                <ButtonBlue type="submit" label="Connect" />
                             </div>
                         </form>
             </>

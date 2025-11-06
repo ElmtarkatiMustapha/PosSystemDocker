@@ -26,7 +26,7 @@ export function MobileDeliveryNavbar() {
                 <div className="row align-items-center">
                     <div className="col-8 p-1">
                         <Link to="/" className="brand">
-                            <img  src={Logo} alt="" className="logo" />
+                            <img  src={Logo} alt="" className="logo" fetchPriority="high" />
                             <span className="title">{APP_NAME}</span>
                         </Link>
                     </div>

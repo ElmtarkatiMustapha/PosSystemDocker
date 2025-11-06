@@ -17,6 +17,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CashRegisterSessionController;
+use App\Http\Controllers\InstallationController;
 use App\Http\Middleware\AdminCachierManager;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsCachier;
@@ -55,6 +56,10 @@ Route::post('validateUser',[AuthController::class,"validateUser"]);
 Route::post("sendVerCode",[AuthController::class, "sendVerCode"]);
 Route::post("validateCode",[AuthController::class,"validateCode"]);
 Route::post("create_role", [RoleController::class, "create"]);
+//istallation route
+Route::get("checkInstall", [InstallationController::class, "checkInstall"]);
+Route::post("install", [InstallationController::class, "install"]);
+Route::get("install/currencies", [SettingController::class, "currencies"]);
 
 Route::get("test", [TestController::class, "test2"]);
 Route::get("test/{id}", [TestController::class, "test"]);
@@ -89,7 +94,7 @@ Route::middleware("auth:sanctum")->group(function (){
         Route::post('saveOrderPrint', [OrderController::class, "createPrint"]);
         Route::get("editOrder/{id}", [OrderController::class, "getEditOrder"]);
         Route::post("updateOrder/{id}", [OrderController::class, "updateOrder"]);
-        Route::post("updateOrderPrint/{id}", [OrderController::class, "updateOrder"]);
+        Route::post("updateOrderPrint/{id}", [OrderController::class, "updatePrintOrder"]);
         Route::post("salesUser", [OrderController::class, "getAllCurrentUser"]);
         Route::get("cashierCustomer/{id}", [CustomerController::class, "getOneCashier"]);
         Route::post("cashierCustomer/{id}", [CustomerController::class, "updateCashier"]);
@@ -206,6 +211,7 @@ Route::middleware("auth:sanctum")->group(function (){
             Route::get("purchase/{id}", [PurchaseController::class, "getSingle"]);
             Route::get("editPurchase/{id}", [PurchaseController::class, "getEditPurchase"]);
             Route::post("updatePurchase/{id}", [PurchaseController::class, "updatePurchase"]);
+            Route::post("updatePrintPurchase/{id}", [PurchaseController::class, "updatePrintPurchase"]);
             Route::get("posSuppliers", [SupplierController::class, "getAllActive"]);
             /**
              * these routes for user
