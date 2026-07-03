@@ -1,48 +1,205 @@
-# run client side 
-1- go to the client-side folder
-[cmd]: cd client-side
+# WebStock
 
-2- change the url of the api
-    - go to the file client-side/src/assets/js/global.js
-    - change the 'BACK_END_LINK' to 'const BACK_END_LINK = "http://localhost:8000";'
-3- run the start command
-[cmd]; npm run dev
+A modern, web-based **Point-of-Sale (POS) and inventory/stock management system** built with **React** and **Laravel**. It supports multi-role authentication, product/stock tracking, sales, purchases, returns, delivery orders, expenses, dashboard statistics, PDF receipts, and thermal printer integration.
 
-# run server side (back-end)
-1- go to the server-side folder
-[cmd]: cd server-side
+![License](https://img.shields.io/badge/license-MIT-green)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)
+![Laravel](https://img.shields.io/badge/Laravel-8.x-FF2D20?logo=laravel)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker)
+![Last Commit](https://img.shields.io/github/last-commit/ElmtarkatiMustapha/PosSystemDocker)
 
-2- set the content of .env (database access)
+---
 
-2- run the server side
-[cmd]: php artisan serve
+## ✨ Features
 
-# Manual project building 
-## 1/ client-side
-    1.1- go to the client-side folder
-        [cmd]: cd client-side
-    1.2- change the url of the api
-        - go to the file client-side/src/assets/js/global.js
-        - change the 'BACK_END_LINK' to 'const BACK_END_LINK = "";'
-    1.3- run build command;
-        [cmd]: npm run build
-## 2/ server-side
-    2.1- copy the content of the folder client-side/dist (generated from build stage)
-    2.2- past the /dist content to server-side/public 
-    2.2- past the /dist content to server-side/resources/dist
-## 3/ result
-    so now you can use the server-side content as a full-project 
-    1- go to the server-side folder
-        [cmd]: cd server-side
-    2- run the server side
-        [cmd]: php artisan serve
-    the project will be acceessible on http://localhost:8000
+- **Multi-role authentication** (admin, manager, cashier, delivery) via Laravel Sanctum
+- **Catalog management**: categories, products, suppliers, customers, sectors
+- **Stock control**: purchases, sales, returns, stock adjustments
+- **Orders & delivery**: order lifecycle and delivery order tracking
+- **Cash register sessions** and expense tracking
+- **Dashboard & statistics** with Chart.js visualizations
+- **PDF receipts** and thermal printer support
+- **Multi-language UI** (Arabic, English, French)
+- **Docker Compose** setup for one-command local deployment
 
-# docker project building 
-1- rename .env.docker to .env
-2- build docker project (on racine folder /)
-[cmd]: docker compose build
-3- run docker containers
-[cmd]: docker compose up -d
-# result
-the project will be available on http://localhost
+---
+
+## 🏗️ Tech Stack
+
+| Layer        | Technology                                  |
+|--------------|---------------------------------------------|
+| Frontend     | React 18, Vite 5, React Router 6, Bootstrap 5 |
+| Backend      | Laravel 8, PHP 8, Laravel Sanctum           |
+| Database     | MySQL 8                                     |
+| DevOps       | Docker, Docker Compose, Nginx               |
+
+---
+
+## 📸 Screenshots
+
+> Add your screenshots to `assets/screenshots/` and update the paths below.
+
+```markdown
+![Login](assets/screenshots/login.png)
+![Dashboard](assets/screenshots/dashboard.png)
+![POS](assets/screenshots/pos.png)
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18+ and npm
+- **PHP** 8.0+ and [Composer](https://getcomposer.org/)
+- **MySQL** 8 (or use Docker)
+- (Optional) [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ElmtarkatiMustapha/PosSystemDocker.git
+cd esdStockCustom
+```
+
+### 2. Backend setup
+
+```bash
+cd server-side
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+> The API will run at `http://localhost:8000`.
+
+### 3. Frontend setup
+
+```bash
+cd client-side
+npm install
+```
+
+Create a `.env` file in `client-side/`:
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+Then start the dev server:
+
+```bash
+npm run dev
+```
+
+> The frontend will run at `http://localhost:5173` by default.
+
+---
+
+## 🐳 Docker Setup
+
+The easiest way to run the full stack locally:
+
+```bash
+# Copy the Docker environment template
+cp server-side/.env.docker.example server-side/.env.docker
+# Optionally set a real APP_KEY in server-side/.env.docker
+
+# Build and run
+docker compose up -d --build
+```
+
+The application will be available at:
+
+- **Frontend:** http://localhost
+- **Backend API:** http://localhost/api/
+
+---
+
+## ⚙️ Environment Variables
+
+### Backend (`server-side/.env`)
+
+| Variable        | Description                              | Example                   |
+|-----------------|------------------------------------------|---------------------------|
+| `APP_NAME`      | Application name                         | `WebStock`                |
+| `APP_KEY`       | Laravel encryption key                   | `base64:...`              |
+| `APP_URL`       | Application URL                          | `http://localhost:8000`   |
+| `DB_CONNECTION` | Database driver                          | `mysql`                   |
+| `DB_HOST`       | Database host                            | `127.0.0.1` or `db`       |
+| `DB_DATABASE`   | Database name                            | `meaningstocklara`        |
+| `DB_USERNAME`   | Database user                            | `root`                    |
+| `DB_PASSWORD`   | Database password                        | `your_password`           |
+
+### Frontend (`client-side/.env`)
+
+| Variable          | Description        | Default                   |
+|-------------------|--------------------|---------------------------|
+| `VITE_API_URL`    | Backend API URL    | `http://localhost:8000`   |
+
+---
+
+## 🛠️ Manual Production Build
+
+```bash
+# 1. Build the React app
+cd client-side
+npm run build
+
+# 2. Copy the generated dist folder into the Laravel public/resources folders
+cp -r dist/* ../server-side/public/
+cp -r dist/* ../server-side/resources/dist/
+
+# 3. Run the Laravel server
+cd ../server-side
+php artisan serve
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Backend tests
+cd server-side
+php artisan test
+
+# Frontend lint
+cd client-side
+npm run lint
+```
+
+---
+
+## 📁 Project Structure
+
+```text
+esdStockCustom/
+├── client-side/   # React + Vite frontend
+├── server-side/   # Laravel backend
+├── assets/        # Screenshots & documentation assets
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or pull request for any bug fix or feature suggestion.
+
+---
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 👤 Author
+
+- **Elmtarkati Mustapha**
+- GitHub: [@ElmtarkatiMustapha](https://github.com/ElmtarkatiMustapha)

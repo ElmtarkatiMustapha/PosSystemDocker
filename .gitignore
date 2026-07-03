@@ -37,3 +37,18 @@ server-side/yarn-error.log
 /.idea
 /.vscode
 
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.docker.example
+*.pem
+*.key
+
+# Generated build outputs
+client-side/dist
+server-side/resources/dist
+server-side/public/hot
+server-side/public/storage
+
+
