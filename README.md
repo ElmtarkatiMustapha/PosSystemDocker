@@ -2,7 +2,7 @@
 
 A modern, web-based **Point-of-Sale (POS) and inventory/stock management system** built with **React** and **Laravel**. It supports multi-role authentication, product/stock tracking, sales, purchases, returns, delivery orders, expenses, dashboard statistics, PDF receipts, and thermal printer integration.
 
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)
 ![Laravel](https://img.shields.io/badge/Laravel-8.x-FF2D20?logo=laravel)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker)
@@ -196,7 +196,9 @@ Contributions are welcome! Please open an issue or pull request for any bug fix 
 
 ## 📝 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
+
+You may use, modify, and distribute this project for personal or commercial purposes, subject to the terms of the license.
 
 ---
 

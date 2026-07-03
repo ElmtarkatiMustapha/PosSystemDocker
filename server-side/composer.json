@@ -3,7 +3,7 @@
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "license": "Apache-2.0",
     "require": {
         "php": "^7.3|^8.0",
         "barryvdh/laravel-dompdf": "^2.2",
