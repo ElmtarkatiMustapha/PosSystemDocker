@@ -104,11 +104,12 @@ npm run dev
 The easiest way to run the full stack locally:
 
 ```bash
-# Copy the Docker environment template
+# Copy the Docker Compose and environment templates
+cp docker-compose.yml.example docker-compose.yml
 cp server-side/.env.docker.example server-side/.env.docker
-# Optionally set a real APP_KEY in server-side/.env.docker
 
-# Build and run
+# Set your real database password and APP_KEY in both files
+# Then build and run
 docker compose up -d --build
 ```
 

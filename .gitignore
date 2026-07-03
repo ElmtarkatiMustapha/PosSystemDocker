@@ -45,6 +45,10 @@ server-side/yarn-error.log
 *.pem
 *.key
 
+# Local Docker Compose override with real credentials
+docker-compose.yml
+!docker-compose.yml.example
+
 # Generated build outputs
 client-side/dist
 server-side/resources/dist
